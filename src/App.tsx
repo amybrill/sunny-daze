@@ -1,0 +1,14 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Success from "./pages/Success";
+
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/success" element={<Success />} />
+    </Routes>
+  </BrowserRouter>
+);
+
+export default App;
