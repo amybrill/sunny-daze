@@ -4,11 +4,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 app.use(express.json());
-
-// 1. Serve the static files from the dist folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// 2. Stripe Checkout Endpoint
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -22,8 +19,8 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: 'https://sunny-daze-live.onrender.com/success',
-      cancel_url: 'https://sunny-daze-live.onrender.com/',
+      success_url: req.headers.origin + '/success',
+      cancel_url: req.headers.origin + '/',
     });
     res.json({ id: session.id });
   } catch (error) {
@@ -31,7 +28,6 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-// 3. The "Catch-All" to fix the White Screen
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
