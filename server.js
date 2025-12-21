@@ -6,7 +6,6 @@ import Stripe from 'stripe';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// This will now ONLY look at the Render Environment Variable
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
