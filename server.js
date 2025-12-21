@@ -14,9 +14,9 @@ app.use(express.json());
 // Tell the server to serve your website from the 'dist' folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.post('/create-checkout-session', async (req, res) => {
-  try {
-    const session = await stripe.checkout.sessions.create({
+app.get('*; (req, res) => {
+res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+ });});   const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
         price_data: {
