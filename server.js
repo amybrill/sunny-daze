@@ -1,37 +1,29 @@
-import Stripe from 'stripe';
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const express = require('express');
+const path = require('path');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
-// Tell the server to serve your website from the 'dist' folder
+// 1. Serve the static files from the dist folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('*; (req, res) => {
-res.sendFile(path.join(__dirname, 'dist', 'index.html'));
- });});   const session = await stripe.checkout.sessions.create({
+// 2. Stripe Checkout Endpoint
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
         price_data: {
           currency: 'usd',
-          product_data: { 
-            name: `Sunnydaze Magic: ${req.body.game} Numbers`,
-            description: 'Your personalized lucky numbers revealed by Sunny.',
-          },
-          unit_amount: 500, // $5.00
+          product_data: { name: 'Sunny Daze Premium' },
+          unit_amount: 1000,
         },
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${req.headers.origin}/success.html`,
-      cancel_url: `${req.headers.origin}/cancel.html`,
+      success_url: 'https://sunny-daze-live.onrender.com/success',
+      cancel_url: 'https://sunny-daze-live.onrender.com/',
     });
     res.json({ id: session.id });
   } catch (error) {
@@ -39,11 +31,10 @@ res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   }
 });
 
-// The "Catch-all" to stop the white screen
+// 3. The "Catch-All" to fix the White Screen
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-const PORT = process.env.PORT || 4242;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server running on port ' + PORT));
