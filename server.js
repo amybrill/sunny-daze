@@ -1,6 +1,12 @@
-const express = require('express');
-const path = require('path');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import Stripe from 'stripe';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 app.use(express.json());
@@ -19,8 +25,8 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: req.headers.origin + '/success',
-      cancel_url: req.headers.origin + '/',
+      success_url: `${req.headers.origin}/success`,
+      cancel_url: `${req.headers.origin}/`,
     });
     res.json({ id: session.id });
   } catch (error) {
