@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 const app = express();
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -34,7 +34,8 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.get('*', (req, res) => {
+// Changed '*' to '/*' for Express 5 compatibility
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
