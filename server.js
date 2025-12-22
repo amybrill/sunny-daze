@@ -25,16 +25,19 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${req.headers.origin}/success`,
-      cancel_url: `${req.headers.origin}/`,
+      // Added absolute URLs to ensure Stripe knows where to return
+      success_url: 'https://sunny-daze-charm.onrender.com/success',
+      cancel_url: 'https://sunny-daze-charm.onrender.com/',
     });
-    res.json({ id: session.id });
+    
+    // We send back BOTH the ID and the URL just in case
+    res.json({ id: session.id, url: session.url });
   } catch (error) {
+    console.error("Stripe Error:", error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
-// The most compatible way for Express 5 to catch all routes
 app.get(/^\/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
