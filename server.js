@@ -34,8 +34,8 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-// Changed '*' to '/*' for Express 5 compatibility
-app.get('/*', (req, res) => {
+// The new Express 5 way to catch all routes
+app.get('/:any*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
