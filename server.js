@@ -34,8 +34,8 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-// The new Express 5 way to catch all routes
-app.get('/:any*', (req, res) => {
+// The most compatible way for Express 5 to catch all routes
+app.get(/^\/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
