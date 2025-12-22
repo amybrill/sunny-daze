@@ -20,17 +20,14 @@ app.post('/create-checkout-session', async (req, res) => {
         price_data: {
           currency: 'usd',
           product_data: { name: 'Sunny Daze Premium' },
-          unit_amount: 1000,
+          unit_amount: 99,
         },
         quantity: 1,
       }],
       mode: 'payment',
-      // Added absolute URLs to ensure Stripe knows where to return
       success_url: 'https://sunny-daze-charm.onrender.com/success',
       cancel_url: 'https://sunny-daze-charm.onrender.com/',
     });
-    
-    // We send back BOTH the ID and the URL just in case
     res.json({ id: session.id, url: session.url });
   } catch (error) {
     console.error("Stripe Error:", error.message);
