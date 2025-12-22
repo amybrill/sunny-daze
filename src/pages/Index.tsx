@@ -16,7 +16,7 @@ const games = [
 export default function Index() {
   const [f, setF] = useState("");
   const buy = async (gn) => {
-    const res = await fetch('https://tawanna-semiperceptive-gloria.ngrok-free.dev/create-checkout-session', {
+    const res = await fetch('/create-checkout-session', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ game: gn }),
     });
