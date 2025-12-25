@@ -47,7 +47,6 @@ app.get('/cancel', (req, res) => {
   res.send('<h1>Payment Cancelled</h1><p>Your items are still in your cart.</p><a href="/">Try again</a>');
 });
 
-// Catch-all route to serve the frontend
 app.get('/:any*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
