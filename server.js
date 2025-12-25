@@ -14,7 +14,7 @@ app.use(cors({ origin: 'https://sunny-daze-production.up.railway.app' }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/create-checkout-session', async (req, res) => {, async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
