@@ -3,19 +3,29 @@ import Stripe from 'stripe';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
-// Simplify CORS to the most stable version
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'dist')));
+
+// Create dist folder if it doesn't exist to prevent crash
+const distPath = path.join(__dirname, 'dist');
+if (!fs.existsSync(distPath)) {
+    fs.mkdirSync(distPath);
+}
+
+app.use(express.static(distPath));
 
 app.post('/create-checkout-session', async (req, res) => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return res.status(500).json({ error: 'Stripe Key Missing' });
+  }
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -33,15 +43,18 @@ app.post('/create-checkout-session', async (req, res) => {
     });
     res.json({ id: session.id });
   } catch (error) {
-    console.error('Stripe Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Important: This handles the frontend routing without the crashing code
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.send('Site is building, please refresh in 30 seconds...');
+  }
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => console.log('Server is running on port ' + PORT));
+app.listen(PORT, '0.0.0.0', () => console.log('Server live on port ' + PORT));
