@@ -27,8 +27,8 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: 'https://sunny-daze-charm.onrender.com/success',
-      cancel_url: 'https://sunny-daze-charm.onrender.com/',
+      success_url: 'https://your-new-railway-url-here.up.railway.app/success',
+      cancel_url: 'https://your-new-railway-url-here.up.railway.app/',
     });
     res.json({ id: session.id, url: session.url });
   } catch (error) {
