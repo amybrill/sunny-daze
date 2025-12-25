@@ -1,60 +1,56 @@
-import express from 'express';
-import Stripe from 'stripe';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const path = require('path');
+const __dirname = path.resolve();
+require('dotenv').config();
+const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
 const app = express();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
 app.use(cors());
 app.use(express.json());
 
-// Create dist folder if it doesn't exist to prevent crash
-const distPath = path.join(__dirname, 'dist');
-if (!fs.existsSync(distPath)) {
-    fs.mkdirSync(distPath);
-}
-
-app.use(express.static(distPath));
-
 app.post('/create-checkout-session', async (req, res) => {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return res.status(500).json({ error: 'Stripe Key Missing' });
-  }
   try {
+    console.log("Phone is requesting a checkout session...");
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
         price_data: {
           currency: 'usd',
-          product_data: { name: 'Sunny Daze Product' },
-          unit_amount: 99,
+          product_data: { name: 'Your Custom Product' },
+          unit_amount: 100,
         },
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${req.headers.origin}/success`,
-      cancel_url: `${req.headers.origin}/`,
+      success_url: 'http://192.168.1.207:8081/success',
+      cancel_url: 'http://192.168.1.207:8081/cancel',
     });
-    res.json({ id: session.id });
+    console.log("Session created! Sending URL to phone...");
+    res.json({ url: session.url });
   } catch (error) {
+    console.error("Stripe Error:", error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
-app.get('*', (req, res) => {
-  const indexPath = path.join(distPath, 'index.html');
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.send('Site is building, please refresh in 30 seconds...');
-  }
+app.listen(8081, '0.0.0.0', () => {
+  console.log('✅ STRIPE SERVER READY ON 8081');
+  console.log('Listening for your phone...');
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => console.log('Server live on port ' + PORT));
+app.get('/success', (req, res) => {
+  res.send('<h1>Payment Successful!</h1><p>Thank you for your purchase.</p><a href="/">Go back home</a>');
+});
+
+app.get('/cancel', (req, res) => {
+  res.send('<h1>Payment Cancelled</h1><p>Your items are still in your cart.</p><a href="/">Try again</a>');
+});
+
+// Catch-all route to serve the frontend
+app.get('/:any*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

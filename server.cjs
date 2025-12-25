@@ -1,3 +1,5 @@
+const path = require('path');
+const __dirname = path.resolve();
 require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -44,3 +46,11 @@ app.get('/success', (req, res) => {
 app.get('/cancel', (req, res) => {
   res.send('<h1>Payment Cancelled</h1><p>Your items are still in your cart.</p><a href="/">Try again</a>');
 });
+
+// Catch-all route to serve the frontend
+app.get('/:any*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
