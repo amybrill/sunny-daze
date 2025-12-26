@@ -36,7 +36,6 @@ app.post('/create-checkout-session', async (req, res) => {
 
   console.log('✅ STRIPE SERVER READY ON 8081');
   console.log('Listening for your phone...');
-});
 
 app.get('/success', (req, res) => {
   res.send('<h1>Payment Successful!</h1><p>Thank you for your purchase.</p><a href="/">Go back home</a>');
