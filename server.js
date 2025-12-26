@@ -1,21 +1,49 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import Stripe from 'stripe';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Initialize Stripe with your Secret Key from Environment Variables
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const app = express();
 
-// Middleware for parsing JSON (needed for Stripe)
 app.use(express.json());
-
-// Serve static files from the Vite build directory
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Your API routes (if any) should go here, before the wildcard route
+// --- STRIPE ENDPOINT ---
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Sunny Daze Fortune Cookie',
+            },
+            unit_amount: 100, // Price in cents ($1.00)
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.RAILWAY_PUBLIC_DOMAIN || 'http://localhost:3000'}/success`,
+      cancel_url: `${process.env.RAILWAY_PUBLIC_DOMAIN || 'http://localhost:3000'}/cancel`,
+    });
 
-// Fallback to index.html for React Router (must be last)
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Stripe Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Fallback to index.html for React Router
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
