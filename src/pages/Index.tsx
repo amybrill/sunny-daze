@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Index() {
   const [fortune, setFortune] = useState("");
   const [luckyNumbers, setLuckyNumbers] = useState<number[] | null>(null);
+
+  // WATCH FOR THE RETURN FROM STRIPE
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+      // Generate 5 random numbers for the user
+      const numbers = Array.from({ length: 5 }, () => Math.floor(Math.random() * 69) + 1);
+      setLuckyNumbers(numbers);
+      setFortune("The Universe has spoken! Your personal lucky numbers are revealed below.");
+    }
+  }, []);
 
   const fortunes = {
     love: ["A soulmate is closer than you think.", "Open your heart to the unexpected.", "A past flame may flicker again."],
@@ -14,10 +25,10 @@ export default function Index() {
   const getFortune = (category: keyof typeof fortunes) => {
     const options = fortunes[category];
     setFortune(options[Math.floor(Math.random() * options.length)]);
+    setLuckyNumbers(null); // Clear numbers when picking a new fortune
   };
 
   const handleLotteryClick = async () => {
-    // Redirect to Stripe Payment Page
     try {
       const res = await fetch('/create-checkout-session', {
         method: 'POST',
@@ -36,34 +47,40 @@ export default function Index() {
       {/* CRYSTAL BALL SECTION */}
       <div style={{ margin: '20px auto', width: '280px' }}>
         <div style={{ 
-          width: '200px', height: '200px', margin: '0 auto', borderRadius: '50%',
+          width: '220px', height: '220px', margin: '0 auto', borderRadius: '50%',
           background: 'radial-gradient(circle at 30% 30%, #5d8aa8, #000033, #ff4500)',
-          boxShadow: '0 0 40px #4b0082, inset 0 0 20px #ffffff55',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+          boxShadow: '0 0 50px #4b0082, inset 0 0 30px #ffffff44',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'
         }}>
-          <p style={{ fontSize: '1.1rem', fontStyle: 'italic', textShadow: '0 0 10px #fff' }}>
+          <p style={{ fontSize: '1rem', fontStyle: 'italic', textShadow: '0 0 10px #fff' }}>
             {fortune || "Select a path below..."}
           </p>
+          
+          {/* DISPLAY LUCKY NUMBERS INSIDE BALL */}
+          {luckyNumbers && (
+            <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+              {luckyNumbers.map((n, i) => (
+                <span key={i} style={{ color: '#00ffff', fontWeight: 'bold', fontSize: '1.2rem', textShadow: '0 0 5px #00ffff' }}>{n}</span>
+              ))}
+            </div>
+          )}
         </div>
-        {/* PURPLE BASE */}
-        <div style={{ width: '120px', height: '40px', background: '#4b0082', margin: '-10px auto 0', borderRadius: '50% 50% 10px 10px', boxShadow: '0 5px 15px #000' }}></div>
+        <div style={{ width: '120px', height: '40px', background: '#4b0082', margin: '-15px auto 0', borderRadius: '50% 50% 10px 10px', boxShadow: '0 10px 20px #000' }}></div>
       </div>
 
-      {/* 4 FORTUNE BUTTONS */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '20px 0' }}>
         {['love', 'money', 'success', 'career'].map((cat) => (
-          <button key={cat} onClick={() => getFortune(cat as any)} style={{ padding: '10px 15px', borderRadius: '20px', border: '1px solid #ffb6c1', background: 'transparent', color: '#ffb6c1', cursor: 'pointer', textTransform: 'capitalize' }}>
+          <button key={cat} onClick={() => getFortune(cat as any)} style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ffb6c1', background: 'transparent', color: '#ffb6c1', cursor: 'pointer', fontSize: '0.9rem' }}>
             {cat}
           </button>
         ))}
       </div>
 
-      <hr style={{ borderColor: '#333', margin: '40px 0' }} />
+      <hr style={{ borderColor: '#333', margin: '30px 0' }} />
 
-      {/* LOTTERY SECTION */}
-      <p style={{ color: '#ffd700', fontSize: '1.2rem' }}>For $0.99 Sunny will speak to the universe for your lucky numbers</p>
+      <p style={{ color: '#ffd700', fontSize: '1.1rem' }}>For $0.99 Sunny will reveal your personal lucky numbers</p>
       
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px', marginTop: '15px' }}>
         {[
           { name: 'Power Ball', color: 'red' },
           { name: 'Lotto', color: 'blue' },
@@ -75,12 +92,11 @@ export default function Index() {
             key={btn.name} 
             onClick={handleLotteryClick}
             style={{ 
-              width: '100px', height: '50px', borderRadius: '50px', border: `3px solid ${btn.color}`, 
+              width: '90px', height: '60px', borderRadius: '50px', border: `2px solid ${btn.color}`, 
               background: 'transparent', color: btn.color, fontWeight: 'bold', cursor: 'pointer',
-              fontSize: '0.8rem', position: 'relative'
+              fontSize: '0.75rem'
             }}>
-            {/* Simple Infinity Shape Simulation */}
-            <span style={{ display: 'block' }}>∞</span>
+            <span style={{ display: 'block', fontSize: '1.2rem' }}>∞</span>
             {btn.name}
           </button>
         ))}
