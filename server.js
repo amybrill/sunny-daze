@@ -1,54 +1,43 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import Stripe from 'stripe';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Initialize Stripe with your Secret Key from Environment Variables
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+const express = require('express');
+const path = require('path');
+// This line ensures the key is loaded correctly
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// --- STRIPE ENDPOINT ---
 app.post('/create-checkout-session', async (req, res) => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error("ERROR: STRIPE_SECRET_KEY is missing from Railway Variables!");
+    return res.status(500).json({ error: "Server configuration error" });
+  }
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'Sunny Daze Fortune Cookie',
-            },
-            unit_amount: 100, // Price in cents ($1.00)
-          },
-          quantity: 1,
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Sunny Daze Lucky Numbers' },
+          unit_amount: 99,
         },
-      ],
+        quantity: 1,
+      }],
       mode: 'payment',
-      success_url: `${process.env.RAILWAY_PUBLIC_DOMAIN || 'http://localhost:3000'}/success`,
-      cancel_url: `${process.env.RAILWAY_PUBLIC_DOMAIN || 'http://localhost:3000'}/cancel`,
+      success_url: `${req.headers.origin}/?success=true`,
+      cancel_url: `${req.headers.origin}/?canceled=true`,
     });
-
-    res.json({ id: session.id });
-  } catch (error) {
-    console.error("Stripe Error:", error);
-    res.status(500).json({ error: error.message });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error("Stripe caught error:", err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Fallback to index.html for React Router
-app.get('*', (req, res) => {
+app.get('/:any*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log('Server is running on port ' + PORT);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
