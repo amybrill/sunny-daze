@@ -14,7 +14,7 @@ export default function Index() {
       while(s.size < c) s.add(Math.floor(Math.random() * m) + 1);
       return Array.from(s).sort((a, b) => a - b).join(", ");
     };
-    if (t === 'powerball') return `PB: ${r(69, 5)} + PB: [${Math.floor(Math.random() * 26) + 1}]`;
+    if (t === 'powerball') return `PB: ${r(69, 5)} | Powerball: ${Math.floor(Math.random() * 26) + 1}`;
     if (t === 'lotto') return `Lotto: ${r(59, 6)}`;
     if (t === 'pick3') return `P3: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
     if (t === 'pick4') return `P4: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
