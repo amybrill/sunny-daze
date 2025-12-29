@@ -2,121 +2,47 @@ import { useState, useEffect } from "react";
 
 export default function Index() {
   const [fortune, setFortune] = useState("");
-  const [luckyNumbers, setLuckyNumbers] = useState<number[] | null>(null);
-
-  // WATCH FOR THE RETURN FROM STRIPE
- useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('success') === 'true') {
-      const type = urlParams.get('type'); 
-      
-      let count = 5;
-      let max = 69;
-
-      if (type === 'pick3') {
-        count = 3;
-        max = 9;
-      } else if (type === 'pick4') {
-        count = 4;
-        max = 9;} // This closes the pick4 rule
-
-      // This part actually creates the random numbers!
-      const numbers = Array.from({ length: count }, () => 
-        Math.floor(Math.random() * (max + 1))
-      );
-
-      setLuckyNumbers(numbers);
-      setFortune("The Universe has spoken! Your personal lucky numbers are revealed below.");
-    }
-  }, []); // This closes the whole watch-for-stripe section
-      
-
+  const [luckyNumbers, setLuckyNumbers] = useState("");
   const fortunes = {
-    love: ["A soulmate is closer than you think.", "Open your heart to the unexpected.", "A past flame may flicker again."],
-    money: ["Wealth flows to you in expected and unexpected ways.", "A smart investment will soon pay off.", "Abundance is your birthright."],
-    success: ["Your hard work is about to be recognized.", "A door you thought was closed is swinging open.", "Victory is within your grasp."],
-    career: ["A promotion or new offer is on the horizon.", "Your unique talents are your greatest asset.", "Leadership suits you well."]
+    love: ["New sparks ignite soon.", "Open your heart to connection.", "A lesson comes from an old flame."],
+    money: ["Wealth flows your way.", "Small investments grow today.", "Your pockets will be heavy with gold."],
+    success: ["Your work is being noticed.", "The door is swinging open.", "A breakthrough is days away."],
+    career: ["Professional rewards arrive.", "Talent leads to promotion.", "Trust your business intuition."]
   };
-
-  const getFortune = (category: keyof typeof fortunes) => {
-    const options = fortunes[category];
-    setFortune(options[Math.floor(Math.random() * options.length)]);
-    setLuckyNumbers(null); // Clear numbers when picking a new fortune
+  const generateNumbers = (type) => {
+    const r = (m, c) => {
+      let s = new Set();
+      while(s.size < c) s.add(Math.floor(Math.random() * m) + 1);
+      return Array.from(s).sort((a, b) => a - b).join(", ");
+    };
+    if (type === 'powerball') return `PB: ${r(69, 5)} | ${Math.floor(Math.random() * 26) + 1}`;
+    if (type === 'lotto') return `Lotto: ${r(59, 6)}`;
+    if (type === 'pick3') return `P3: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+    if (type === 'pick4') return `P4: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+    return `Cash: ${r(39, 5)}`;
   };
-
-  const handleLotteryClick = async (type: string) => {
-    try {
-      const res = await fetch('/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type }), // This tells the server WHICH game it is
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch (err) {
-      console.error("Payment error", err);
-    }
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get("success") === "true") setLuckyNumbers(generateNumbers(p.get("type")));
+  }, []);
+  const buy = async (t) => {
+    const res = await fetch('/create-checkout-session', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: t}) });
+    const d = await res.json();
+    if (d.url) window.location.href = d.url;
   };
-
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a15', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
-      
-      {/* CRYSTAL BALL SECTION */}
-      <div style={{ margin: '20px auto', width: '280px' }}>
-        <div style={{ 
-          width: '220px', height: '220px', margin: '0 auto', borderRadius: '50%',
-          background: 'radial-gradient(circle at 30% 30%, #5d8aa8, #000033, #ff4500)',
-          boxShadow: '0 0 50px #4b0082, inset 0 0 30px #ffffff44',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px'
-        }}>
-          <p style={{ fontSize: '1rem', fontStyle: 'italic', textShadow: '0 0 10px #fff' }}>
-            {fortune || "Select a path below..."}
-          </p>
-          
-          {/* DISPLAY LUCKY NUMBERS INSIDE BALL */}
-          {luckyNumbers && (
-            <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-              {luckyNumbers.map((n, i) => (
-                <span key={i} style={{ color: '#00ffff', fontWeight: 'bold', fontSize: '1.2rem', textShadow: '0 0 5px #00ffff' }}>{n}</span>
-              ))}
-            </div>
-          )}
-        </div>
-        <div style={{ width: '120px', height: '40px', background: '#4b0082', margin: '-15px auto 0', borderRadius: '50% 50% 10px 10px', boxShadow: '0 10px 20px #000' }}></div>
+    <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px' }}>
+      <h1>"Greetings, I am Sunny Daze."</h1>
+      <div style={{ width: '250px', height: '250px', borderRadius: '50%', margin: '20px auto', background: 'radial-gradient(circle, #4facfe, #483d8b)', border: '10px solid #4b0082', boxShadow: '0 0 50px #4facfe', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+        <p>{luckyNumbers || fortune || "Touch a button..."}</p>
       </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '20px 0' }}>
-        {['love', 'money', 'success', 'career'].map((cat) => (
-          <button key={cat} onClick={() => getFortune(cat as any)} style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ffb6c1', background: 'transparent', color: '#ffb6c1', cursor: 'pointer', fontSize: '0.9rem' }}>
-            {cat}
-          </button>
-        ))}
+      <div>
+        {['love','money','success','career'].map(c => <button key={c} onClick={() => setFortune(fortunes[c][Math.floor(Math.random()*fortunes[c].length)])} style={{margin:'5px', padding:'10px', borderRadius:'20px'}}>{c}</button>)}
       </div>
-
-      <hr style={{ borderColor: '#333', margin: '30px 0' }} />
-
-      <p style={{ color: '#ffd700', fontSize: '1.1rem' }}>For $0.99 Sunny will reveal your personal lucky numbers</p>
-      
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px', marginTop: '15px' }}>
-        {[
-          { name: 'Power Ball', color: 'red' },
-          { name: 'Lotto', color: 'blue' },
-          { name: 'Show me Cash', color: '#ffd700' },
-          { name: 'Pick 3', color: 'green' },
-          { name: 'Pick 4', color: 'purple' }
-        ].map((btn) => (
-          <button
-            key={btn.name}
-            onClick={() => handleLotteryClick(btn.name.toLowerCase().replace(/ /g, ''))}
-            style={{
-              width: '90px', height: '60px', borderRadius: '50px', border: `2px solid ${btn.color}`,
-              background: 'transparent', color: btn.color, fontWeight: 'bold', cursor: 'pointer',
-              fontSize: '0.75rem'
-            }}>
-            <span style={{ display: 'block', fontSize: '1.2rem' }}>∞</span>
-            {btn.name}
-          </button>
-        ))}
+      <div style={{ marginTop: '20px' }}>
+        <button onClick={() => buy('powerball')} style={{color:'red', fontSize:'2rem', background:'none', border:'none'}}>∞ Power</button>
+        <button onClick={() => buy('lotto')} style={{color:'blue', fontSize:'2rem', background:'none', border:'none'}}>∞ Lotto</button>
+        <button onClick={() => buy('pick3')} style={{color:'green', fontSize:'2rem', background:'none', border:'none'}}>∞ Pick3</button>
       </div>
     </div>
   );
