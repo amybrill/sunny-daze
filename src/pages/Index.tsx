@@ -5,15 +5,31 @@ export default function Index() {
   const [luckyNumbers, setLuckyNumbers] = useState<number[] | null>(null);
 
   // WATCH FOR THE RETURN FROM STRIPE
-  useEffect(() => {
+ useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
-      // Generate 5 random numbers for the user
-      const numbers = Array.from({ length: 5 }, () => Math.floor(Math.random() * 69) + 1);
+      const type = urlParams.get('type'); 
+      
+      let count = 5;
+      let max = 69;
+
+      if (type === 'pick3') {
+        count = 3;
+        max = 9;
+      } else if (type === 'pick4') {
+        count = 4;
+        max = 9;} // This closes the pick4 rule
+
+      // This part actually creates the random numbers!
+      const numbers = Array.from({ length: count }, () => 
+        Math.floor(Math.random() * (max + 1))
+      );
+
       setLuckyNumbers(numbers);
       setFortune("The Universe has spoken! Your personal lucky numbers are revealed below.");
     }
-  }, []);
+  }, []); // This closes the whole watch-for-stripe section
+      
 
   const fortunes = {
     love: ["A soulmate is closer than you think.", "Open your heart to the unexpected.", "A past flame may flicker again."],
@@ -28,11 +44,12 @@ export default function Index() {
     setLuckyNumbers(null); // Clear numbers when picking a new fortune
   };
 
-  const handleLotteryClick = async () => {
+  const handleLotteryClick = async (type: string) => {
     try {
       const res = await fetch('/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type }), // This tells the server WHICH game it is
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -88,11 +105,11 @@ export default function Index() {
           { name: 'Pick 3', color: 'green' },
           { name: 'Pick 4', color: 'purple' }
         ].map((btn) => (
-          <button 
-            key={btn.name} 
-            onClick={handleLotteryClick}
-            style={{ 
-              width: '90px', height: '60px', borderRadius: '50px', border: `2px solid ${btn.color}`, 
+          <button
+            key={btn.name}
+            onClick={() => handleLotteryClick(btn.name.toLowerCase().replace(/ /g, ''))}
+            style={{
+              width: '90px', height: '60px', borderRadius: '50px', border: `2px solid ${btn.color}`,
               background: 'transparent', color: btn.color, fontWeight: 'bold', cursor: 'pointer',
               fontSize: '0.75rem'
             }}>

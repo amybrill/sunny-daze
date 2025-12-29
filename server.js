@@ -1,4 +1,4 @@
-import express from 'express';
+import express from 'express';import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Stripe from 'stripe';
@@ -28,7 +28,7 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${req.headers.origin || 'https://' + req.headers.host}/?success=true`,
+      success_url: `${req.headers.origin || 'https://' + req.headers.host}/?success=true&type=${req.body.type}`,
       cancel_url: `${req.headers.origin || 'https://' + req.headers.host}/?canceled=true`,
     });
     res.json({ url: session.url });

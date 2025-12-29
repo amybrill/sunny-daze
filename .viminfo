@@ -153,21 +153,36 @@
 |<"          {/* Background Decorative Elements */}","          <div className=\"absolute -top-10 -right-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl animate-pulse\"></div>","          ","          <Badge className=\"mb-6 bg-yellow-500 text-black font-black hover:bg-yellow-400 px-4 py-1 rounded-full uppercase tracking-widest\">","            <Zap className=\"w-3 h-3 mr-2 fill-current\" />","            Active Jackpot","          </Badge>","          ",>58
 |<"          <div className=\"relative inline-block mb-4\">","            <Trophy className=\"w-20 h-20 text-yellow-400 animate-bounce\" />","            <Sparkles className=\"absolute -top-2 -right-2 w-6 h-6 text-yellow-200 animate-pulse\" />","          </div>","","          <h1 className=\"text-4xl font-black text-white mb-2 tracking-tighter uppercase italic\">","            Mega<span className=\"text-yellow-400 italic\">Draw</span>","          </h1>",>61
 |<"          <p className=\"text-slate-400 mb-8 font-medium\">","            Grab your lucky ticket for tonight's drawing.","          </p>","",""
+"a	CHAR	0
+	```€ýa€ýa
+|3,0,10,0,1,0,1766721554,"```€ýa€ýa"
 "-	CHAR	0
 	ation: { "spin-slow": "spin 8s linear infinite" } },/' tailwind.config.ts
 |3,0,36,0,1,0,1766070920,"ation: { \"spin-slow\": \"spin 8s linear infinite\" } },/' tailwind.config.ts"
 
 # File marks:
-'0  128  22  ~/src/App.tsx
-|4,48,128,22,1766071621,"~/src/App.tsx"
+'0  1  0  ~/@
+|4,48,1,0,1766721643,"~/@"
+'1  128  22  ~/src/App.tsx
+|4,49,128,22,1766071621,"~/src/App.tsx"
 
 # Jumplist (newest first):
+-'  1  0  ~/@
+|4,39,1,0,1766721643,"~/@"
+-'  128  22  ~/src/App.tsx
+|4,39,128,22,1766071621,"~/src/App.tsx"
 -'  128  22  ~/src/App.tsx
 |4,39,128,22,1766071621,"~/src/App.tsx"
 -'  1  0  ~/src/App.tsx
 |4,39,1,0,1766070371,"~/src/App.tsx"
+-'  1  0  ~/src/App.tsx
+|4,39,1,0,1766070371,"~/src/App.tsx"
 
 # History of marks within files (newest to oldest):
+
+> ~/@
+	*	1766721633	0
+	"	1	0
 
 > ~/src/App.tsx
 	*	1766071621	0

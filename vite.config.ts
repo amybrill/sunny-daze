@@ -8,7 +8,7 @@ export default defineConfig({
     port: 8080,
     proxy: {
       '/create-checkout-session': {
-        target: 'http://localhost:4242',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
       },
     },
