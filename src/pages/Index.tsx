@@ -33,8 +33,9 @@ export default function Index() {
       'pick4': 'https://buy.stripe.com/abc123yourlink'
     };
     if(urls[t]) window.location.href = urls[t];
+
   };
-    <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
+   return (  <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
       <h1 style={{ color: '#ffb6c1', textShadow: '0 0 15px #ff69b4' }}>"Greetings, I am Sunny Daze."</h1>
 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', maxWidth: '400px', margin: '20px auto', border: '1px dashed #4facfe' }}>
   <p style={{ color: '#00f2fe', margin: '5px 0' }}>🔮 <strong>Seek Wisdom:</strong> Tap a category for a free daily fortune.</p>
