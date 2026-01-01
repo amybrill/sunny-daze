@@ -56,8 +56,17 @@ export default function Index() {
       </div>
 <div style={{ marginTop: '20px' }}>
   <a href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark"></a>
-  <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+  
 </div>
     </div>
   );
+};
+
+export default Index;
+
+
+
+}
+
+export default Index;
 }
