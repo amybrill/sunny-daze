@@ -26,15 +26,14 @@ export default function Index() {
   }, []);
   const buy = (t) => {
     const urls = {
-      'powerball': 'https://buy.stripe.com/abc123yourlink',
-      'lotto': 'https://buy.stripe.com/abc123yourlink',
-      'show-me-cash': 'https://buy.stripe.com/abc123yourlink',
-      'pick3': 'https://buy.stripe.com/abc123yourlink',
-      'pick4': 'https://buy.stripe.com/abc123yourlink'
+      'powerball': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
+      'lotto': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
+      'show-me-cash': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
+      'pick3': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
+      'pick4': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02'
     };
-    if(urls[t]) window.location.href = urls[t];
-
-  };
+   if (urls[t]) window.location.href = urls[t];
+}; //
    return (  <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
       <h1 style={{ color: '#ffb6c1', textShadow: '0 0 15px #ff69b4' }}>"Greetings, I am Sunny Daze."</h1>
 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', maxWidth: '400px', margin: '20px auto', border: '1px dashed #4facfe' }}>
