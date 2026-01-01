@@ -45,6 +45,10 @@ export default function Index() {
         <button onClick={() => buy('pick3')} style={{color:'green', background:'none', border:'none', fontSize:'2.5rem', cursor:'pointer'}}>∞<br/><span style={{fontSize:'0.7rem', color:'white'}}>Pick 3</span></button>
         <button onClick={() => buy('pick4')} style={{color:'purple', background:'none', border:'none', fontSize:'2.5rem', cursor:'pointer'}}>∞<br/><span style={{fontSize:'0.7rem', color:'white'}}>Pick 4</span></button>
       </div>
+<div style={{ marginTop: '20px' }}>
+  <a href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark"></a>
+  <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+</div>
     </div>
   );
 }
