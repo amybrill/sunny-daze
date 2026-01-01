@@ -24,12 +24,16 @@ export default function Index() {
     const p = new URLSearchParams(window.location.search);
     if (p.get("success") === "true") setN(gen(p.get("type")));
   }, []);
-  const buy = async (t) => {
-    const res = await fetch('/create-checkout-session', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({type:t})});
-    const d = await res.json();
-    if (d.url) window.location.href = d.url;
+  const buy = (t) => {
+    const urls = {
+      'powerball': 'https://buy.stripe.com/abc123yourlink',
+      'lotto': 'https://buy.stripe.com/abc123yourlink',
+      'show-me-cash': 'https://buy.stripe.com/abc123yourlink',
+      'pick3': 'https://buy.stripe.com/abc123yourlink',
+      'pick4': 'https://buy.stripe.com/abc123yourlink'
+    };
+    if(urls[t]) window.location.href = urls[t];
   };
-  return (
     <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
       <h1 style={{ color: '#ffb6c1', textShadow: '0 0 15px #ff69b4' }}>"Greetings, I am Sunny Daze."</h1>
 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', maxWidth: '400px', margin: '20px auto', border: '1px dashed #4facfe' }}>
