@@ -32,6 +32,10 @@ export default function Index() {
   return (
     <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
       <h1 style={{ color: '#ffb6c1', textShadow: '0 0 15px #ff69b4' }}>"Greetings, I am Sunny Daze."</h1>
+<div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', maxWidth: '400px', margin: '20px auto', border: '1px dashed #4facfe' }}>
+  <p style={{ color: '#00f2fe', margin: '5px 0' }}>🔮 <strong>Seek Wisdom:</strong> Tap a category for a free daily fortune.</p>
+  <p style={{ color: '#ff69b4', margin: '5px 0' }}>🍀 <strong>Seek Fortune:</strong> Select a game for $0.99 lucky predictions.</p>
+</div>
       <div style={{ width: '250px', height: '250px', borderRadius: '50%', margin: '20px auto', background: 'radial-gradient(circle at 30% 30%, #4facfe 0%, #00f2fe 30%, #483d8b 70%, #1a1a2e 100%)', border: '8px solid #4b0082', boxShadow: '0 0 40px #4facfe, inset 0 0 30px #ff4500', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{n || f || "Touch the ball..."}</p>
       </div>
