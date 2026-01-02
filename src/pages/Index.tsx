@@ -1,3 +1,4 @@
+Build Attempt: 1:15 PM
 import { useState, useEffect } from "react";
 
 export default function Index() {
@@ -30,9 +31,6 @@ export default function Index() {
     const p = new URLSearchParams(window.location.search);
     if (p.get("success") === "true") {
 const type = p.get("type") || 'powerball';
-      buy(type);
-} // this closes the 'if'
-}, []); // This closes the 'useEffect'
 
   const buy = async (t) => {
     const userName = document.getElementById('nameInput')?.value || "Friend";
