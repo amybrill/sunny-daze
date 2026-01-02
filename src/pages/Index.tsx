@@ -27,10 +27,10 @@ export default function Index() {
   const buy = (t) => {
     const urls = {
       'powerball': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
+      'pick3': 'https://buy.stripe.com/PASTE_YOUR_PICK3_LINK_HERE',
+      'pick4': 'https://buy.stripe.com/PASTE_YOUR_PICK4_LINK_HERE',
       'lotto': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'show-me-cash': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'pick3': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'pick4': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02'
+      'show-me-cash': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02'
     };
    if (urls[t]) window.location.href = urls[t];
 }; //
