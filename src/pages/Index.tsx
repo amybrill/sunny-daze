@@ -30,10 +30,9 @@ export default function Index() {
     const p = new URLSearchParams(window.location.search);
     if (p.get("success") === "true") {
 const type = p.get("type") || 'powerball';
-      // If you don't have a 'gen' function, we can just call 'buy'
       buy(type);
-)
-  }, []);// Only one copy of this!
+} // this closes the 'if'
+}, []); // This closes the 'useEffect'
 
   const buy = async (t) => {
   // 1. Get the values the user typed in (make sure these IDs match your input fields)
