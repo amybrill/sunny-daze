@@ -76,6 +76,13 @@ export default function Index() {
           <span style={{ fontSize: '2rem' }}>🔮</span><br/>Pick 4
         </button>
       </div>
+<footer style={{ marginTop: '40px', padding: '20px', fontSize: '0.8rem', opacity: '0.6', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <p>
+          Disclaimer: This site is for entertainment purposes only. 
+          Predictions are generated at random and do not guarantee winnings. 
+          Please play responsibly.
+        </p>
+      </footer>
     </div>
   );
 }
