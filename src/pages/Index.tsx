@@ -17,7 +17,44 @@ export default function Index() {
     if (t === 'powerball') return `White: ${r(69, 5)} | Red: ${Math.floor(Math.random() * 26) + 1}`;
     if (t === 'lotto') return `Lotto: ${r(59, 6)}`;
     if (t === 'pick3') return `P3: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
-    if (t === 'pick4') return `P4: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+    if (t === 'pick4') return `P4: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${import { useState, useEffect } from "react";
+export default function Index() {
+  const [f, setF] = useState("");
+  const [n, setN] = useState("");
+  const fortunes = {
+    love: ["New sparks ignite.", "Connection is coming.", "A lesson from an old flame."],
+    money: ["Wealth flows to you.", "Small investments grow.", "Pockets heavy with gold."],
+    success: ["Work is being noticed.", "A door is opening.", "Breakthrough is days away."],
+    career: ["Professional rewards arrive.", "Promotion is coming.", "Trust your intuition."]
+  };
+  const gen = (t) => {
+    const r = (m, c) => {
+      let s = new Set();
+      while(s.size < c) s.add(Math.floor(Math.random() * m) + 1);
+      return Array.from(s).sort((a, b) => a - b).join(", ");
+    };
+
+    if (t === 'pick3') {
+      return `P3: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+    }
+
+    if (t === 'pick4') {
+      return `P4: ${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+    }
+
+    if (t === 'powerball') {
+      return `White: ${r(69, 5)} | Red: ${Math.floor(Math.random() * 26) + 1}`;
+    }
+
+    if (t === 'lotto') {
+      return `Lotto: ${r(59, 6)}`;
+    }
+
+    return `Cash: ${r(39, 5)}`;
+  };
+                                                   [ Read 65 lines ]
+^G Help          ^O Write Out     ^W Where Is      ^K Cut           ^T Execute       ^C Location      M-U Undo
+^X Exit          ^R Read File     ^\ Replace       ^U Paste         ^J Justify       ^_ GoMath.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
     return `Cash: ${r(39, 5)}`;
   };
   useEffect(() => {
