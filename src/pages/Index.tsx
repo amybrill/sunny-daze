@@ -28,8 +28,12 @@ export default function Index() {
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
-    if (p.get("success") === "true") setN(gen(p.get("type")));
-  }, []);
+    if (p.get("success") === "true") {
+const type = p.get("type") || 'powerball';
+      // If you don't have a 'gen' function, we can just call 'buy'
+      buy(type);
+)
+  }, []);// Only one copy of this!
 
   const buy = async (t) => {
   // 1. Get the values the user typed in (make sure these IDs match your input fields)
@@ -113,9 +117,10 @@ export default function Index() {
           Please play responsibly.
         </p>
       </footer>
+</div>
     </div>
   );
 };
 
 export default Index;
-// version 1.0.1
+
