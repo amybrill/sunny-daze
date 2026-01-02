@@ -35,35 +35,29 @@ const type = p.get("type") || 'powerball';
 }, []); // This closes the 'useEffect'
 
   const buy = async (t) => {
-  // 1. Get the values the user typed in (make sure these IDs match your input fields)
-  const userName = document.getElementById('nameInput')?.value || "Friend";
-  const userDob = document.getElementById('dobInput')?.value || "Unknown";
-
-  try {
-    // 2. Talk to YOUR server instead of going straight to Stripe
-    const response = await fetch('/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: userName,
-        dob: userDob,
-        type: t // 'powerball', 'pick3', etc.
-      }),
-    });
-
-    const data = await response.json();
-
-    // 3. Send the user to the checkout page created by your server
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      console.error("Server didn't return a URL", data);
+    const userName = document.getElementById('nameInput')?.value || "Friend";
+    const userDob = document.getElementById('dobInput')?.value || "Unknown";
+    try {
+      const response = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: userName,
+          dob: userDob,
+          type: t 
+        }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("Server didn't return a URL", data);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("Something went wrong with the connection.");
     }
-  } catch (err) {
-    console.error("Checkout error:", err);
-    alert("Something went wrong with the connection.");
-  }
-};
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
