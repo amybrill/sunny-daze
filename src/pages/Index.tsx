@@ -80,6 +80,7 @@ export default function Index() {
           <button key={c} onClick={() => { setN(""); setF(fortunes[c][Math.floor(Math.random()*fortunes[c].length)]) }} style={{ margin: '5px', padding: '10px 15px', borderRadius: '10px', cursor: 'pointer', background: '#4facfe', color: 'black', border: 'none', fontWeight: 'bold' }}>
             {c.toUpperCase()}
           </button>
+))}
 <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ff69b4', borderRadius: '15px' }}>
   <h3 style={{ color: '#00f2fe' }}>Unlock Your Lucky Numbers</h3>
   
@@ -105,23 +106,6 @@ export default function Index() {
     </button>
   </div>
 </div>
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px' }}>
-        <button onClick={() => buy('powerball')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ff4b2b' }}>
-          <span style={{ fontSize: '2rem' }}>💎</span><br/>Powerball
-        </button>
-        <button onClick={() => buy('lotto')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4facfe' }}>
-          <span style={{ fontSize: '2rem' }}>💰</span><br/>Lotto
-        </button>
-        <button onClick={() => buy('pick3')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#00f2fe' }}>
-          <span style={{ fontSize: '2rem' }}>✨</span><br/>Pick 3
-        </button>
-        <button onClick={() => buy('pick4')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a18cd1' }}>
-          <span style={{ fontSize: '2rem' }}>🔮</span><br/>Pick 4
-        </button>
-      </div>
 <footer style={{ marginTop: '40px', padding: '20px', fontSize: '0.8rem', opacity: '0.6', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <p>
           Disclaimer: This site is for entertainment purposes only. 
@@ -131,5 +115,6 @@ export default function Index() {
       </footer>
     </div>
   );
-}
+};
 
+export default Index;
