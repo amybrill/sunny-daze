@@ -49,12 +49,7 @@ export default function Index() {
     if (t === 'lotto') {
       return `Lotto: ${r(59, 6)}`;
     }
-
-    return `Cash: ${r(39, 5)}`;
-  };
-                                                   [ Read 65 lines ]
-^G Help          ^O Write Out     ^W Where Is      ^K Cut           ^T Execute       ^C Location      M-U Undo
-^X Exit          ^R Read File     ^\ Replace       ^U Paste         ^J Justify       ^_ GoMath.floor(Math.random()*10)}-${Math.floor(Math.random()*10)}`;
+                                
     return `Cash: ${r(39, 5)}`;
   };
   useEffect(() => {
@@ -70,7 +65,7 @@ export default function Index() {
       'show-me-cash': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02'
     };
    if (urls[t]) window.location.href = urls[t];
-}; //
+}; 
    return (  <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
       <h1 style={{ color: '#ffb6c1', textShadow: '0 0 15px #ff69b4' }}>"Greetings, I am Sunny Daze."</h1>
 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '15px', maxWidth: '400px', margin: '20px auto', border: '1px dashed #4facfe' }}>
