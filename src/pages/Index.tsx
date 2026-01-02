@@ -31,15 +31,36 @@ export default function Index() {
     if (p.get("success") === "true") setN(gen(p.get("type")));
   }, []);
 
-  const buy = (t) => {
-    const urls = {
-      'powerball': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'pick3': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'pick4': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-      'lotto': 'https://buy.stripe.com/28EaEX3Fo78Ch2V1cr4Vy02',
-    };
-    if (urls[t]) window.location.href = urls[t];
-  };
+  const buy = async (t) => {
+  // 1. Get the values the user typed in (make sure these IDs match your input fields)
+  const userName = document.getElementById('nameInput')?.value || "Friend";
+  const userDob = document.getElementById('dobInput')?.value || "Unknown";
+
+  try {
+    // 2. Talk to YOUR server instead of going straight to Stripe
+    const response = await fetch('/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: userName,
+        dob: userDob,
+        type: t // 'powerball', 'pick3', etc.
+      }),
+    });
+
+    const data = await response.json();
+
+    // 3. Send the user to the checkout page created by your server
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      console.error("Server didn't return a URL", data);
+    }
+  } catch (err) {
+    console.error("Checkout error:", err);
+    alert("Something went wrong with the connection.");
+  }
+};
 
   return (
     <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '20px', fontFamily: 'serif' }}>
@@ -59,6 +80,31 @@ export default function Index() {
           <button key={c} onClick={() => { setN(""); setF(fortunes[c][Math.floor(Math.random()*fortunes[c].length)]) }} style={{ margin: '5px', padding: '10px 15px', borderRadius: '10px', cursor: 'pointer', background: '#4facfe', color: 'black', border: 'none', fontWeight: 'bold' }}>
             {c.toUpperCase()}
           </button>
+<div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ff69b4', borderRadius: '15px' }}>
+  <h3 style={{ color: '#00f2fe' }}>Unlock Your Lucky Numbers</h3>
+  
+  <input 
+    id="nameInput" 
+    type="text" 
+    placeholder="Your Full Name" 
+    style={{ padding: '10px', margin: '5px', borderRadius: '5px', width: '80%' }} 
+  />
+  <br />
+  <input 
+    id="dobInput" 
+    type="date" 
+    style={{ padding: '10px', margin: '5px', borderRadius: '5px', width: '80%' }} 
+  />
+  
+  <div style={{ marginTop: '15px' }}>
+    <button onClick={() => buy('powerball')} style={{ background: '#ff69b4', margin: '5px' }}>
+      Powerball ($0.99)
+    </button>
+    <button onClick={() => buy('lotto')} style={{ background: '#ff69b4', margin: '5px' }}>
+      Lotto ($0.99)
+    </button>
+  </div>
+</div>
         ))}
       </div>
 
