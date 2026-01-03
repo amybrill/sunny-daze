@@ -1,66 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Success = () => {
-  const [numbers, setNumbers] = useState([0, 0, 0, 0, 0, 0]);
-  const [soulNum, setSoulNum] = useState("?");
+  const [searchParams] = useSearchParams();
+  const [result, setResult] = useState(null);
+
+  const name = searchParams.get("name") || "Seeker";
+  const dob = searchParams.get("dob") || "";
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setNumbers([8, 14, 22, 31, 44, 52]); 
-      setSoulNum("9");
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    // 1. Calculate Life Path (Sum of DOB)
+    const digits = dob.replace(/\D/g, "");
+    let lp = digits.split("").reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    while (lp > 9 && lp !== 11 && lp !== 22) {
+      lp = lp.toString().split("").reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    }
+
+    // 2. Calculate Soul Number (Vowels in Name)
+    const vowelValues = { a: 1, e: 5, i: 9, o: 6, u: 3 };
+    let sn = name.toLowerCase().split("").reduce((acc, char) => acc + (vowelValues[char] || 0), 0);
+    while (sn > 9) {
+      sn = sn.toString().split("").reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    }
+
+    const meanings = {
+      lp: {
+        1: "The Leader: Your path is to innovate and lead others.",
+        2: "The Diplomat: You are here to bring balance and peace.",
+        3: "The Creator: Your journey is one of joy and expression.",
+        4: "The Builder: You provide the foundation and stability.",
+        5: "The Explorer: Your life is a whirlwind of travel and change.",
+        6: "The Nurturer: You are here to heal and protect.",
+        7: "The Mystic: You are a seeker of truth and secrets.",
+        8: "The Powerhouse: You are here to master the material world.",
+        9: "The Humanitarian: You are finishing a long soul cycle.",
+        11: "The Intuitive: You are a messenger of higher light.",
+        22: "The Master Architect: You build dreams into reality."
+      },
+      sn: {
+        1: "Your soul craves independence and being the best.",
+        2: "Your heart seeks harmony, love, and partnership.",
+        3: "You crave laughter, art, and an audience.",
+        4: "You desire security, order, and a solid plan.",
+        5: "You hunger for freedom and new experiences.",
+        6: "You love beauty, home, and being needed.",
+        7: "You need silence, wisdom, and deep study.",
+        8: "You crave authority, success, and legacy.",
+        9: "Your soul wants to heal the world."
+      }
+    };
+
+    setResult({ lp: lp, sn: sn, lpText: meanings.lp[lp], snText: meanings.sn[sn] });
+  }, [name, dob]);
+
+  if (!result) return <div style={{background:'#000814', color:'white', height:'100vh', padding:'50px'}}>Reading the Stars...</div>;
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: '#000814', 
-      color: 'white', 
-      textAlign: 'center', 
-      padding: '40px 20px', 
-      fontFamily: 'serif' 
-    }}>
-      <h1 style={{ color: '#d4af37', fontSize: '1.8rem', letterSpacing: '6px', marginBottom: '60px' }}>
-        DIVINE RESULTS
-      </h1>
-
-      <div style={{ marginBottom: '60px' }}>
-        <div style={{
-          width: '150px', height: '150px', border: '3px solid #ff69b4', borderRadius: '50%', 
-          display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto',
-          boxShadow: '0 0 40px #ff69b4, inset 0 0 20px #ff69b4',
-          background: 'radial-gradient(circle, rgba(255,105,180,0.1) 0%, transparent 80%)'
-        }}>
-          <div>
-            <p style={{ margin: 0, fontSize: '0.7rem', color: '#ff69b4', letterSpacing: '3px' }}>SOUL</p>
-            <span style={{ fontSize: '4.5rem', color: '#ff69b4', fontWeight: 'bold', textShadow: '0 0 15px #ff69b4' }}>
-              {soulNum}
-            </span>
-          </div>
+    <div style={{ minHeight: '100vh', background: '#000814', color: 'white', textAlign: 'center', padding: '50px 20px', fontFamily: 'sans-serif' }}>
+      <h1 style={{ color: '#d4af37', letterSpacing: '5px' }}>YOUR DESTINY REVEALED</h1>
+      <div style={{ border: '2px solid #ff69b4', padding: '30px', borderRadius: '15px', maxWidth: '500px', margin: '0 auto', background: 'rgba(255,255,255,0.05)', boxShadow: '0 0 20px #ff69b4' }}>
+        <h2 style={{ color: '#00f2fe' }}>{name}</h2>
+        <hr style={{ borderColor: '#ff69b4' }} />
+        <div style={{ margin: '20px 0' }}>
+          <h3 style={{ color: '#d4af37' }}>Life Path Number: {result.lp}</h3>
+          <p>{result.lpText}</p>
         </div>
+        <div style={{ margin: '20px 0' }}>
+          <h3 style={{ color: '#d4af37' }}>Soul Number: {result.sn}</h3>
+          <p>{result.snText}</p>
+        </div>
+        <button onClick={() => window.print()} style={{ marginTop: '20px', padding: '10px 20px', background: '#ff69b4', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}>SAVE YOUR DESTINY</button>
       </div>
-
-      <div style={{ maxWidth: '450px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
-        {numbers.map((n, i) => (
-          <div key={i} style={{
-            border: '1px solid #d4af37', 
-            padding: '25px 0',
-            borderRadius: '4px',
-            background: 'linear-gradient(145deg, #00122e, #000814)', 
-            color: '#d4af37',
-            fontSize: '2rem', 
-            fontWeight: '300',
-            boxShadow: '0 10px 20px rgba(0,0,0,0.6), 0 0 8px rgba(212,175,55,0.2)'
-          }}>
-            {n}
-          </div>
-        ))}
-      </div>
-
-      <footer style={{ marginTop: '80px', color: '#d4af37', fontSize: '0.6rem', letterSpacing: '4px', opacity: '0.6' }}>
-        SUNNY DAZE • PRIVATE SELECTION
-      </footer>
     </div>
   );
 };
