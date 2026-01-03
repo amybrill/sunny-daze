@@ -1,57 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
 
-const gameStyles = {
-  "Powerball": { col: "#ff0000", glow: "red" },
-  "Mega Millions": { col: "#ffd700", glow: "gold" },
-  "Show Me Cash": { col: "#00ff00", glow: "green" },
-  "Cash 4 Life": { col: "#40e0d0", glow: "turquoise" },
-  "Lotto": { col: "#c0c0c0", glow: "silver" },
-  "Pick 4": { col: "#ffff00", glow: "yellow" },
-  "Pick 3": { col: "#ff4d4d", glow: "blue" }
-};
-
-export default function Success() {
-  const [searchParams] = useSearchParams();
-  const game = searchParams.get('game') || "Powerball";
-  const [numbers, setNumbers] = useState([]);
-  const style = gameStyles[game] || gameStyles["Powerball"];
+const Success = () => {
+  const [numbers, setNumbers] = useState([0, 0, 0, 0, 0, 0]);
+  const [soulNum, setSoulNum] = useState("?");
 
   useEffect(() => {
-    const count = (game.includes('Pick 3')) ? 3 : (game.includes('Pick 4')) ? 4 : 5;
-    const max = (game.includes('Powerball')) ? 69 : 40;
-    const generated = Array.from({ length: count }, () => Math.floor(Math.random() * max) + 1);
-    setNumbers(generated);
-  }, [game]);
-  return (
-    <div style={{ minHeight: '100vh', background: '#05050a', color: 'white', textAlign: 'center', padding: '40px 20px', fontFamily: 'serif' }}>
-      <h1 style={{ color: '#ffb6c1', textShadow: '0 0 20px #ff69b4' }}>Your Vision is Complete</h1>
-      <p style={{ fontStyle: 'italic', color: '#cbd5e1' }}>"The flames have spoken for your {game} journey..."</p>
+    // This simulates the 'expensive' calculation reveal
+    const timer = setTimeout(() => {
+      setNumbers([8, 14, 22, 31, 44, 5 balance]); // Replace with your logic later
+      setSoulNum("9");
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
-      <div style={{ position: 'relative', width: '300px', height: '300px', margin: '40px auto' }}>
-        {/* Pink Mist surrounding the result */}
-        <div style={{ position: 'absolute', inset: '-40px', background: 'radial-gradient(circle, rgba(255,182,193,0.3) 0%, transparent 75%)', borderRadius: '50%', filter: 'blur(25px)' }}></div>
-        
-        {/* The Reveal Crystal Ball */}
-        <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'radial-gradient(circle at 30% 30%, #94a3b8, #475569 60%, #1e1b4b 100%)', boxShadow: `0 0 60px ${style.col}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '2px solid rgba(255,255,255,0.2)', position: 'relative', zIndex: 2, overflow: 'hidden' }}>
-          
-          {/* Internal Flames */}
-          <div style={{ position: 'absolute', bottom: '0', width: '100%', height: '50%', background: `linear-gradient(to top, ${style.col}44, transparent)`, filter: 'blur(15px)', zIndex: -1 }}></div>
-          
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {numbers.map((num, i) => (
-              <div key={i} style={{ width: '50px', height: '50px', borderRadius: '50%', background: style.col, color: (game === 'Pick 4' || game === 'Lotto') ? 'black' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem', boxShadow: '0 4px 10px rgba(0,0,0,0.5)', border: '2px solid white' }}>
-                {num}
-              </div>
-            ))}
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      background: '#000814', // STARLESS NIGHT BLUE
+      color: 'white', 
+      textAlign: 'center', 
+      padding: '40px 20px', 
+      fontFamily: 'serif' 
+    }}>
+      <h1 style={{ color: '#d4af37', fontSize: '1.8rem', letterSpacing: '6px', marginBottom: '60px' }}>
+        DIVINE RESULTS
+      </h1>
+
+      {/* PINK SOUL CIRCLE */}
+      <div style={{ marginBottom: '60px' }}>
+        <div style={{
+          width: '150px', height: '150px', border: '3px solid #ff69b4', borderRadius: '50%', 
+          display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto',
+          boxShadow: '0 0 40px #ff69b4, inset 0 0 20px #ff69b4',
+          background: 'radial-gradient(circle, rgba(255,105,180,0.1) 0%, transparent 80%)'
+        }}>
+          <div>
+            <p style={{ margin: 0, fontSize: '0.7rem', color: '#ff69b4', letterSpacing: '3px' }}>SOUL</p>
+            <span style={{ fontSize: '4.5rem', color: '#ff69b4', fontWeight: 'bold', textShadow: '0 0 15px #ff69b4' }}>
+              {soulNum}
+            </span>
           </div>
         </div>
-        
-        {/* Purple Base */}
-        <div style={{ width: '160px', height: '40px', background: 'linear-gradient(to bottom, #7e22ce, #3b0764)', margin: '-15px auto 0', borderRadius: '50%', position: 'relative', zIndex: 1 }}></div>
       </div>
 
-      <Link to="/" style={{ color: '#ffb6c1', textDecoration: 'none', border: '1px solid #ffb6c1', padding: '10px 20px', borderRadius: '20px' }}>Return to Sunny</Link>
+      {/* GOLD GRID */}
+      <div style={{ maxWidth: '450px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
+        {numbers.map((n, i) => (
+          <div key={i} style={{
+            border: '1px solid #d4af37', 
+            padding: '25px 0',
+            borderRadius: '4px',
+            background: 'linear-gradient(145deg, #00122e, #000814)', 
+            color: '#d4af37',
+            fontSize: '2rem', 
+            fontWeight: '300',
+            boxShadow: '0 10px 20px rgba(0,0,0,0.6), 0 0 8px rgba(212,175,55,0.2)'
+          }}>
+            {n}
+          </div>
+        ))}
+      </div>
+
+      <footer style={{ marginTop: '80px', color: '#d4af37', fontSize: '0.6rem', letterSpacing: '4px', opacity: '0.6' }}>
+        SUNNY DAZE • PRIVATE SELECTION
+      </footer>
     </div>
   );
-}
+};
+
+export default Success;
