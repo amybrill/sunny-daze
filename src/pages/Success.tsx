@@ -5,9 +5,8 @@ const Success = () => {
   const [soulNum, setSoulNum] = useState("?");
 
   useEffect(() => {
-    // This simulates the 'expensive' calculation reveal
     const timer = setTimeout(() => {
-      setNumbers([8, 14, 22, 31, 44, 5 balance]); // Replace with your logic later
+      setNumbers([8, 14, 22, 31, 44, 52]); 
       setSoulNum("9");
     }, 1500);
     return () => clearTimeout(timer);
@@ -16,7 +15,7 @@ const Success = () => {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: '#000814', // STARLESS NIGHT BLUE
+      background: '#000814', 
       color: 'white', 
       textAlign: 'center', 
       padding: '40px 20px', 
@@ -26,7 +25,6 @@ const Success = () => {
         DIVINE RESULTS
       </h1>
 
-      {/* PINK SOUL CIRCLE */}
       <div style={{ marginBottom: '60px' }}>
         <div style={{
           width: '150px', height: '150px', border: '3px solid #ff69b4', borderRadius: '50%', 
@@ -43,7 +41,6 @@ const Success = () => {
         </div>
       </div>
 
-      {/* GOLD GRID */}
       <div style={{ maxWidth: '450px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
         {numbers.map((n, i) => (
           <div key={i} style={{
