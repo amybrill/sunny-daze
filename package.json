@@ -2,6 +2,7 @@
   "name": "sunny-daze",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "dependencies": {
     "express": "^4.18.2",
     "stripe": "^14.0.0"
