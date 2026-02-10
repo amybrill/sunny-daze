@@ -3,129 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Daze | Reveal Your Destiny</title>
+    <title>Sunny Daze | Destiny 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
             background: #ff007f !important; 
             background: radial-gradient(circle, #ff007f 0%, #cc0066 100%) !important; 
-            color: #ffffff; 
+            color: #ffffff !important; 
             font-family: 'Inter', sans-serif; 
             min-height: 100vh;
+            margin: 0;
+            display: flex; flex-direction: column; align-items: center;
         }
-        
-        /* Neon Yellow Title */
-        .neon-yellow-text {
+        .neon-yellow-title {
             color: #ccff00 !important;
-            text-shadow: 0 0 10px #ccff00, 0 0 20px #ccff00;
+            text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
+            font-weight: 900 !important;
         }
-
-        /* Neon Purple Ball & Free Buttons */
-        .neon-purple-ui {
-            background-color: #9d00ff !important;
-            border: 2px solid #e0b0ff !important;
-            box-shadow: 0 0 20px #9d00ff;
-            color: white !important;
-        }
-        
-        .crystal-ball { 
+        .neon-purple-ball { 
             border: 6px solid #e0b0ff !important; 
             box-shadow: 0 0 50px #9d00ff !important; 
-            border-radius: 50%; 
+            border-radius: 50% !important; 
             width: 260px; height: 260px; 
             display: flex; align-items: center; justify-content: center; 
             text-align: center; font-style: italic; padding: 25px; 
-            background: rgba(157, 0, 255, 0.6) !important; 
-            color: white; font-weight: bold;
+            background: rgba(157, 0, 255, 0.7) !important; 
+            color: white !important; font-weight: bold;
+            margin-bottom: 20px;
         }
-
-        /* Neon Pink Paid Buttons */
-        .btn-neon-pink {
+        .btn-purple-free {
+            background-color: #9d00ff !important;
+            border: 2px solid #e0b0ff !important;
+            box-shadow: 0 0 15px #9d00ff !important;
+            color: white !important;
+        }
+        .btn-pink-paid {
             background-color: #ff00ff !important;
             border: 2px solid #ffb3ff !important;
-            box-shadow: 0 0 15px #ff00ff;
+            box-shadow: 0 0 20px #ff00ff !important;
             color: white !important;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-weight: bold !important;
         }
-
-        .glass { background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.3); }
-        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: #ffffff; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; }
+        .glass-box { 
+            background: rgba(0, 0, 0, 0.3) !important; 
+            backdrop-filter: blur(15px) !important; 
+            border: 2px solid rgba(255, 255, 255, 0.2) !important; 
+            width: 100%; max-width: 400px;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center p-4">
-    <div id="main-ui" class="flex flex-col items-center w-full">
-        <header class="text-center my-10 max-w-2xl">
-            <h1 class="text-7xl font-black neon-yellow-text uppercase tracking-tighter">Sunny Daze</h1>
-            <p class="text-white italic mt-6 text-xl leading-relaxed px-4 drop-shadow-md">
+<body class="p-4">
+    <div id="main-ui" class="flex flex-col items-center w-full max-w-2xl text-center">
+        <header class="my-10">
+            <h1 class="text-7xl neon-yellow-title uppercase">Sunny Daze</h1>
+            <p class="text-white italic mt-6 text-xl leading-relaxed px-4">
                 "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. I learned to read the numbers and now I'd like to share them with you."
             </p>
         </header>
 
-        <main class="w-full max-w-md space-y-8">
-            <section class="flex flex-col items-center space-y-6">
-                <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
-                <div class="flex gap-2">
-                    <button onclick="getFreeReading('love')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Love</button>
-                    <button onclick="getFreeReading('wealth')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Wealth</button>
-                    <button onclick="getFreeReading('career')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Career</button>
-                </div>
-            </section>
+        <section class="flex flex-col items-center mb-10">
+            <div id="display" class="neon-purple-ball text-sm">The ball awaits...</div>
+            <div class="flex gap-3">
+                <button onclick="getFree('Love')" class="btn-purple-free px-6 py-2 rounded-full text-xs font-bold uppercase">Love</button>
+                <button onclick="getFree('Wealth')" class="btn-purple-free px-6 py-2 rounded-full text-xs font-bold uppercase">Wealth</button>
+                <button onclick="getFree('Career')" class="btn-purple-free px-6 py-2 rounded-full text-xs font-bold uppercase">Career</button>
+            </div>
+        </section>
 
-            <section class="glass p-8 rounded-3xl space-y-4">
-                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/20 border border-white p-4 rounded-xl outline-none text-white placeholder-white/70">
-                <input type="date" id="birthDate" class="w-full bg-black/20 border border-white p-4 rounded-xl outline-none text-white">
-                <input type="text" id="promoCode" placeholder="Promo Code" class="w-full bg-black/10 border border-white/20 p-3 rounded-xl outline-none text-white text-sm italic">
-
-                <div class="space-y-4 pt-2">
-                    <button onclick="handlePurchase(99, 'Powerball Lotto Generator')" class="w-full btn-neon-pink py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
-                    <button onclick="handlePurchase(222, 'Soul Reading')" class="w-full btn-neon-pink py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Soul & Life Path</span><span>$2.22</span></button>
-                    <button onclick="handlePurchase(444, 'Timeline Transit')" class="w-full btn-neon-pink py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
-                </div>
-            </section>
-        </main>
+        <section class="glass-box p-8 rounded-3xl space-y-4 mb-20">
+            <input type="text" id="userName" placeholder="Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
+            <input type="date" id="birthDate" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
+            <input type="text" id="promo" placeholder="Promo Code" class="w-full bg-black/20 border border-white/20 p-3 rounded-xl text-white text-sm italic">
+            <div class="space-y-4 pt-4">
+                <button onclick="buy(99, 'Lotto')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
+                <button onclick="buy(222, 'Soul')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Soul & Life Path</span><span>$2.22</span></button>
+                <button onclick="buy(444, 'Transit')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
+            </div>
+        </section>
     </div>
-
-    <div id="result-screen" class="hidden w-full max-w-2xl mt-10">
-        <div class="glass p-10 rounded-3xl text-center space-y-8">
-            <h2 id="result-title" class="text-4xl font-bold neon-yellow-text uppercase">The Universe Responds</h2>
-            <div id="result-content" class="flex flex-wrap justify-center gap-4 py-6"></div>
-            <p id="result-msg" class="text-white italic text-lg"></p>
-            <button onclick="window.location.href='/'" class="mt-8 text-white underline uppercase text-xs">Return</button>
-        </div>
-    </div>
-
     <script>
-        function getFreeReading(type) {
-            const readings = {
-                love: ["A connection is coming."], wealth: ["Abundance flows."], career: ["Success is near."]
-            };
-            document.getElementById('display').innerText = readings[type][0];
-        }
-
-        async function handlePurchase(amount, service) {
+        function getFree(t) { document.getElementById('display').innerText = t + " energy is rising."; }
+        async function buy(amt, srv) {
             const name = document.getElementById('userName').value;
             const bday = document.getElementById('birthDate').value;
-            const promo = document.getElementById('promoCode').value.toLowerCase().trim();
+            const code = document.getElementById('promo').value.toLowerCase().trim();
             if(!name || !bday) return alert("Fill in details.");
-            localStorage.setItem('userData', JSON.stringify({ name, bday, amount }));
-            if (promo === 'cosmic') { window.location.href = '/?type=spirit-board'; return; }
+            if(code === 'cosmic') { window.location.href = '/?type=spirit-board'; return; }
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, name: service, customerName: name, birthdate: bday })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ amount: amt, name: srv, customerName: name, birthdate: bday })
             });
             const data = await res.json();
-            if (data.url) window.location.href = data.url;
+            if(data.url) window.location.href = data.url;
         }
-
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            if(params.get('type') === 'spirit-board') {
-                document.getElementById('main-ui').classList.add('hidden');
-                document.getElementById('result-screen').classList.remove('hidden');
-            }
-        };
     </script>
 </body>
 </html>
