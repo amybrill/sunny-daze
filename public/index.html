@@ -12,6 +12,10 @@
             color: #ffffff !important; 
             min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;
         }
+        .neon-yellow-text {
+            color: #ccff00 !important;
+            text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
+        }
         .neon-yellow-title {
             color: #ccff00 !important;
             text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
@@ -25,9 +29,36 @@
             text-align: center; font-style: italic; padding: 25px; 
             background: rgba(157, 0, 255, 0.7) !important; color: white !important; font-weight: bold;
         }
+        .btn-purple-neon {
+            background-color: #9d00ff !important;
+            border: 2px solid #e0b0ff !important;
+            box-shadow: 0 0 15px #9d00ff !important;
+            color: white !important;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        /* Dark Purple background for boxes as requested */
+        .dark-purple-box {
+            background-color: #2e004f !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        /* Neon Yellow for consonants and vowels (text) and Neon Pink for numbers */
         .btn-pink-paid {
-            background-color: #ff00ff !important; border: 2px solid #ffb3ff !important;
-            box-shadow: 0 0 20px #ff00ff !important; color: white !important; font-weight: bold;
+            background-color: #ff00ff !important; 
+            border: 2px solid #ffb3ff !important;
+            box-shadow: 0 0 20px #ff00ff !important; 
+            color: #ccff00 !important; /* Consonants/Vowels Neon Yellow */
+            font-weight: bold;
+        }
+        .price-text {
+            color: #ff00ff !important; /* Numbers Neon Pink */
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        input {
+            color: #ccff00 !important; /* Consonants/Vowels Neon Yellow */
+        }
+        input::placeholder {
+            color: rgba(204, 255, 0, 0.6) !important;
         }
     </style>
 </head>
@@ -40,20 +71,52 @@
             </p>
         </header>
 
-        <section class="flex flex-col items-center mb-10">
+        <section class="flex flex-col items-center mb-6">
             <div id="display" class="neon-purple-ball text-sm">The ball awaits...</div>
+            
+            <div class="flex gap-3 mt-6">
+                <button onclick="getFree('Wealth')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Wealth</button>
+                <button onclick="getFree('Career')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Career</button>
+                <button onclick="getFree('Love')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Love</button>
+            </div>
+            <p class="neon-yellow-text font-bold uppercase tracking-widest mt-4 text-sm">free daily fortune</p>
         </section>
 
-        <section class="bg-black/30 p-8 rounded-3xl space-y-4 w-full max-w-md">
-            <input type="text" id="userName" placeholder="Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
-            <input type="date" id="birthDate" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
+        <section class="dark-purple-box p-8 rounded-3xl space-y-4 w-full max-w-md">
+            <input type="text" id="userName" placeholder="Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl outline-none">
+            <input type="date" id="birthDate" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl outline-none">
+            
             <div class="space-y-4 pt-4">
-                <button onclick="buy(99, 'Lotto')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
-                <button onclick="buy(222, 'Soul')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Soul & Life Path</span><span>$2.22</span></button>
+                <button onclick="buy(99, 'Powerball Picks')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                    <span>Powerball Picks</span><span class="price-text">$0.99</span>
+                </button>
+                <button onclick="buy(222, 'Soul/life path reading')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                    <span>Soul/life path reading</span><span class="price-text">$2.22</span>
+                </button>
+                <button onclick="buy(444, 'Timeline Transit')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                    <span>Timeline Transit</span><span class="price-text">$4.44</span>
+                </button>
+                <button onclick="buy(777, 'Cosmic Trinity')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                    <span>Cosmic Trinity</span><span class="price-text">$7.77</span>
+                </button>
             </div>
         </section>
+
+        <footer class="mt-20 pb-10">
+            <p class="text-white text-xs opacity-80 italic">"For entertainment purposes only."</p>
+        </footer>
     </div>
+
     <script>
+        function getFree(type) {
+            const msgs = {
+                'Wealth': 'Abundance is finding its way to you.',
+                'Career': 'New opportunities are manifesting.',
+                'Love': 'A deep connection is on the horizon.'
+            };
+            document.getElementById('display').innerText = msgs[type];
+        }
+
         async function buy(amt, srv) {
             const name = document.getElementById('userName').value;
             const bday = document.getElementById('birthDate').value;
