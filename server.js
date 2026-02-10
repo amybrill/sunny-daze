@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Load Stripe only if the key exists to prevent immediate crashing
-const stripe = process.env.STRIPE_KEY ? require('stripe')(process.env.STRIPE_KEY) : null;
+// Updated to match your Railway variable name: STRIPE_SECRET_KEY
+const stripe = process.env.STRIPE_SECRET_KEY ? require('stripe')(process.env.STRIPE_SECRET_KEY) : null;
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -11,7 +11,7 @@ app.use(express.json());
 app.post('/create-checkout-session', async (req, res) => {
     try {
         if (!stripe) {
-            throw new Error("STRIPE_KEY is missing in Railway Variables");
+            throw new Error("STRIPE_SECRET_KEY is missing in Railway Variables");
         }
 
         const { amount, name, customerName, birthdate, email, birthplace, birthtime } = req.body;
@@ -53,7 +53,7 @@ app.post('/create-checkout-session', async (req, res) => {
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Sunny Daze server running on port ${PORT}`);
-    if (!process.env.STRIPE_KEY) {
-        console.log("WARNING: STRIPE_KEY is not defined in Railway Variables!");
+    if (!process.env.STRIPE_SECRET_KEY) {
+        console.log("WARNING: STRIPE_SECRET_KEY is not defined in Railway Variables!");
     }
 });
