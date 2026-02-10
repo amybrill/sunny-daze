@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Daze | Reveal Your Destiny</title>
+    <title>Sunny Daze | Destiny 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* GLOBAL OVERRIDE */
+        /* HARD OVERRIDE FOR NEON PINK */
         body { 
             background: #ff007f !important; 
             background: radial-gradient(circle, #ff007f 0%, #cc0066 100%) !important; 
@@ -17,16 +17,13 @@
             display: flex; flex-direction: column; align-items: center;
         }
         
-        /* NEON YELLOW TITLE */
         .neon-yellow-title {
             color: #ccff00 !important;
             text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
             font-weight: 900 !important;
             font-size: 4rem !important;
-            text-transform: uppercase;
         }
 
-        /* NEON PURPLE CRYSTAL BALL */
         .neon-purple-ball { 
             border: 6px solid #e0b0ff !important; 
             box-shadow: 0 0 50px #9d00ff !important; 
@@ -36,10 +33,8 @@
             text-align: center; font-style: italic; padding: 25px; 
             background: rgba(157, 0, 255, 0.7) !important; 
             color: white !important; font-weight: bold;
-            margin-bottom: 20px;
         }
 
-        /* NEON PURPLE FREE BUTTONS */
         .btn-purple-free {
             background-color: #9d00ff !important;
             border: 2px solid #e0b0ff !important;
@@ -47,14 +42,12 @@
             color: white !important;
         }
 
-        /* NEON PINK PAID BUTTONS */
         .btn-pink-paid {
             background-color: #ff00ff !important;
             border: 2px solid #ffb3ff !important;
             box-shadow: 0 0 20px #ff00ff !important;
             color: white !important;
             font-weight: bold !important;
-            text-transform: uppercase;
         }
 
         .glass-box { 
@@ -65,17 +58,17 @@
         }
     </style>
 </head>
-<body class="p-4">
+<body id="v_feb_9_reset">
     <div id="main-ui" class="flex flex-col items-center w-full max-w-2xl text-center">
         <header class="my-10">
-            <h1 class="neon-yellow-title">Sunny Daze</h1>
+            <h1 class="neon-yellow-title uppercase">Sunny Daze</h1>
             <p class="text-white italic mt-6 text-xl leading-relaxed px-4">
                 "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. I learned to read the numbers and now I'd like to share them with you."
             </p>
         </header>
 
         <section class="flex flex-col items-center mb-10">
-            <div id="display" class="neon-purple-ball text-sm">The ball awaits your touch...</div>
+            <div id="display" class="neon-purple-ball text-sm">The ball awaits...</div>
             <div class="flex gap-3">
                 <button onclick="getFree('Love')" class="btn-purple-free px-6 py-2 rounded-full text-xs font-bold uppercase">Love</button>
                 <button onclick="getFree('Wealth')" class="btn-purple-free px-6 py-2 rounded-full text-xs font-bold uppercase">Wealth</button>
@@ -84,24 +77,21 @@
         </section>
 
         <section class="glass-box p-8 rounded-3xl space-y-4 mb-20">
-            <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
+            <input type="text" id="userName" placeholder="Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
             <input type="date" id="birthDate" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl text-white outline-none">
-            <input type="text" id="promo" placeholder="Promo Code" class="w-full bg-black/20 border border-white/20 p-3 rounded-xl text-white text-sm italic">
             <div class="space-y-4 pt-4">
-                <button onclick="buy(99, 'Lotto')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6"><span>Lotto Picks</span><span>$0.99</span></button>
-                <button onclick="buy(222, 'Soul')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6"><span>Soul & Life Path</span><span>$2.22</span></button>
-                <button onclick="buy(444, 'Transit')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6"><span>Timeline Transit</span><span>$4.44</span></button>
+                <button onclick="buy(99, 'Lotto')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
+                <button onclick="buy(222, 'Soul')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Soul & Life Path</span><span>$2.22</span></button>
+                <button onclick="buy(444, 'Transit')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
             </div>
         </section>
     </div>
     <script>
-        function getFree(t) { document.getElementById('display').innerText = t + " energy is gathering..."; }
+        function getFree(t) { document.getElementById('display').innerText = t + " energy is rising."; }
         async function buy(amt, srv) {
             const name = document.getElementById('userName').value;
             const bday = document.getElementById('birthDate').value;
-            const code = document.getElementById('promo').value.toLowerCase().trim();
-            if(!name || !bday) return alert("Please enter your details.");
-            if(code === 'cosmic') { window.location.href = '/?type=spirit-board'; return; }
+            if(!name || !bday) return alert("Details needed.");
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
