@@ -12,8 +12,7 @@ app.post('/create-checkout-session', async (req, res) => {
         
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            // ALLOW_PROMOTION_CODES adds the input box for "cosmic"
-            allow_promotion_codes: true, 
+            allow_promotion_codes: true,
             line_items: [{
                 price_data: {
                     currency: 'usd',
