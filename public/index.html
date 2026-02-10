@@ -105,8 +105,8 @@
         <div class="dark-purple-box p-10 rounded-3xl w-full">
             <h2 id="result-title" class="neon-yellow-title text-3xl mb-6">The Universe Speaks</h2>
             <div id="result-content" class="flex flex-wrap justify-center gap-4 mb-8"></div>
-            <p id="result-msg" class="text-xl italic text-white mb-8"></p>
-            <button onclick="window.location.href='/'" class="neon-yellow-text underline uppercase text-sm">Return Home</button>
+            <div id="result-msg" class="text-white text-left space-y-6"></div>
+            <button onclick="window.location.href='/'" class="neon-yellow-text underline uppercase text-sm mt-10 inline-block">Return Home</button>
         </div>
     </div>
 
@@ -130,7 +130,7 @@
             const time = document.getElementById('birthTime').value;
 
             if(!name || !bday) return alert("Name and Birth Date are required.");
-            if(srv === 'Cosmic Trinity' && (!email || !place || !time)) return alert("Email, Place, and Time are required for the Cosmic Trinity.");
+            if(srv === 'Cosmic Trinity' && (!email || !place || !time)) return alert("Email, Place, and Time are required.");
             
             localStorage.setItem('pendingService', srv);
             localStorage.setItem('userName', name);
@@ -148,6 +148,28 @@
             if(data.url) window.location.href = data.url;
         }
 
+        function reduce(n) {
+            while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
+                n = n.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+            }
+            return n;
+        }
+
+        const meanings = {
+            1: "The Independent Leader. Innovation and drive.",
+            2: "The Harmonious Partner. Diplomacy and sensitivity.",
+            3: "The Creative Expresser. Joy and communication.",
+            4: "The Practical Builder. Discipline and stability.",
+            5: "The Freedom Seeker. Adaptability and adventure.",
+            6: "The Nurturing Caretaker. Responsibility and love.",
+            7: "The Analytical Seeker. Intuition and wisdom.",
+            8: "The Ambitious Achiever. Authority and abundance.",
+            9: "The Compassionate Humanitarian. Healing and completion.",
+            11: "The Intuitive Messenger. Spiritual illumination.",
+            22: "The Master Builder. Turning dreams into reality.",
+            33: "The Master Teacher. Universal service and guidance."
+        };
+
         window.onload = () => {
             const params = new URLSearchParams(window.location.search);
             if (params.get('success') === 'true') {
@@ -163,15 +185,37 @@
                     for(let i=0; i<5; i++) balls += `<div class="lotto-ball">${Math.floor(Math.random()*69)+1}</div>`;
                     balls += `<div class="lotto-ball" style="background:#ccff00; color:#ff0000;">${Math.floor(Math.random()*26)+1}</div>`;
                     document.getElementById('result-content').innerHTML = balls;
-                } else if (service.includes('Soul')) {
-                    const digits = bday.replace(/-/g, '').split('').map(Number);
-                    let sum = digits.reduce((a, b) => a + b, 0);
-                    while (sum > 9 && sum !== 11 && sum !== 22) { sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0); }
-                    document.getElementById('result-title').innerText = "Soul & Life Path";
-                    document.getElementById('result-msg').innerHTML = `${name}, your Life Path Number is <span class="neon-pink-text text-4xl font-bold">${sum}</span>.`;
+                } 
+                else if (service.includes('Soul')) {
+                    // LIFE PATH
+                    const lpDigits = bday.replace(/-/g, '').split('').map(Number);
+                    const lpNum = reduce(lpDigits.reduce((a, b) => a + b, 0));
+
+                    // SOUL URGE (Vowels)
+                    const vowelMap = {A:1, E:5, I:9, O:6, U:3};
+                    let suSum = 0;
+                    name.toUpperCase().split('').forEach(char => { if(vowelMap[char]) suSum += vowelMap[char]; });
+                    const suNum = reduce(suSum);
+
+                    document.getElementById('result-title').innerText = "Spirit Board Results";
+                    document.getElementById('result-msg').innerHTML = `
+                        <p class="text-xl">Greetings, <span class="neon-yellow-text">${name}</span>.</p>
+                        <div>
+                            <p class="font-bold uppercase text-sm neon-pink-text">Life Path Number: ${lpNum}</p>
+                            <p class="italic opacity-90">${meanings[lpNum]}</p>
+                        </div>
+                        <div>
+                            <p class="font-bold uppercase text-sm neon-pink-text">Soul Urge Number: ${suNum}</p>
+                            <p class="italic opacity-90">${meanings[suNum]}</p>
+                        </div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="neon-yellow-text font-bold uppercase text-xs">The Relationship:</p>
+                            <p class="text-sm leading-relaxed">Your Life Path (${lpNum}) is the road you are walking, while your Soul Urge (${suNum}) is the internal fuel driving your heart. When these two vibrate together, you find your true purpose between your outer actions and inner desires.</p>
+                        </div>
+                    `;
                 } else {
                     document.getElementById('result-title').innerText = "Confirmation";
-                    document.getElementById('result-msg').innerHTML = `Thank you, ${name}. Your <span class="neon-yellow-text">${service}</span> is being prepared and will be sent to your email within 24 hours.`;
+                    document.getElementById('result-msg').innerHTML = `<p class="text-center">Thank you, ${name}. Your <span class="neon-yellow-text">${service}</span> is being prepared and will be sent to your email within 24 hours.</p>`;
                 }
             }
         };
