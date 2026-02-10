@@ -11,166 +11,78 @@
         .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
         .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.6); cursor: pointer; }
-        .crystal-ball:hover { transform: scale(1.05); box-shadow: 0 0 50px #ec4899; }
-        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; }
         .power-ball { background: radial-gradient(circle at 30% 30%, #ef4444 0%, #991b1b 100%); color: #fff; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
     <div id="main-ui" class="flex flex-col items-center w-full">
         <header class="text-center my-10 max-w-2xl">
-            <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
-            <p class="text-pink-200 italic mt-6 text-lg leading-relaxed px-4">
-                "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Over the years life has taught me the power of numbers. I've learned how to read the road map of the soul."
-            </p>
+            <h1 class="text-6xl font-bold text-pink-500 pink-glow uppercase">Sunny Daze</h1>
+            <p class="text-pink-200 italic mt-6 px-4">"My journey began in 1990... I've learned how to read the road map of the soul."</p>
         </header>
 
         <main class="w-full max-w-md space-y-8">
             <section class="flex flex-col items-center space-y-6">
                 <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
                 <div class="flex gap-2">
-                    <button onclick="getFreeReading('love')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Love</button>
-                    <button onclick="getFreeReading('wealth')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Wealth</button>
-                    <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Success</button>
+                    <button onclick="getFreeReading('love')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Love</button>
+                    <button onclick="getFreeReading('wealth')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Wealth</button>
+                    <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Success</button>
                 </div>
             </section>
 
-            <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
-                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white placeholder-gray-500">
-                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                <div class="space-y-3 pt-4">
-                    <button onclick="startCheckout(99, 'Lotto Picks')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600 transition"><span>Powerball Lotto Generator</span><span>$0.99</span></button>
-                    <button onclick="startCheckout(222, 'Soul & Life Path')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Soul Reading</span><span>$2.22</span></button>
-                    <button onclick="startCheckout(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit (PDF)</span><span>$4.44</span></button>
+            <section class="glass p-8 rounded-3xl space-y-4">
+                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl text-white">
+                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl text-white">
+                <div class="space-y-3">
+                    <button onclick="startCheckout(99, 'Powerball Lotto Generator')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Lotto Picks</span><span>$0.99</span></button>
+                    <button onclick="startCheckout(222, 'Soul Reading')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Soul Reading</span><span>$2.22</span></button>
+                    <button onclick="startCheckout(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Timeline Transit</span><span>$4.44</span></button>
                 </div>
             </section>
-
-            <footer class="text-center pb-10">
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest px-6">
-                    For entertainment purposes only. Readings and numbers are based on numerological interpretations and do not guarantee financial or personal outcomes.
-                </p>
-            </footer>
         </main>
     </div>
 
-    <div id="lotto-board" class="hidden w-full max-w-2xl mt-10">
-        <div class="glass p-10 rounded-3xl border-indigo-500/40 text-center space-y-8">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest text-white pink-glow">Your Lucky Picks</h2>
-            <div class="flex flex-wrap justify-center gap-4 py-6" id="lotto-numbers"></div>
-            <p class="text-indigo-200 italic">"Numbers are the language of the Universe. These frequencies align with your birth energy today."</p>
-            <button onclick="window.location.href='/'" class="mt-8 text-pink-400 underline uppercase text-xs">Return to Entrance</button>
-        </div>
-    </div>
-
-    <div id="spirit-board" class="hidden w-full max-w-2xl mt-10">
-        <div class="glass p-10 rounded-3xl border-pink-500/40 text-center space-y-6">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest text-white pink-glow">The Spirit Board</h2>
-            <div class="grid grid-cols-2 gap-6">
-                <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20">
-                    <p class="text-xs uppercase text-pink-300 mb-2">Soul Urge</p>
-                    <p id="soulNum" class="text-6xl font-bold text-white pink-glow"></p>
-                </div>
-                <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20">
-                    <p class="text-xs uppercase text-pink-300 mb-2">Life Path</p>
-                    <p id="lifeNum" class="text-6xl font-bold text-white pink-glow"></p>
-                </div>
-            </div>
-            <div class="space-y-4 text-left border-t border-pink-500/20 pt-6">
-                <div><h4 class="text-pink-400 text-sm font-bold uppercase">Inner Desire:</h4><p id="soulMeaning" class="text-gray-200 italic"></p></div>
-                <div><h4 class="text-pink-400 text-sm font-bold uppercase">Life Journey:</h4><p id="pathMeaning" class="text-gray-200 italic"></p></div>
-            </div>
-            <button onclick="window.location.href='/'" class="mt-8 text-pink-400 underline uppercase text-xs tracking-widest">Return to Entrance</button>
-        </div>
-    </div>
-
     <script>
-        const meanings = {
-            1: "The Independent Leader. You are here to innovate and stand in your own power.",
-            2: "The Harmonizer. You seek balance, diplomacy, and deep connection.",
-            3: "The Creative Expresser. You are meant to bring joy and communication to the world.",
-            4: "The Practical Builder. You find safety in structure, hard work, and foundations.",
-            5: "The Free Spirit. You are a catalyst for change, thriving on adventure.",
-            6: "The Nurturer. Your path is centered on responsibility, family, and service.",
-            7: "The Wise Seeker. You investigate the mysteries of life through solitude and wisdom.",
-            8: "The Manifesting Powerhouse. You vibrate to authority, abundance, and karma.",
-            9: "The Universal Humanitarian. You are finishing a cycle of selfless love.",
-            11: "The Intuitive Illuminator. A Master Number. You are a visionary messenger.",
-            22: "The Master Architect. A Master Number. You turn visions into reality."
-        };
-
         function getFreeReading(type) {
             const readings = {
-                love: ["A new connection is manifesting.", "Nurture your current bonds.", "Love flows where focus goes."],
-                wealth: ["Abundance is a state of mind.", "New financial doors are opening.", "Your value is increasing."],
-                success: ["Victory is closer than you think.", "Stay the course.", "Your hard work is being seen."]
+                love: ["Love is coming.", "Trust your heart."],
+                wealth: ["Abundance flows.", "New doors open."],
+                success: ["Victory is near.", "Stay focused."]
             };
-            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * 3)];
+            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * readings[type].length)];
         }
 
         async function startCheckout(amount, service) {
             const name = document.getElementById('userName').value;
             const bday = document.getElementById('birthDate').value;
-            if(!name || !bday) return alert("Please fill in your cosmic details.");
-            localStorage.setItem('userData', JSON.stringify({ name, bday, amount }));
-            const res = await fetch('/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, name: service, customerName: name, birthdate: bday, returnType: 'spirit-board' })
-            });
-            const data = await res.json();
-            if (data.url) window.location.href = data.url;
-        }
+            if(!name || !bday) return alert("Please fill in your name and birthdate.");
 
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            const data = JSON.parse(localStorage.getItem('userData'));
-            
-            const reduce = (n) => {
-                if (n == 11 || n == 22 || n == 33) return n;
-                let s = n.toString().split('').reduce((a, b) => a + parseInt(b), 0);
-                return s > 9 ? reduce(s) : s;
-            };
-
-            if(params.get('type') === 'spirit-board' && data) {
-                document.getElementById('main-ui').classList.add('hidden');
+            try {
+                const res = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount, name: service, customerName: name, birthdate: bday, returnType: 'spirit-board' })
+                });
                 
-                const [yStr, mStr, dStr] = data.bday.split('-');
-                const day = parseInt(dStr);
-                const lifeNum = reduce(reduce(parseInt(mStr)) + reduce(parseInt(dStr)) + reduce(parseInt(yStr)));
-                const vMap = { a:1, e:5, i:9, o:6, u:3 };
-                const soulSum = data.name.toLowerCase().split('').reduce((acc, char) => acc + (vMap[char] || 0), 0);
-                const soulNum = reduce(soulSum);
-
-                if(data.amount === 99) {
-                    document.getElementById('lotto-board').classList.remove('hidden');
-                    const container = document.getElementById('lotto-numbers');
-                    const lucky = [
-                        ((lifeNum * day) % 69) + 1,
-                        ((soulNum * 7) % 69) + 1,
-                        ((day + lifeNum + soulNum) % 69) + 1,
-                        ((parseInt(yStr) % 69) || 7) + 1,
-                        ((lifeNum + 19) % 69) + 1
-                    ];
-                    lucky.forEach(n => {
-                        const d = document.createElement('div');
-                        d.className = 'lotto-ball';
-                        d.innerText = n;
-                        container.appendChild(d);
-                    });
-                    const pb = ((lifeNum + soulNum) % 26) + 1;
-                    const pbd = document.createElement('div');
-                    pbd.className = 'lotto-ball power-ball';
-                    pbd.innerText = pb;
-                    container.appendChild(pbd);
-                } else if(data.amount === 222) {
-                    document.getElementById('spirit-board').classList.remove('hidden');
-                    document.getElementById('soulNum').innerText = soulNum;
-                    document.getElementById('lifeNum').innerText = lifeNum;
-                    document.getElementById('soulMeaning').innerText = meanings[soulNum] || "A unique soul path.";
-                    document.getElementById('pathMeaning').innerText = meanings[lifeNum] || "A powerful journey.";
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error || "Server Error");
                 }
+
+                const data = await res.json();
+                if (data.url) {
+                    localStorage.setItem('userData', JSON.stringify({ name, bday, amount }));
+                    window.location.href = data.url;
+                } else {
+                    alert("No checkout URL received from server.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Stripe Connection Error: " + err.message);
             }
-        };
+        }
     </script>
 </body>
 </html>
