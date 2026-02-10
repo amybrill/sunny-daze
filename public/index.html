@@ -6,83 +6,158 @@
     <title>Sunny Daze | Reveal Your Destiny</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: radial-gradient(circle, #00001a 0%, #000000 100%); color: #ffffff; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
-        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
-        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.6); cursor: pointer; }
-        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; }
-        .power-ball { background: radial-gradient(circle at 30% 30%, #ef4444 0%, #991b1b 100%); color: #fff; }
+        /* Neon Pink Background */
+        body { 
+            background: #ff007f; 
+            background: radial-gradient(circle, #ff007f 0%, #ff0055 100%); 
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+        }
+        
+        /* Lavender Purple Glass Effect */
+        .glass { 
+            background: rgba(230, 190, 255, 0.2); 
+            backdrop-filter: blur(10px); 
+            border: 2px solid #e6beff; 
+        }
+
+        .purple-glow { text-shadow: 0 0 10px #e6beff, 0 0 20px #b088ff; }
+
+        /* Lavender Crystal Ball */
+        .crystal-ball { 
+            border: 5px solid #e6beff; 
+            box-shadow: 0 0 40px #b088ff; 
+            border-radius: 50%; 
+            width: 260px; 
+            height: 260px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            font-style: italic; 
+            padding: 25px; 
+            transition: all 0.5s ease; 
+            background: rgba(176, 136, 255, 0.4); 
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .crystal-ball:hover { transform: scale(1.05); box-shadow: 0 0 60px #e6beff; }
+
+        /* Lavender Buttons */
+        .btn-lavender {
+            background-color: #b088ff;
+            color: white;
+            border: 1px solid #e6beff;
+            transition: all 0.3s;
+        }
+        .btn-lavender:hover {
+            background-color: #e6beff;
+            color: #ff007f;
+            box-shadow: 0 0 15px #e6beff;
+        }
+
+        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: #ffffff; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
     <div id="main-ui" class="flex flex-col items-center w-full">
         <header class="text-center my-10 max-w-2xl">
-            <h1 class="text-6xl font-bold text-pink-500 pink-glow uppercase">Sunny Daze</h1>
-            <p class="text-pink-200 italic mt-6 px-4">"My journey began in 1990... I've learned how to read the road map of the soul."</p>
+            <h1 class="text-6xl font-bold text-white purple-glow uppercase tracking-tighter">Sunny Daze</h1>
+            <p class="text-white italic mt-6 text-lg leading-relaxed px-4 drop-shadow-md">
+                "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Over the years life has taught me the power of numbers. I've learned how to read the road map of the soul."
+            </p>
         </header>
 
         <main class="w-full max-w-md space-y-8">
             <section class="flex flex-col items-center space-y-6">
                 <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
                 <div class="flex gap-2">
-                    <button onclick="getFreeReading('love')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Love</button>
-                    <button onclick="getFreeReading('wealth')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Wealth</button>
-                    <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase">Success</button>
+                    <button onclick="getFreeReading('love')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Love</button>
+                    <button onclick="getFreeReading('wealth')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Wealth</button>
+                    <button onclick="getFreeReading('success')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Success</button>
                 </div>
             </section>
 
             <section class="glass p-8 rounded-3xl space-y-4">
-                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl text-white">
-                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl text-white">
-                <div class="space-y-3">
-                    <button onclick="startCheckout(99, 'Powerball Lotto Generator')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Lotto Picks</span><span>$0.99</span></button>
-                    <button onclick="startCheckout(222, 'Soul Reading')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Soul Reading</span><span>$2.22</span></button>
-                    <button onclick="startCheckout(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold flex justify-between px-6"><span>Timeline Transit</span><span>$4.44</span></button>
+                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-white/20 border border-white p-4 rounded-xl outline-none text-white placeholder-white/70">
+                <input type="date" id="birthDate" class="w-full bg-white/20 border border-white p-4 rounded-xl outline-none text-white">
+                
+                <input type="text" id="promoCode" placeholder="Enter Promo Code" class="w-full bg-white/10 border border-white/40 p-3 rounded-xl outline-none text-white text-sm italic placeholder-white/50">
+
+                <div class="space-y-3 pt-2">
+                    <button onclick="handlePurchase(99, 'Powerball Lotto Generator')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
+                    <button onclick="handlePurchase(222, 'Soul Reading')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Soul Reading</span><span>$2.22</span></button>
+                    <button onclick="handlePurchase(444, 'Timeline Transit')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
                 </div>
             </section>
+
+            <footer class="text-center pb-10">
+                <p class="text-[10px] text-white/80 uppercase tracking-widest px-6">
+                    For entertainment purposes only. Readings and numbers are based on numerological interpretations and do not guarantee financial or personal outcomes.
+                </p>
+            </footer>
         </main>
+    </div>
+
+    <div id="lotto-board" class="hidden w-full max-w-2xl mt-10">
+        <div class="glass p-10 rounded-3xl text-center space-y-8">
+            <h2 class="text-4xl font-bold text-white uppercase purple-glow">Lucky Picks</h2>
+            <div class="flex flex-wrap justify-center gap-4 py-6" id="lotto-numbers"></div>
+            <button onclick="window.location.href='/'" class="mt-8 text-white underline uppercase text-xs">Return</button>
+        </div>
     </div>
 
     <script>
         function getFreeReading(type) {
             const readings = {
-                love: ["Love is coming.", "Trust your heart."],
-                wealth: ["Abundance flows.", "New doors open."],
-                success: ["Victory is near.", "Stay focused."]
+                love: ["A new connection is manifesting.", "Nurture your current bonds.", "Love flows where focus goes."],
+                wealth: ["Abundance is a state of mind.", "New financial doors are opening.", "Your value is increasing."],
+                success: ["Victory is closer than you think.", "Stay the course.", "Your hard work is being seen."]
             };
-            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * readings[type].length)];
+            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * 3)];
         }
 
-        async function startCheckout(amount, service) {
+        async function handlePurchase(amount, service) {
             const name = document.getElementById('userName').value;
             const bday = document.getElementById('birthDate').value;
-            if(!name || !bday) return alert("Please fill in your name and birthdate.");
+            const promo = document.getElementById('promoCode').value.toLowerCase().trim();
 
-            try {
-                const res = await fetch('/create-checkout-session', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount, name: service, customerName: name, birthdate: bday, returnType: 'spirit-board' })
-                });
-                
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    throw new Error(errorData.error || "Server Error");
-                }
+            if(!name || !bday) return alert("Please fill in your cosmic details.");
+            localStorage.setItem('userData', JSON.stringify({ name, bday, amount }));
 
-                const data = await res.json();
-                if (data.url) {
-                    localStorage.setItem('userData', JSON.stringify({ name, bday, amount }));
-                    window.location.href = data.url;
-                } else {
-                    alert("No checkout URL received from server.");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Stripe Connection Error: " + err.message);
+            if (promo === 'cosmic') {
+                window.location.href = '/?type=spirit-board';
+                return;
             }
+
+            const res = await fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount, name: service, customerName: name, birthdate: bday, returnType: 'spirit-board' })
+            });
+            const data = await res.json();
+            if (data.url) window.location.href = data.url;
         }
+
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const data = JSON.parse(localStorage.getItem('userData'));
+            if(params.get('type') === 'spirit-board' && data) {
+                document.getElementById('main-ui').classList.add('hidden');
+                if(data.amount === 99) {
+                    document.getElementById('lotto-board').classList.remove('hidden');
+                    const container = document.getElementById('lotto-numbers');
+                    for(let i=0; i<6; i++) {
+                        const d = document.createElement('div');
+                        d.className = 'lotto-ball';
+                        d.innerText = Math.floor(Math.random() * 69) + 1;
+                        container.appendChild(d);
+                    }
+                }
+            }
+        };
     </script>
 </body>
 </html>
