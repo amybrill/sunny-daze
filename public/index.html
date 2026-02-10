@@ -75,7 +75,7 @@
                 <p class="text-xs text-white opacity-70 italic">Cosmic Details Required:</p>
                 <input type="email" id="userEmail" placeholder="Email Address">
                 <input type="text" id="birthPlace" placeholder="Place of Birth (City/State)">
-                <input type="time" id="birthTime" placeholder="Time of Birth">
+                <input type="time" id="birthTime">
             </div>
             
             <div class="space-y-4 pt-4">
@@ -140,13 +140,8 @@
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ 
-                    amount: amt, 
-                    name: srv, 
-                    customerName: name, 
-                    birthdate: bday,
-                    email: email,
-                    birthplace: place,
-                    birthtime: time
+                    amount: amt, name: srv, customerName: name, 
+                    birthdate: bday, email: email, birthplace: place, birthtime: time
                 })
             });
             const data = await res.json();
