@@ -9,64 +9,56 @@
         /* Neon Pink Background */
         body { 
             background: #ff007f; 
-            background: radial-gradient(circle, #ff007f 0%, #ff0055 100%); 
+            background: radial-gradient(circle, #ff007f 0%, #cc0066 100%); 
             color: #ffffff; 
             font-family: 'Inter', sans-serif; 
         }
         
-        /* Lavender Purple Glass Effect */
-        .glass { 
-            background: rgba(230, 190, 255, 0.2); 
-            backdrop-filter: blur(10px); 
-            border: 2px solid #e6beff; 
+        /* Neon Yellow Title */
+        .neon-yellow-text {
+            color: #ccff00;
+            text-shadow: 0 0 10px #ccff00, 0 0 20px #ccff00;
         }
 
-        .purple-glow { text-shadow: 0 0 10px #e6beff, 0 0 20px #b088ff; }
-
-        /* Lavender Crystal Ball */
-        .crystal-ball { 
-            border: 5px solid #e6beff; 
-            box-shadow: 0 0 40px #b088ff; 
-            border-radius: 50%; 
-            width: 260px; 
-            height: 260px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            font-style: italic; 
-            padding: 25px; 
-            transition: all 0.5s ease; 
-            background: rgba(176, 136, 255, 0.4); 
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
+        /* Neon Purple Ball & Free Buttons */
+        .neon-purple-ui {
+            background-color: #9d00ff !important;
+            border: 2px solid #e0b0ff !important;
+            box-shadow: 0 0 20px #9d00ff;
+            color: white !important;
         }
         
-        .crystal-ball:hover { transform: scale(1.05); box-shadow: 0 0 60px #e6beff; }
-
-        /* Lavender Buttons */
-        .btn-lavender {
-            background-color: #b088ff;
-            color: white;
-            border: 1px solid #e6beff;
-            transition: all 0.3s;
-        }
-        .btn-lavender:hover {
-            background-color: #e6beff;
-            color: #ff007f;
-            box-shadow: 0 0 15px #e6beff;
+        .crystal-ball { 
+            border: 6px solid #e0b0ff; 
+            box-shadow: 0 0 50px #9d00ff; 
+            border-radius: 50%; 
+            width: 260px; height: 260px; 
+            display: flex; align-items: center; justify-content: center; 
+            text-align: center; font-style: italic; padding: 25px; 
+            background: rgba(157, 0, 255, 0.5); 
+            color: white; font-weight: bold;
         }
 
+        /* Neon Pink Paid Buttons */
+        .btn-neon-pink {
+            background-color: #ff00ff !important;
+            border: 2px solid #ffb3ff !important;
+            box-shadow: 0 0 15px #ff00ff;
+            color: white !important;
+            transition: transform 0.2s;
+        }
+        .btn-neon-pink:hover { transform: scale(1.02); background-color: #ff66ff !important; }
+
+        .glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.3); }
         .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: #ffffff; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
     <div id="main-ui" class="flex flex-col items-center w-full">
         <header class="text-center my-10 max-w-2xl">
-            <h1 class="text-6xl font-bold text-white purple-glow uppercase tracking-tighter">Sunny Daze</h1>
-            <p class="text-white italic mt-6 text-lg leading-relaxed px-4 drop-shadow-md">
-                "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Over the years life has taught me the power of numbers. I've learned how to read the road map of the soul."
+            <h1 class="text-7xl font-black neon-yellow-text uppercase tracking-tighter">Sunny Daze</h1>
+            <p class="text-white italic mt-6 text-xl leading-relaxed px-4 drop-shadow-md">
+                "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. I learned to read the numbers and now I'd like to share them with you."
             </p>
         </header>
 
@@ -74,37 +66,37 @@
             <section class="flex flex-col items-center space-y-6">
                 <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
                 <div class="flex gap-2">
-                    <button onclick="getFreeReading('love')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Love</button>
-                    <button onclick="getFreeReading('wealth')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Wealth</button>
-                    <button onclick="getFreeReading('success')" class="btn-lavender px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Success</button>
+                    <button onclick="getFreeReading('love')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Love</button>
+                    <button onclick="getFreeReading('wealth')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Wealth</button>
+                    <button onclick="getFreeReading('career')" class="neon-purple-ui px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">Career</button>
                 </div>
             </section>
 
             <section class="glass p-8 rounded-3xl space-y-4">
                 <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-white/20 border border-white p-4 rounded-xl outline-none text-white placeholder-white/70">
                 <input type="date" id="birthDate" class="w-full bg-white/20 border border-white p-4 rounded-xl outline-none text-white">
-                
-                <input type="text" id="promoCode" placeholder="Enter Promo Code" class="w-full bg-white/10 border border-white/40 p-3 rounded-xl outline-none text-white text-sm italic placeholder-white/50">
+                <input type="text" id="promoCode" placeholder="Promo Code (Optional)" class="w-full bg-white/10 border border-white/20 p-3 rounded-xl outline-none text-white text-sm italic">
 
-                <div class="space-y-3 pt-2">
-                    <button onclick="handlePurchase(99, 'Powerball Lotto Generator')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
-                    <button onclick="handlePurchase(222, 'Soul Reading')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Soul Reading</span><span>$2.22</span></button>
-                    <button onclick="handlePurchase(444, 'Timeline Transit')" class="w-full btn-lavender py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
+                <div class="space-y-4 pt-2">
+                    <button onclick="handlePurchase(99, 'Powerball Lotto Generator')" class="w-full btn-neon-pink py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Lotto Picks</span><span>$0.99</span></button>
+                    <button onclick="handlePurchase(222, 'Cosmic Trinity Reading')" class="w-full btn-neon-pink py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Soul & Life Path</span><span>$2.22</span></button>
+                    <button onclick="handlePurchase(444, 'Timeline Transit')" class="w-full btn-neon-pink py-4 rounded-2xl font-bold flex justify-between px-6 uppercase"><span>Timeline Transit</span><span>$4.44</span></button>
                 </div>
             </section>
 
             <footer class="text-center pb-10">
-                <p class="text-[10px] text-white/80 uppercase tracking-widest px-6">
+                <p class="text-[10px] text-white/80 uppercase tracking-widest px-6 italic">
                     For entertainment purposes only. Readings and numbers are based on numerological interpretations and do not guarantee financial or personal outcomes.
                 </p>
             </footer>
         </main>
     </div>
 
-    <div id="lotto-board" class="hidden w-full max-w-2xl mt-10">
+    <div id="result-screen" class="hidden w-full max-w-2xl mt-10">
         <div class="glass p-10 rounded-3xl text-center space-y-8">
-            <h2 class="text-4xl font-bold text-white uppercase purple-glow">Lucky Picks</h2>
-            <div class="flex flex-wrap justify-center gap-4 py-6" id="lotto-numbers"></div>
+            <h2 id="result-title" class="text-4xl font-bold neon-yellow-text uppercase"></h2>
+            <div id="result-content" class="flex flex-wrap justify-center gap-4 py-6"></div>
+            <p id="result-msg" class="text-white italic text-lg"></p>
             <button onclick="window.location.href='/'" class="mt-8 text-white underline uppercase text-xs">Return</button>
         </div>
     </div>
@@ -114,7 +106,7 @@
             const readings = {
                 love: ["A new connection is manifesting.", "Nurture your current bonds.", "Love flows where focus goes."],
                 wealth: ["Abundance is a state of mind.", "New financial doors are opening.", "Your value is increasing."],
-                success: ["Victory is closer than you think.", "Stay the course.", "Your hard work is being seen."]
+                career: ["A pivot is coming.", "Trust your skills.", "Success follows focus."]
             };
             document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * 3)];
         }
@@ -146,15 +138,15 @@
             const data = JSON.parse(localStorage.getItem('userData'));
             if(params.get('type') === 'spirit-board' && data) {
                 document.getElementById('main-ui').classList.add('hidden');
-                if(data.amount === 99) {
-                    document.getElementById('lotto-board').classList.remove('hidden');
-                    const container = document.getElementById('lotto-numbers');
-                    for(let i=0; i<6; i++) {
-                        const d = document.createElement('div');
-                        d.className = 'lotto-ball';
-                        d.innerText = Math.floor(Math.random() * 69) + 1;
-                        container.appendChild(d);
-                    }
+                document.getElementById('result-screen').classList.remove('hidden');
+                document.getElementById('result-title').innerText = "The Universe Responds";
+                document.getElementById('result-msg').innerText = "Your frequencies are aligned with the 2026 transit.";
+                const content = document.getElementById('result-content');
+                for(let i=0; i<6; i++) {
+                    const ball = document.createElement('div');
+                    ball.className = 'lotto-ball';
+                    ball.innerText = Math.floor(Math.random() * 69) + 1;
+                    content.appendChild(ball);
                 }
             }
         };
