@@ -6,15 +6,16 @@
     <title>Sunny Daze 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Main background changed to Starless Night Blue */
         body { 
-            background: #ff007f !important; 
-            background: radial-gradient(circle, #ff007f 0%, #cc0066 100%) !important; 
+            background: #000022 !important; 
+            background: radial-gradient(circle, #000033 0%, #000011 100%) !important; 
             color: #ffffff !important; 
             min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;
         }
         .neon-yellow-text {
             color: #ccff00 !important;
-            text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
+            text-shadow: 0 0 10px #ccff00;
         }
         .neon-yellow-title {
             color: #ccff00 !important;
@@ -37,28 +38,45 @@
             font-weight: bold;
             text-transform: uppercase;
         }
-        /* Dark Purple background for boxes as requested */
         .dark-purple-box {
             background-color: #2e004f !important;
             border: 2px solid rgba(255, 255, 255, 0.2) !important;
         }
-        /* Neon Yellow for consonants and vowels (text) and Neon Pink for numbers */
-        .btn-pink-paid {
-            background-color: #ff00ff !important; 
+
+        /* Specific Button Color Styles */
+        .btn-powerball {
+            background-color: #ff0000 !important; /* Red Background */
+            border: 2px solid #ff6666 !important;
+            box-shadow: 0 0 15px #ff0000 !important;
+            color: #ccff00 !important; /* Neon Yellow Writing */
+        }
+        .btn-soul-path {
+            background-color: #50c878 !important; /* Emerald Green Background */
+            border: 2px solid #aef359 !important;
+            box-shadow: 0 0 15px #50c878 !important;
+            color: #ccff00 !important; /* Neon Yellow Writing */
+        }
+        .btn-timeline {
+            background-color: #0f52ba !important; /* Sapphire Blue Background */
+            border: 2px solid #7393de !important;
+            box-shadow: 0 0 15px #0f52ba !important;
+            color: #ccff00 !important; /* Neon Yellow Writing */
+        }
+        .btn-cosmic {
+            background-color: #ff00ff !important; /* Neon Pink Background */
             border: 2px solid #ffb3ff !important;
-            box-shadow: 0 0 20px #ff00ff !important; 
-            color: #ccff00 !important; /* Consonants/Vowels Neon Yellow */
+            box-shadow: 0 0 15px #ff00ff !important;
+            color: #ccff00 !important; /* Neon Yellow Writing */
+        }
+
+        .price-text {
+            color: #ccff00 !important; /* Keeping pricing text yellow as part of writing */
             font-weight: bold;
         }
-        .price-text {
-            color: #ff00ff !important; /* Numbers Neon Pink */
-            text-shadow: 0 0 10px #ff00ff;
-        }
+
         input {
-            color: #ccff00 !important; /* Consonants/Vowels Neon Yellow */
-        }
-        input::placeholder {
-            color: rgba(204, 255, 0, 0.6) !important;
+            color: #ccff00 !important;
+            background-color: rgba(0,0,0,0.4) !important;
         }
     </style>
 </head>
@@ -83,20 +101,20 @@
         </section>
 
         <section class="dark-purple-box p-8 rounded-3xl space-y-4 w-full max-w-md">
-            <input type="text" id="userName" placeholder="Birth Name" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl outline-none">
-            <input type="date" id="birthDate" class="w-full bg-black/40 border border-white/40 p-4 rounded-xl outline-none">
+            <input type="text" id="userName" placeholder="Birth Name" class="w-full border border-white/40 p-4 rounded-xl outline-none">
+            <input type="date" id="birthDate" class="w-full border border-white/40 p-4 rounded-xl outline-none">
             
             <div class="space-y-4 pt-4">
-                <button onclick="buy(99, 'Powerball Picks')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                <button onclick="buy(99, 'Powerball Picks')" class="w-full btn-powerball py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
                     <span>Powerball Picks</span><span class="price-text">$0.99</span>
                 </button>
-                <button onclick="buy(222, 'Soul/life path reading')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                <button onclick="buy(222, 'Soul/life path reading')" class="w-full btn-soul-path py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
                     <span>Soul/life path reading</span><span class="price-text">$2.22</span>
                 </button>
-                <button onclick="buy(444, 'Timeline Transit')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                <button onclick="buy(444, 'Timeline Transit')" class="w-full btn-timeline py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
                     <span>Timeline Transit</span><span class="price-text">$4.44</span>
                 </button>
-                <button onclick="buy(777, 'Cosmic Trinity')" class="w-full btn-pink-paid py-4 rounded-2xl flex justify-between px-6 uppercase">
+                <button onclick="buy(777, 'Cosmic Trinity')" class="w-full btn-cosmic py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
                     <span>Cosmic Trinity</span><span class="price-text">$7.77</span>
                 </button>
             </div>
