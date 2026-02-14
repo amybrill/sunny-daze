@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# This tells bots where your site lives
+Sitemap: https://sunny-daze-production.up.railway.app/sitemap.xml
