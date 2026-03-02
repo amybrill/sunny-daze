@@ -12,6 +12,7 @@
         .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.5); }
         .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .power-ball { background: radial-gradient(circle at 30% 30%, #ef4444 0%, #991b1b 100%); color: #fff; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
@@ -41,13 +42,26 @@
                     <button onclick="startCheckout(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit</span><span>$4.44</span></button>
                 </div>
             </section>
+
+            <section class="flex flex-col items-center space-y-6 py-10">
+                <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
+                <div class="flex gap-2">
+                    <button onclick="getFreeReading('love')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Love</button>
+                    <button onclick="getFreeReading('wealth')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Wealth</button>
+                    <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold hover:bg-pink-400/20 uppercase tracking-widest">Success</button>
+                </div>
+            </section>
+
+            <footer class="text-center pb-10">
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest opacity-50">For entertainment purposes only.</p>
+            </footer>
         </main>
     </div>
 
     <script>
         async function startCheckout(amount, service) {
             const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value; // GRABBING EMAIL
+            const email = document.getElementById('userEmail').value;
             const bday = document.getElementById('birthDate').value;
             const btime = document.getElementById('birthTime').value;
             const bcity = document.getElementById('birthCity').value;
@@ -59,18 +73,20 @@
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    amount, 
-                    name: service, 
-                    customerName: name, 
-                    email: email, // SENDING EMAIL
-                    birthdate: bday,
-                    birthplace: bcity,
-                    birthtime: btime
-                })
+                body: JSON.stringify({ amount, name: service, customerName: name, email: email, birthplace: bcity, birthdate: bday, birthtime: btime })
             });
             const data = await res.json();
             if (data.url) window.location.href = data.url;
+        }
+
+        function getFreeReading(type) {
+            const readings = {
+                love: ["A new connection is manifesting.", "Nurture your current bonds.", "A soulmate is drawing near."],
+                wealth: ["Abundance is a state of mind.", "New doors are opening.", "Wealth flows to you effortlessly."],
+                success: ["Victory is closer than you think.", "Stay the course.", "Your hard work is about to pay off."]
+            };
+            const list = readings[type];
+            document.getElementById('display').innerText = list[Math.floor(Math.random() * list.length)];
         }
     </script>
 </body>
