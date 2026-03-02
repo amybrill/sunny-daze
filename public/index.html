@@ -27,13 +27,21 @@
 
         <main class="w-full max-w-md space-y-6">
             <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
-                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Your Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                
+                <input type="text" id="partnerName" placeholder="Partner / Boss / Friend's Name (Optional)" class="w-full bg-black/60 border border-indigo-500/50 p-4 rounded-xl outline-none text-white italic">
+
+                <div class="space-y-1">
+                    <label class="text-[10px] uppercase text-pink-400 ml-2">Your Birth Date</label>
+                    <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                </div>
+
                 <div class="grid grid-cols-2 gap-2">
                     <input type="time" id="birthTime" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
                     <input type="text" id="birthCity" placeholder="City of Birth" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
                 </div>
+
                 <div class="space-y-3 pt-4">
                     <button onclick="pay(99, 'Lotto Picks')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600 transition"><span>Lotto Picks</span><span>$0.99</span></button>
                     <button onclick="pay(222, 'Life Path & Soul Urge')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Life Path & Soul Urge</span><span>$2.22</span></button>
@@ -101,14 +109,28 @@
             const bday = document.getElementById('birthDate').value;
             const btime = document.getElementById('birthTime').value;
             const bcity = document.getElementById('birthCity').value;
+            const partner = document.getElementById('partnerName').value; // GRABBING PARTNER NAME
 
             if(!name || !bday || !email) return alert("Please fill in Name, Birthday, and Email.");
+
+            // SPECIAL CHECK FOR COMPATIBILITY
+            if(amount === 555 && !partner) return alert("Please provide the name of your Partner, Boss, or Friend for this reading.");
+            
             localStorage.setItem('userData', JSON.stringify({ name, bday, amount, email }));
             
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, name: service, customerName: name, email, birthplace: bcity, birthdate: bday, birthtime: btime })
+                body: JSON.stringify({ 
+                    amount, 
+                    name: service, 
+                    customerName: name, 
+                    email, 
+                    birthplace: bcity, 
+                    birthdate: bday, 
+                    birthtime: btime,
+                    partnerName: partner // SENDING PARTNER NAME TO SERVER
+                })
             });
             const data = await res.json();
             if (data.url) window.location.href = data.url;

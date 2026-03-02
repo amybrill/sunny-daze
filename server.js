@@ -17,18 +17,19 @@ app.use(express.json());
 // --- CHECKOUT LOGIC ---
 app.post('/create-checkout-session', async (req, res) => {
     try {
-        // We ensure these variables match the 'fetch' call in your index.html
+        // We pull all variables from the HTML form, including the new partnerName
         const { 
             amount, 
             name, 
             customerName, 
-            birthdate, 
             email, 
+            birthdate, 
             birthplace, 
-            birthtime 
+            birthtime,
+            partnerName 
         } = req.body;
         
-        console.log(`🚀 CHECKOUT STARTED: ${customerName} (${email}) is looking at ${name}`);
+        console.log(`🚀 CHECKOUT: ${customerName} is purchasing ${name}`);
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -38,28 +39,28 @@ app.post('/create-checkout-session', async (req, res) => {
                     currency: 'usd',
                     product_data: { 
                         name: name,
-                        description: `Reading for ${customerName}`
+                        description: `Personalized Reading for ${customerName}`
                     },
                     unit_amount: amount,
                 },
                 quantity: 1,
             }],
             mode: 'payment',
-            // THIS BLOCK SAVES THE INFO TO YOUR STRIPE DASHBOARD
+            // THIS IS WHERE YOUR DATA IS SAVED FOR YOU TO READ LATER
             metadata: {
                 customer_name: customerName,
                 customer_email: email || 'N/A',
+                partner_of_interest: partnerName || 'N/A', 
                 birth_date: birthdate,
                 birth_place: birthplace || 'N/A',
                 birth_time: birthtime || 'N/A',
                 service_type: name
             },
-            // The success URL now includes 'type' to help your HTML display the right board
             success_url: `${req.headers.origin}/?success=true`,
             cancel_url: `${req.headers.origin}/`,
         });
 
-        console.log(`✅ LINK READY: Sent ${customerName} to Stripe.`);
+        console.log(`✅ STRIPE LINK CREATED: Metadata includes partner: ${partnerName || 'None'}`);
         res.json({ url: session.url });
     } catch (error) {
         console.error("❌ STRIPE ERROR:", error.message);
@@ -70,7 +71,7 @@ app.post('/create-checkout-session', async (req, res) => {
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`-----------------------------------------`);
-    console.log(`SUNNY DAZE LIVE ON PORT ${PORT}`);
-    console.log(`Monitoring visits and checkouts...`);
+    console.log(`SUNNY DAZE SERVER LIVE ON PORT ${PORT}`);
+    console.log(`Ready for readings and compatibility checks!`);
     console.log(`-----------------------------------------`);
 });
