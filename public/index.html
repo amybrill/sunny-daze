@@ -3,222 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Daze 2026</title>
+    <title>Sunny Daze | Reveal Your Destiny</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { 
-            background: #000022 !important; 
-            background: radial-gradient(circle, #000033 0%, #000011 100%) !important; 
-            color: #ffffff !important; 
-            min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center;
-            font-family: 'Inter', sans-serif;
-        }
-        .neon-yellow-text { color: #ccff00 !important; text-shadow: 0 0 10px #ccff00; }
-        .neon-pink-text { color: #ff00ff !important; text-shadow: 0 0 10px #ff00ff; }
-        .neon-yellow-title {
-            color: #ccff00 !important;
-            text-shadow: 0 0 15px #ccff00, 0 0 30px #ccff00 !important;
-            font-weight: 900 !important; font-size: 4rem !important; text-transform: uppercase;
-        }
-        .neon-purple-ball { 
-            border: 6px solid #e0b0ff !important; 
-            box-shadow: 0 0 50px #9d00ff !important; 
-            border-radius: 50% !important; width: 260px; height: 260px; 
-            display: flex; align-items: center; justify-content: center; 
-            text-align: center; font-style: italic; padding: 25px; 
-            background: rgba(157, 0, 255, 0.7) !important; color: white !important; font-weight: bold;
-        }
-        .btn-purple-neon {
-            background-color: #9d00ff !important; border: 2px solid #e0b0ff !important;
-            box-shadow: 0 0 15px #9d00ff !important; color: white !important; font-weight: bold; text-transform: uppercase;
-        }
-        .dark-purple-box { background-color: #2e004f !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; }
-        
-        .btn-powerball { background-color: #ff0000 !important; color: #ccff00 !important; box-shadow: 0 0 15px #ff0000 !important; }
-        .btn-soul-path { background-color: #50c878 !important; color: #ccff00 !important; box-shadow: 0 0 15px #50c878 !important; }
-        .btn-timeline { background-color: #0f52ba !important; color: #ccff00 !important; box-shadow: 0 0 15px #0f52ba !important; }
-        .btn-cosmic { background-color: #ff00ff !important; color: #ccff00 !important; box-shadow: 0 0 15px #ff00ff !important; }
-
-        .lotto-ball {
-            width: 50px; height: 50px; border-radius: 50%; background: #ff00ff; color: #ccff00;
-            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;
-            box-shadow: 0 0 10px #ff00ff;
-        }
-        input { background-color: rgba(0,0,0,0.4) !important; border: 1px solid rgba(255,255,255,0.2) !important; padding: 1rem; border-radius: 0.75rem; color: #ccff00 !important; outline: none; width: 100%; }
-        input::placeholder { color: rgba(204, 255, 0, 0.5); }
+        body { background: radial-gradient(circle, #00001a 0%, #000000 100%); color: #ffffff; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
+        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
+        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.5); }
+        .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
     </style>
 </head>
-<body class="p-4">
-    <div id="main-ui" class="flex flex-col items-center w-full max-w-2xl text-center">
-        <header class="my-10">
-            <h1 class="neon-yellow-title">Sunny Daze</h1>
-            <p class="text-white italic mt-6 text-xl leading-relaxed px-4">
-                "My journey began in 1990 when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. I learned to read the numbers and now I'd like to share them with you."
+<body class="min-h-screen flex flex-col items-center p-4">
+    <div id="main-ui" class="flex flex-col items-center w-full">
+        <header class="text-center my-10 max-w-2xl">
+            <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
+            <p class="text-pink-200 italic mt-6 text-lg leading-relaxed px-4">
+                "My journey began in 1990. Over the years life has taught me the power of numbers and the language of the stars."
             </p>
         </header>
 
-        <section class="flex flex-col items-center mb-6">
-            <div id="display" class="neon-purple-ball text-sm">The ball awaits...</div>
-            <div class="flex gap-3 mt-6">
-                <button onclick="getFree('Wealth')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Wealth</button>
-                <button onclick="getFree('Career')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Career</button>
-                <button onclick="getFree('Love')" class="btn-purple-neon px-6 py-2 rounded-full text-xs">Love</button>
-            </div>
-            <p class="neon-yellow-text font-bold uppercase tracking-widest mt-4 text-sm">free daily fortune</p>
-        </section>
+        <main class="w-full max-w-md space-y-6">
+            <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
+                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="time" id="birthTime" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
+                    <input type="text" id="birthCity" placeholder="City of Birth" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
+                </div>
 
-        <section class="dark-purple-box p-8 rounded-3xl space-y-4 w-full max-w-md">
-            <input type="text" id="userName" placeholder="Full Birth Name">
-            <input type="date" id="birthDate">
-            
-            <div id="extra-info" class="hidden space-y-4 pt-2 border-t border-white/10 mt-2">
-                <p class="text-xs text-white opacity-70 italic">Cosmic Details Required:</p>
-                <input type="email" id="userEmail" placeholder="Email Address">
-                <input type="text" id="birthPlace" placeholder="Place of Birth (City/State)">
-                <input type="time" id="birthTime">
-            </div>
-            
-            <div class="space-y-4 pt-4">
-                <button onclick="buy(99, 'Powerball Picks')" class="w-full btn-powerball py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
-                    <span>Powerball Picks</span><span>$0.99</span>
-                </button>
-                <button onclick="buy(222, 'Soul/life path reading')" class="w-full btn-soul-path py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
-                    <span>Soul/life path reading</span><span>$2.22</span>
-                </button>
-                <button onclick="buy(444, 'Timeline Transit')" class="w-full btn-timeline py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
-                    <span>Timeline Transit</span><span>$4.44</span>
-                </button>
-                <button onclick="showTrinity()" id="trinity-btn" class="w-full btn-cosmic py-4 rounded-2xl flex justify-between px-6 uppercase font-bold">
-                    <span>Cosmic Trinity</span><span>$7.77</span>
-                </button>
-                <button onclick="buy(777, 'Cosmic Trinity')" id="trinity-pay" class="hidden w-full btn-cosmic py-4 rounded-2xl text-center uppercase font-bold">
-                    Confirm & Pay $7.77
-                </button>
-            </div>
-        </section>
-        <footer class="mt-20 pb-10">
-            <p class="text-white text-xs opacity-80 italic">"For entertainment purposes only."</p>
-        </footer>
-    </div>
-
-    <div id="result-screen" class="hidden flex flex-col items-center w-full max-w-2xl text-center py-20">
-        <div class="dark-purple-box p-10 rounded-3xl w-full">
-            <h2 id="result-title" class="neon-yellow-title text-3xl mb-6">The Universe Speaks</h2>
-            <div id="result-content" class="flex flex-wrap justify-center gap-4 mb-8"></div>
-            <div id="result-msg" class="text-white text-left space-y-6"></div>
-            <button onclick="window.location.href='/'" class="neon-yellow-text underline uppercase text-sm mt-10 inline-block">Return Home</button>
-        </div>
+                <div class="space-y-3 pt-4">
+                    <button onclick="startCheckout(99, 'Lotto Picks')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600 transition"><span>Lotto Picks</span><span>$0.99</span></button>
+                    <button onclick="startCheckout(222, 'Soul & Life Path')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Soul Reading</span><span>$2.22</span></button>
+                    <button onclick="startCheckout(777, 'Cosmic Trinity')" class="w-full border-2 border-yellow-500 bg-black/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
+                    <button onclick="startCheckout(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit</span><span>$4.44</span></button>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        function showTrinity() {
-            document.getElementById('extra-info').classList.remove('hidden');
-            document.getElementById('trinity-btn').classList.add('hidden');
-            document.getElementById('trinity-pay').classList.remove('hidden');
-        }
-
-        function getFree(type) {
-            const msgs = {'Wealth': 'Abundance flows.', 'Career': 'A door opens.', 'Love': 'Connection nears.'};
-            document.getElementById('display').innerText = msgs[type];
-        }
-
-        async function buy(amt, srv) {
+        async function startCheckout(amount, service) {
             const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value; // GRABBING EMAIL
             const bday = document.getElementById('birthDate').value;
-            const email = document.getElementById('userEmail').value;
-            const place = document.getElementById('birthPlace').value;
-            const time = document.getElementById('birthTime').value;
+            const btime = document.getElementById('birthTime').value;
+            const bcity = document.getElementById('birthCity').value;
 
-            if(!name || !bday) return alert("Name and Birth Date are required.");
-            if(srv === 'Cosmic Trinity' && (!email || !place || !time)) return alert("Email, Place, and Time are required.");
+            if(!name || !bday || !email) return alert("Please fill in Name, Birthday, and Email.");
             
-            localStorage.setItem('pendingService', srv);
-            localStorage.setItem('userName', name);
-            localStorage.setItem('birthDate', bday);
-
+            localStorage.setItem('userData', JSON.stringify({ name, email, bday, btime, bcity, amount }));
+            
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    amount: amt, name: srv, customerName: name, 
-                    birthdate: bday, email: email, birthplace: place, birthtime: time
+                    amount, 
+                    name: service, 
+                    customerName: name, 
+                    email: email, // SENDING EMAIL
+                    birthdate: bday,
+                    birthplace: bcity,
+                    birthtime: btime
                 })
             });
             const data = await res.json();
-            if(data.url) window.location.href = data.url;
+            if (data.url) window.location.href = data.url;
         }
-
-        function reduce(n) {
-            while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
-                n = n.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return n;
-        }
-
-        const meanings = {
-            1: "The Independent Leader. Innovation and drive.",
-            2: "The Harmonious Partner. Diplomacy and sensitivity.",
-            3: "The Creative Expresser. Joy and communication.",
-            4: "The Practical Builder. Discipline and stability.",
-            5: "The Freedom Seeker. Adaptability and adventure.",
-            6: "The Nurturing Caretaker. Responsibility and love.",
-            7: "The Analytical Seeker. Intuition and wisdom.",
-            8: "The Ambitious Achiever. Authority and abundance.",
-            9: "The Compassionate Humanitarian. Healing and completion.",
-            11: "The Intuitive Messenger. Spiritual illumination.",
-            22: "The Master Builder. Turning dreams into reality.",
-            33: "The Master Teacher. Universal service and guidance."
-        };
-
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('success') === 'true') {
-                const service = localStorage.getItem('pendingService');
-                const name = localStorage.getItem('userName');
-                const bday = localStorage.getItem('birthDate');
-                document.getElementById('main-ui').classList.add('hidden');
-                document.getElementById('result-screen').classList.remove('hidden');
-
-                if (service.includes('Powerball')) {
-                    document.getElementById('result-title').innerText = "Your Powerball Picks";
-                    let balls = "";
-                    for(let i=0; i<5; i++) balls += `<div class="lotto-ball">${Math.floor(Math.random()*69)+1}</div>`;
-                    balls += `<div class="lotto-ball" style="background:#ccff00; color:#ff0000;">${Math.floor(Math.random()*26)+1}</div>`;
-                    document.getElementById('result-content').innerHTML = balls;
-                } 
-                else if (service.includes('Soul')) {
-                    // LIFE PATH
-                    const lpDigits = bday.replace(/-/g, '').split('').map(Number);
-                    const lpNum = reduce(lpDigits.reduce((a, b) => a + b, 0));
-
-                    // SOUL URGE (Vowels)
-                    const vowelMap = {A:1, E:5, I:9, O:6, U:3};
-                    let suSum = 0;
-                    name.toUpperCase().split('').forEach(char => { if(vowelMap[char]) suSum += vowelMap[char]; });
-                    const suNum = reduce(suSum);
-
-                    document.getElementById('result-title').innerText = "Spirit Board Results";
-                    document.getElementById('result-msg').innerHTML = `
-                        <p class="text-xl">Greetings, <span class="neon-yellow-text">${name}</span>.</p>
-                        <div>
-                            <p class="font-bold uppercase text-sm neon-pink-text">Life Path Number: ${lpNum}</p>
-                            <p class="italic opacity-90">${meanings[lpNum]}</p>
-                        </div>
-                        <div>
-                            <p class="font-bold uppercase text-sm neon-pink-text">Soul Urge Number: ${suNum}</p>
-                            <p class="italic opacity-90">${meanings[suNum]}</p>
-                        </div>
-                        <div class="border-t border-white/20 pt-4">
-                            <p class="neon-yellow-text font-bold uppercase text-xs">The Relationship:</p>
-                            <p class="text-sm leading-relaxed">Your Life Path (${lpNum}) is the road you are walking, while your Soul Urge (${suNum}) is the internal fuel driving your heart. When these two vibrate together, you find your true purpose between your outer actions and inner desires.</p>
-                        </div>
-                    `;
-                } else {
-                    document.getElementById('result-title').innerText = "Confirmation";
-                    document.getElementById('result-msg').innerHTML = `<p class="text-center">Thank you, ${name}. Your <span class="neon-yellow-text">${service}</span> is being prepared and will be sent to your email within 24 hours.</p>`;
-                }
-            }
-        };
     </script>
 </body>
 </html>

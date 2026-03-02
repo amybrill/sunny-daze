@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 
 // --- TRAFFIC MONITOR ---
-// This block logs a message every time someone loads your homepage
 app.use((req, res, next) => {
     if (req.path === '/' || req.path.includes('.html')) {
         console.log(`👀 TRAFFIC: Someone just landed on your site! (${new Date().toLocaleTimeString()})`);
@@ -18,10 +17,18 @@ app.use(express.json());
 // --- CHECKOUT LOGIC ---
 app.post('/create-checkout-session', async (req, res) => {
     try {
-        const { amount, name, customerName, birthdate, email, birthplace, birthtime } = req.body;
+        // We ensure these variables match the 'fetch' call in your index.html
+        const { 
+            amount, 
+            name, 
+            customerName, 
+            birthdate, 
+            email, 
+            birthplace, 
+            birthtime 
+        } = req.body;
         
-        // This prints the moment they click a buy button
-        console.log(`🚀 CHECKOUT STARTED: ${customerName} is looking at the ${name} ($${amount/100})`);
+        console.log(`🚀 CHECKOUT STARTED: ${customerName} (${email}) is looking at ${name}`);
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -38,19 +45,20 @@ app.post('/create-checkout-session', async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
+            // THIS BLOCK SAVES THE INFO TO YOUR STRIPE DASHBOARD
             metadata: {
                 customer_name: customerName,
+                customer_email: email || 'N/A',
                 birth_date: birthdate,
-                service_type: name,
-                email: email || 'N/A',
                 birth_place: birthplace || 'N/A',
-                birth_time: birthtime || 'N/A'
+                birth_time: birthtime || 'N/A',
+                service_type: name
             },
+            // The success URL now includes 'type' to help your HTML display the right board
             success_url: `${req.headers.origin}/?success=true`,
             cancel_url: `${req.headers.origin}/`,
         });
 
-        // This confirms the hand-off to Stripe was successful
         console.log(`✅ LINK READY: Sent ${customerName} to Stripe.`);
         res.json({ url: session.url });
     } catch (error) {
