@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Sunny Daze | Reveal Your Destiny</title>
+    <meta name="description" content="Explore your Soul Urge, Life Path, and Manifesting Sanctuary. Use high-vibrational frequencies to shift your reality.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sunny-daze-production.up.railway.app/">
+    <meta property="og:title" content="Sunny Daze | Reveal Your Destiny">
+    <meta property="og:description" content="Stop slipping back into old realities. Learn how to raise your vibration and manifest your true path.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1000">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sunny Daze | Reveal Your Destiny">
+    <meta name="twitter:description" content="Frequencies, Numerology, and Reality Shifting with Sunny Daze.">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: radial-gradient(circle, #00001a 0%, #000000 100%); color: #ffffff; font-family: 'Inter', sans-serif; }
@@ -105,10 +118,18 @@
         </div>
     </div>
 
-    <footer class="text-center mt-10 opacity-50"><p class="text-[10px] uppercase tracking-widest">For entertainment purposes only.</p></footer>
+    <footer class="text-center mt-10 opacity-50 space-y-2">
+        <p class="text-[10px] uppercase tracking-widest">For entertainment purposes only.</p>
+        <button onclick="copyLink()" class="text-pink-400 text-[10px] border border-pink-500/30 px-3 py-1 rounded-full uppercase">Copy Site Link</button>
+    </footer>
 
     <script>
         const meanings = { 1: "The Independent Leader.", 2: "The Harmonizer.", 3: "The Creative Expresser.", 4: "The Practical Builder.", 5: "The Free Spirit.", 6: "The Nurturer.", 7: "The Wise Seeker.", 8: "The Manifestor.", 9: "The Humanitarian.", 11: "The Intuitive Visionary.", 22: "The Master Architect.", 33: "The Master Teacher." };
+
+        function copyLink() {
+            navigator.clipboard.writeText("https://sunny-daze-production.up.railway.app/");
+            alert("Link copied! Go share the magic.");
+        }
 
         function toggleArticle() {
             const art = document.getElementById('full-article');
