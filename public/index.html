@@ -20,43 +20,33 @@
     <div id="main-ui" class="flex flex-col items-center w-full">
         <header class="text-center my-10 max-w-2xl">
             <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
-            <p class="text-pink-200 italic mt-6 text-lg leading-relaxed px-4">
-                "My journey began when I moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Numbers helped me along the way and now I want to help you."
-            </p>
+            <p class="text-pink-200 italic mt-6 text-lg leading-relaxed px-4">"My journey began in 1990. I've learned how to read the road map of the soul."</p>
         </header>
 
         <main class="w-full max-w-md space-y-6">
             <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
-                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                <input type="email" id="userEmail" placeholder="Your Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                
-                <input type="text" id="partnerName" placeholder="Partner / Boss / Friend's Name (Optional)" class="w-full bg-black/60 border border-indigo-500/50 p-4 rounded-xl outline-none text-white italic">
-
-                <div class="space-y-1">
-                    <label class="text-[10px] uppercase text-pink-400 ml-2">Your Birth Date</label>
-                    <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                </div>
-
+                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
                 <div class="grid grid-cols-2 gap-2">
                     <input type="time" id="birthTime" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
                     <input type="text" id="birthCity" placeholder="City of Birth" class="bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
                 </div>
-
                 <div class="space-y-3 pt-4">
                     <button onclick="pay(99, 'Lotto Picks')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600 transition"><span>Lotto Picks</span><span>$0.99</span></button>
-                    <button onclick="pay(222, 'Life Path & Soul Urge')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Life Path & Soul Urge</span><span>$2.22</span></button>
-                    <button onclick="pay(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit</span><span>$4.44</span></button>
-                    <button onclick="pay(555, 'Cosmic Compatibility')" class="w-full bg-blue-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-blue-600 transition"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <button onclick="pay(222, 'Soul Reading')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Soul Reading</span><span>$2.22</span></button>
                     <button onclick="pay(777, 'Cosmic Trinity')" class="w-full border-2 border-yellow-500 bg-black/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
+                    <button onclick="pay(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit</span><span>$4.44</span></button>
                 </div>
             </section>
 
             <section class="flex flex-col items-center space-y-6 py-10">
                 <div id="display" class="crystal-ball text-sm">The ball awaits your touch...</div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 flex-wrap justify-center">
                     <button onclick="getFreeReading('love')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Love</button>
                     <button onclick="getFreeReading('wealth')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Wealth</button>
                     <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Success</button>
+                    <button onclick="getFreeReading('energy')" class="px-5 py-2 border border-yellow-400 rounded-full text-[10px] font-bold uppercase tracking-widest text-yellow-400">Energy</button>
                 </div>
             </section>
         </main>
@@ -72,7 +62,7 @@
 
     <div id="spirit-board" class="hidden w-full max-w-2xl mt-10">
         <div class="glass p-10 rounded-3xl border-pink-500/40 text-center space-y-6">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest">The Spirit Board</h2>
+            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest text-pink-glow">The Spirit Board</h2>
             <div class="grid grid-cols-2 gap-6">
                 <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20"><p class="text-xs uppercase text-pink-300">Soul Urge</p><p id="soulNum" class="text-6xl font-bold text-white pink-glow"></p></div>
                 <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20"><p class="text-xs uppercase text-pink-300">Life Path</p><p id="lifeNum" class="text-6xl font-bold text-white pink-glow"></p></div>
@@ -109,28 +99,14 @@
             const bday = document.getElementById('birthDate').value;
             const btime = document.getElementById('birthTime').value;
             const bcity = document.getElementById('birthCity').value;
-            const partner = document.getElementById('partnerName').value; // GRABBING PARTNER NAME
 
             if(!name || !bday || !email) return alert("Please fill in Name, Birthday, and Email.");
-
-            // SPECIAL CHECK FOR COMPATIBILITY
-            if(amount === 555 && !partner) return alert("Please provide the name of your Partner, Boss, or Friend for this reading.");
-            
             localStorage.setItem('userData', JSON.stringify({ name, bday, amount, email }));
             
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    amount, 
-                    name: service, 
-                    customerName: name, 
-                    email, 
-                    birthplace: bcity, 
-                    birthdate: bday, 
-                    birthtime: btime,
-                    partnerName: partner // SENDING PARTNER NAME TO SERVER
-                })
+                body: JSON.stringify({ amount, name: service, customerName: name, email, birthplace: bcity, birthdate: bday, birthtime: btime })
             });
             const data = await res.json();
             if (data.url) window.location.href = data.url;
@@ -179,9 +155,10 @@
             const readings = {
                 love: ["A new connection is manifesting.", "Nurture your current bonds."],
                 wealth: ["Abundance is a state of mind.", "New doors are opening."],
-                success: ["Victory is closer than you think.", "Stay the course."]
+                success: ["Victory is closer than you think.", "Stay the course."],
+                energy: ["Your vibrations are high today!", "Protect your peace.", "A cosmic shift is occurring."]
             };
-            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * 2)];
+            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * readings[type].length)];
         }
     </script>
 </body>
