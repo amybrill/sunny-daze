@@ -13,6 +13,7 @@
         .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.5); }
         .lotto-ball { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #d1d5db 100%); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .power-ball { background: radial-gradient(circle at 30% 30%, #ef4444 0%, #991b1b 100%); color: #fff; }
+        .manifesting-text { line-height: 1.8; font-size: 0.95rem; color: #fce4ec; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
@@ -25,7 +26,8 @@
 
         <main class="w-full max-w-md space-y-6">
             <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
-                <input type="text" id="userName" placeholder="Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="text" id="partnerName" placeholder="Partner's Full Name (Optional)" class="w-full bg-black/60 border border-pink-500/50 p-4 rounded-xl outline-none text-white text-sm">
                 <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
                 <input type="date" id="birthDate" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
                 <div class="grid grid-cols-2 gap-2">
@@ -35,8 +37,9 @@
                 <div class="space-y-3 pt-4">
                     <button onclick="pay(99, 'Lotto Picks')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600 transition"><span>Lotto Picks</span><span>$0.99</span></button>
                     <button onclick="pay(222, 'Soul Reading')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500 transition"><span>Soul Reading</span><span>$2.22</span></button>
-                    <button onclick="pay(777, 'Cosmic Trinity')" class="w-full border-2 border-yellow-500 bg-black/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
                     <button onclick="pay(444, 'Timeline Transit')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600 transition"><span>Timeline Transit</span><span>$4.44</span></button>
+                    <button onclick="pay(555, 'Cosmic Compatibility')" class="w-full bg-blue-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-blue-500 transition"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <button onclick="pay(777, 'Cosmic Trinity')" class="w-full border-2 border-yellow-500 bg-black/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
                 </div>
             </section>
 
@@ -48,6 +51,20 @@
                     <button onclick="getFreeReading('success')" class="px-5 py-2 border border-pink-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Success</button>
                     <button onclick="getFreeReading('energy')" class="px-5 py-2 border border-yellow-400 rounded-full text-[10px] font-bold uppercase tracking-widest text-yellow-400">Energy</button>
                 </div>
+            </section>
+
+            <section class="glass p-8 rounded-3xl border-yellow-500/20 space-y-4">
+                <h3 class="text-2xl font-bold gold-text uppercase tracking-widest">Manifesting Sanctuary</h3>
+                <div id="manifest-content" class="manifesting-text italic opacity-90 transition-all duration-700">
+                    <p>Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it...</p>
+                    <div id="full-article" class="hidden mt-4 space-y-4">
+                        <p>Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the three P's in Realestate, there is the three P's in honing a craft: Practice, practice, practice.</p>
+                        <p>Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways before I found what really works for me. I first started with vibrational music and frequencies. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me throughout my day.</p>
+                        <p>For frequency vibrational tones and music I choose to listen to 432 Hz, 528 Hz, and 963 Hz. Those will raise your vibration up to levels that will give off a positive and calming vibe. I also love to listen to sleep guided meditation hypnosis. Some of my favorites are Michael Sealey and John Moyer.</p>
+                        <p>You can always tell after awhile that you may be slipping back into the old reality. Subtle signs appear. That night I go back to listening to my vibrational music and reprogramming my subconscious. After a few weeks things start moving smoothly and falling into place with ease. Positive people and situations are flowing again. Stick around and I'll tell you how I did it.</p>
+                    </div>
+                </div>
+                <button onclick="toggleArticle()" id="article-btn" class="text-yellow-400 text-xs uppercase font-bold tracking-tighter hover:underline">Read Full Journey ↓</button>
             </section>
         </main>
     </div>
@@ -93,20 +110,35 @@
     <script>
         const meanings = { 1: "The Independent Leader.", 2: "The Harmonizer.", 3: "The Creative Expresser.", 4: "The Practical Builder.", 5: "The Free Spirit.", 6: "The Nurturer.", 7: "The Wise Seeker.", 8: "The Manifestor.", 9: "The Humanitarian.", 11: "The Intuitive Visionary.", 22: "The Master Architect.", 33: "The Master Teacher." };
 
+        function toggleArticle() {
+            const art = document.getElementById('full-article');
+            const btn = document.getElementById('article-btn');
+            if(art.classList.contains('hidden')) {
+                art.classList.remove('hidden');
+                btn.innerText = 'Show Less ↑';
+            } else {
+                art.classList.add('hidden');
+                btn.innerText = 'Read Full Journey ↓';
+            }
+        }
+
         async function pay(amount, service) {
             const name = document.getElementById('userName').value;
+            const partner = document.getElementById('partnerName').value;
             const email = document.getElementById('userEmail').value;
             const bday = document.getElementById('birthDate').value;
             const btime = document.getElementById('birthTime').value;
             const bcity = document.getElementById('birthCity').value;
 
             if(!name || !bday || !email) return alert("Please fill in Name, Birthday, and Email.");
-            localStorage.setItem('userData', JSON.stringify({ name, bday, amount, email }));
+            if(amount === 555 && !partner) return alert("Please enter a Partner's Name for Compatibility.");
+
+            localStorage.setItem('userData', JSON.stringify({ name, partner, bday, amount, email }));
             
             const res = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, name: service, customerName: name, email, birthplace: bcity, birthdate: bday, birthtime: btime })
+                body: JSON.stringify({ amount, name: service, customerName: name, email, birthplace: bcity, birthdate: bday, birthtime: btime, partnerName: partner })
             });
             const data = await res.json();
             if (data.url) window.location.href = data.url;
@@ -121,10 +153,8 @@
         window.onload = () => {
             const params = new URLSearchParams(window.location.search);
             const data = JSON.parse(localStorage.getItem('userData'));
-            
             if(params.get('success') === 'true' && data) {
                 document.getElementById('main-ui').classList.add('hidden');
-                
                 if (data.amount === 99) {
                     document.getElementById('lotto-board').classList.remove('hidden');
                     const container = document.getElementById('lotto-numbers');
