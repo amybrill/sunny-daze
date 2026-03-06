@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunny Daze | Reveal Your Destiny</title>
     
-    <meta name="description" content="Numerology readings and personal transformation with Sunny Daze.">
+    <meta name="description" content="Explore your Soul Urge, Life Path, and personal transformation with Sunny Daze.">
     <meta property="og:title" content="Sunny Daze | Reveal Your Destiny">
     <meta property="og:url" content="https://sunny-daze-production.up.railway.app/">
 
@@ -62,139 +62,12 @@
 
             <section class="glass p-8 rounded-3xl border-yellow-500/20 space-y-4">
                 <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center">My Journey</h3>
-                <div class="manifesting-text italic opacity-90">
-                    <p class="mb-4">Changing my life through manifesting is probably one of the best things I ever learned how to do. I discovered how to move my consciousness across timelines through a method I've been perfecting for seven years.</p>
-                    <button onclick="toggleArticle()" id="article-btn" class="text-pink-400 text-xs uppercase font-bold tracking-widest hover:underline w-full text-center">Read the Full Journey ↓</button>
-                    <div id="full-article" class="hidden mt-6 space-y-4 border-t border-white/10 pt-4 text-left not-italic text-sm">
-                        <p>Changing my life through manifesting is probably one of the best things I ever learned how to do... [Your full article text remains here]</p>
-                        <p>...Stick around and I'll tell you how I did it.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <div id="lotto-board" class="hidden w-full max-w-2xl mt-10 text-center">
-        <div class="glass p-10 rounded-3xl border-indigo-500/40 space-y-8">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest">Your Lucky Picks</h2>
-            <div class="flex flex-wrap justify-center gap-4 py-6" id="lotto-numbers"></div>
-            <button onclick="window.location.href='/'" class="text-pink-400 underline uppercase text-xs">Return Home</button>
-        </div>
-    </div>
-
-    <div id="spirit-board" class="hidden w-full max-w-2xl mt-10">
-        <div class="glass p-10 rounded-3xl border-pink-500/40 text-center space-y-6">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest text-pink-glow">The Spirit Board</h2>
-            <div class="grid grid-cols-2 gap-6">
-                <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20"><p class="text-xs uppercase text-pink-300">Soul Urge</p><p id="soulNum" class="text-6xl font-bold text-white pink-glow"></p></div>
-                <div class="p-6 bg-white/5 rounded-2xl border border-pink-500/20"><p class="text-xs uppercase text-pink-300">Life Path</p><p id="lifeNum" class="text-6xl font-bold text-white pink-glow"></p></div>
-            </div>
-            <div class="text-left space-y-4 border-t border-pink-500/20 pt-6">
-                <div><h4 class="text-pink-400 font-bold uppercase text-sm">Inner Desire:</h4><p id="soulMeaning" class="text-gray-200 italic"></p></div>
-                <div><h4 class="text-pink-400 font-bold uppercase text-sm">Life Journey:</h4><p id="pathMeaning" class="text-gray-200 italic"></p></div>
-            </div>
-            <button onclick="window.location.href='/'" class="text-pink-400 underline uppercase text-xs">Return Home</button>
-        </div>
-    </div>
-
-    <div id="email-board" class="hidden w-full max-w-2xl mt-10 text-center">
-        <div class="glass p-10 rounded-3xl border-yellow-500/40 space-y-6">
-            <h2 class="text-4xl font-bold gold-text uppercase tracking-widest">Energy Received</h2>
-            <div class="bg-pink-500/10 p-8 rounded-2xl border border-pink-500/30">
-                <p class="text-lg text-pink-100 font-bold uppercase tracking-widest leading-relaxed">Check your email in 24-48 hours for your reading.</p>
-            </div>
-            <button onclick="window.location.href='/'" class="text-pink-400 underline uppercase text-xs">Return Home</button>
-        </div>
-    </div>
-
-    <script>
-        const meanings = { 1: "The Independent Leader.", 2: "The Harmonizer.", 3: "The Creative Expresser.", 4: "The Practical Builder.", 5: "The Free Spirit.", 6: "The Nurturer.", 7: "The Wise Seeker.", 8: "The Manifestor.", 9: "The Humanitarian.", 11: "The Intuitive Visionary.", 22: "The Master Architect.", 33: "The Master Teacher." };
-
-        function toggleArticle() {
-            const art = document.getElementById('full-article');
-            const btn = document.getElementById('article-btn');
-            art.classList.toggle('hidden');
-            btn.innerText = art.classList.contains('hidden') ? 'Read the Full Journey ↓' : 'Show Less ↑';
-        }
-
-        async function pay(amount, service) {
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
-            const bday = document.getElementById('birthDate').value;
-
-            if(!name || !bday || !email) return alert("Please fill in Name, Birthday, and Email.");
-
-            // Store data locally to retrieve after Stripe redirect
-            localStorage.setItem('userData', JSON.stringify({ 
-                name, email, bday, amount, 
-                partner: document.getElementById('partnerName').value,
-                btime: document.getElementById('birthTime').value,
-                bcity: document.getElementById('birthCity').value
-            }));
-
-            // THIS IS THE KEY LOGIC YOU NEED TO TALK TO YOUR SERVER
-            const res = await fetch('/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    amount, 
-                    name: service, 
-                    customerName: name, 
-                    email: email,
-                    birthdate: bday
-                })
-            });
-            const data = await res.json();
-            if (data.url) window.location.href = data.url;
-        }
-
-        const reduce = (n) => {
-            if (n == 11 || n == 22 || n == 33) return n;
-            let s = n.toString().split('').reduce((a, b) => a + parseInt(b), 0);
-            return s > 9 ? reduce(s) : s;
-        };
-
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            const data = JSON.parse(localStorage.getItem('userData'));
-            
-            if(params.get('success') === 'true' && data) {
-                document.getElementById('main-ui').classList.add('hidden');
                 
-                if (data.amount === 99) {
-                    document.getElementById('lotto-board').classList.remove('hidden');
-                    const container = document.getElementById('lotto-numbers');
-                    for(let i=0; i<6; i++) {
-                        const b = document.createElement('div');
-                        b.className = i === 5 ? 'lotto-ball power-ball' : 'lotto-ball';
-                        b.innerText = Math.floor(Math.random() * (i === 5 ? 26 : 69)) + 1;
-                        container.appendChild(b);
-                    }
-                } else if (data.amount === 222) {
-                    document.getElementById('spirit-board').classList.remove('hidden');
-                    const [y, m, d] = data.bday.split('-');
-                    const lp = reduce(reduce(parseInt(m)) + reduce(parseInt(d)) + reduce(parseInt(y)));
-                    const vMap = { a:1, e:5, i:9, o:6, u:3 };
-                    const su = reduce(data.name.toLowerCase().split('').reduce((acc, char) => acc + (vMap[char] || 0), 0));
-                    document.getElementById('soulNum').innerText = su;
-                    document.getElementById('lifeNum').innerText = lp;
-                    document.getElementById('soulMeaning').innerText = meanings[su];
-                    document.getElementById('pathMeaning').innerText = meanings[lp];
-                } else {
-                    document.getElementById('email-board').classList.remove('hidden');
-                }
-            }
-        };
+                <div id="manifest-content" class="manifesting-text italic opacity-90">
+                    <p class="mb-4">Changing my life through manifesting is probably one of the best things I ever learned how to do. I discovered how to move my consciousness across timelines through a method I've been perfecting for seven years. I'm not talking about changing your mind. I'm talking about changing your entire world.</p>
+                    
+                    <button onclick="toggleArticle()" id="article-btn" class="text-pink-400 text-xs uppercase font-bold tracking-widest hover:underline w-full text-center">Read the Full Journey ↓</button>
 
-        function getFreeReading(type) {
-            const readings = {
-                love: ["A new connection is manifesting.", "Nurture your current bonds."],
-                wealth: ["Abundance is a state of mind.", "New doors are opening."],
-                success: ["Victory is closer than you think.", "Stay the course."],
-                energy: ["Your vibrations are high today!", "Protect your peace."]
-            };
-            document.getElementById('display').innerText = readings[type][Math.floor(Math.random() * readings[type].length)];
-        }
-    </script>
-</body>
-</html>
+                    <div id="full-article" class="hidden mt-6 space-y-4 border-t border-white/10 pt-4 text-left not-italic">
+                        <p>Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it. Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the three P's in Realestate, there is the three P's in honing a craft, Practice, practice, practice.</p>
+                        <p>Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways before I found what really works for
