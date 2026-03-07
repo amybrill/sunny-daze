@@ -10,86 +10,114 @@
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
         .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
         .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 25px; transition: all 0.5s ease; background: rgba(0,0,0,0.5); margin: 0 auto; }
-        .input-field { w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm; }
-        .frequency-table { width: 100%; font-size: 0.75rem; border-collapse: collapse; margin: 15px 0; background: rgba(0,0,0,0.3); border-radius: 10px; overflow: hidden; }
-        .frequency-table th { background: rgba(236, 72, 153, 0.2); padding: 8px; text-align: left; color: #f9a8d4; }
-        .frequency-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 30px; transition: all 0.5s ease; background: rgba(0,0,0,0.6); margin: 0 auto; line-height: 1.4; }
+        .frequency-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; margin: 20px 0; background: rgba(0,0,0,0.4); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .frequency-table th { background: rgba(236, 72, 153, 0.3); padding: 10px; text-align: left; color: #f9a8d4; text-transform: uppercase; }
+        .frequency-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .low-vibe { color: #f87171; font-weight: bold; }
         .high-vibe { color: #4ade80; font-weight: bold; }
-        .locked-overlay { background: linear-gradient(to bottom, transparent, #000 80%); height: 280px; margin-top: -200px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 40px; }
-        .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 18px 36px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); transition: all 0.3s ease; text-transform: uppercase; }
+        .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 50px; }
+        .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); transition: all 0.3s ease; text-transform: uppercase; }
     </style>
 </head>
-<body class="min-h-screen p-4">
+<body class="min-h-screen p-4 flex flex-col items-center">
 
-    <div id="main-ui" class="flex flex-col items-center w-full">
-        <header class="text-center my-10 max-w-2xl">
+    <div id="main-ui" class="w-full max-w-md">
+        <header class="text-center my-10">
             <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
         </header>
 
-        <main class="w-full max-w-md space-y-6">
-            <section id="user-info" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
-                <h2 class="text-center pink-glow font-bold uppercase text-xs tracking-widest">Personal Alignment</h2>
-                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl outline-none text-xs text-white">
-                    <input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl outline-none text-xs text-white">
-                </div>
-                <input type="text" id="birthCity" placeholder="City of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-                
-                <hr class="border-pink-500/20 my-4">
-                
-                <h2 class="text-center gold-text font-bold uppercase text-xs tracking-widest">Compatibility & Connections</h2>
-                <input type="text" id="targetName" placeholder="Partner / Friend / Boss Name" class="w-full bg-black/60 border border-yellow-500/50 p-4 rounded-xl outline-none text-white">
-            </section>
+        <section class="glass p-6 rounded-3xl mb-10 border-white/10 text-center">
+            <h2 class="gold-text uppercase font-bold text-xs tracking-widest mb-3">About Sunny Daze</h2>
+            <p class="text-xs italic leading-relaxed text-pink-100 px-2">
+                "I spent years decoding the silent language of the universe. After a profound timeline shift in 2019, I realized that reality isn't fixed—it's a frequency. I built this space to help you find your key, tune your signal, and stop attracting the shadows of your past."
+            </p>
+        </section>
 
-            <section class="space-y-3">
-                <button onclick="getFreeFortune()" class="w-full bg-white/10 border border-white/20 py-4 rounded-2xl font-bold uppercase hover:bg-white/20 transition">Free Daily Fortune</button>
+        <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30">
+            <h2 class="text-center pink-glow font-bold uppercase text-[10px] tracking-[0.2em] mb-2">Personal Cosmic Data</h2>
+            <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+            <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+            </div>
+            
+            <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
+            
+            <div class="pt-4 border-t border-white/10">
+                <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-[0.2em] mb-3">Sync with Others</h2>
+                <input type="text" id="targetName" placeholder="Target Person (Partner, Boss, Friend)" class="w-full bg-black/60 border border-yellow-500/50 p-4 rounded-xl outline-none text-white text-sm">
+            </div>
+        </section>
+
+        <section class="py-10 space-y-8">
+            <div id="display" class="crystal-ball text-sm font-medium">The universe is listening...</div>
+            
+            <div class="grid grid-cols-3 gap-3 px-2">
+                <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase hover:bg-green-500/20 transition duration-300">Money</button>
+                <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase hover:bg-blue-500/20 transition duration-300">Success</button>
+                <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase hover:bg-pink-500/20 transition duration-300">Love</button>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <button onclick="pay('Lotto Picks', 'price_LOTTO')" class="w-full bg-indigo-800/80 border border-indigo-400/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-indigo-700"><span>Lotto Picks</span><span>$0.99</span></button>
+            <button onclick="pay('Soul Reading', 'price_SOUL')" class="w-full bg-pink-700/80 border border-pink-400/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-pink-600"><span>Soul Reading</span><span>$2.22</span></button>
+            <button onclick="pay('Timeline Transit', 'price_TRANSIT')" class="w-full bg-purple-800/80 border border-purple-400/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-purple-700"><span>Timeline Transit</span><span>$4.44</span></button>
+            <button onclick="pay('Cosmic Compatibility', 'price_COMPAT')" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Compatibility</span><span class="gold-text">$7.77</span></button>
+        </section>
+
+        <section class="glass p-8 rounded-3xl border-yellow-500/20 mt-10 space-y-6">
+            <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center">The Journey</h3>
+            
+            <div id="manifest-content" class="manifesting-text italic opacity-90">
+                <button onclick="toggleArticle()" id="article-btn" class="text-pink-400 text-xs uppercase font-bold tracking-widest hover:underline w-full text-center">Read the Full Journey ↓</button>
                 
-                <button onclick="pay('Lotto Picks', 'price_LOTTO')" class="w-full bg-indigo-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-indigo-600"><span>Lotto Picks</span><span>$0.99</span></button>
-                <button onclick="pay('Soul Reading', 'price_SOUL')" class="w-full bg-pink-600 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-pink-500"><span>Soul Reading</span><span>$2.22</span></button>
-                <button onclick="pay('Timeline Transit', 'price_TRANSIT')" class="w-full bg-purple-700 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-purple-600"><span>Timeline Transit</span><span>$4.44</span></button>
-                <button onclick="pay('Cosmic Compatibility', 'price_COMPAT')" class="w-full border-2 border-yellow-500 bg-black/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-6 hover:bg-yellow-500/20"><span class="gold-text">Cosmic Compatibility</span><span class="gold-text">$7.77</span></button>
-            </section>
-
-            <section class="py-10">
-                <div id="display" class="crystal-ball text-sm">Align your frequency above...</div>
-            </section>
-
-            <section class="glass p-8 rounded-3xl border-yellow-500/20 space-y-4">
-                <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center">Manifesting Protocol</h3>
-                <div id="manifest-content" class="manifesting-text italic opacity-90">
-                    <button onclick="toggleArticle()" id="article-btn" class="text-pink-400 text-xs uppercase font-bold tracking-widest hover:underline w-full text-center">Read the Full Journey ↓</button>
+                <div id="full-article" class="hidden mt-8 space-y-6 border-t border-white/10 pt-6 text-left not-italic">
                     
-                    <div id="full-article" class="hidden mt-6 space-y-4 border-t border-white/10 pt-4 text-left not-italic">
-                        <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest">Phase 1: The Scale</h4>
-                        <table class="frequency-table">
-                            <thead><tr><th>Emotion</th><th>Freq</th></tr></thead>
-                            <tbody>
-                                <tr><td class="low-vibe">Hate</td><td class="low-vibe">50</td></tr>
-                                <tr><td class="low-vibe">Fear</td><td class="low-vibe">100</td></tr>
-                                <tr><td class="high-vibe">Gratitude</td><td class="high-vibe">500+</td></tr>
-                            </tbody>
-                        </table>
-                        <p class="text-xs italic text-red-400">If you are self-centered and vibrating below 100, you will attract toxic people and bad luck.</p>
+                    <h4 class="text-pink-400 font-bold uppercase text-xs">Phase 1: The Emotional Scale</h4>
+                    <p class="text-sm">Frequency is a magnet. If you stay at 100 or lower, you are out of luck. The universe cannot hear you through the noise of fear and hate.</p>
 
-                        <div id="locked-section" class="locked-overlay">
-                            <button onclick="pay('Full Journey Access', 'price_963')" class="unlock-btn">Unlock Phases 3 & 4 — $9.63</button>
-                        </div>
+                    
 
-                        <div id="premium-content" class="hidden space-y-6 pt-8">
-                             <h4 class="gold-text font-bold uppercase text-xs">Phase 3: Nightly Protocol</h4>
-                             <p class="text-xs">Night 1: Sleep Hypnosis. Night 2: Frequencies. This process takes months or years.</p>
-                             <h4 class="gold-text font-bold uppercase text-xs">Phase 4: Act As If</h4>
-                             <p class="text-xs">Morning work drives the car. Walk and talk as if the money is already in the bank.</p>
-                        </div>
+[Image of the emotional frequency scale chart]
+
+                    <table class="frequency-table">
+                        <thead><tr><th>Emotion</th><th>Freq</th><th>Attraction</th></tr></thead>
+                        <tbody>
+                            <tr><td class="low-vibe">Hate</td><td>50</td><td>Toxic Events</td></tr>
+                            <tr><td class="low-vibe">Fear</td><td>100</td><td>Bad Luck</td></tr>
+                            <tr><td class="high-vibe">Gratitude</td><td>500+</td><td>Synchronicities</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="text-pink-400 font-bold uppercase text-xs pt-4">Phase 2: Sound Frequencies</h4>
+                    <p class="text-sm">To move across timelines, you must thin out the self-centered ego. Listening to 432Hz and 528Hz reset your field.</p>
+                    <a href="https://www.youtube.com/watch?v=Lpavrcr03gg" target="_blank" class="block text-center p-3 border border-pink-500/40 rounded-xl text-pink-300 text-xs font-bold mt-2">Listen to 432Hz Reset (Free) →</a>
+
+                    <div id="locked-section" class="locked-overlay">
+                        <button onclick="pay('Full Journey Access', 'price_963')" class="unlock-btn">Unlock Phases 3 & 4 — $9.63</button>
+                    </div>
+
+                    <div id="premium-content" class="hidden space-y-8 pt-10 border-t border-pink-500/30">
+                        <h4 class="gold-text font-bold uppercase text-xs">Phase 3: The Nightly Protocol</h4>
+                        <p class="text-xs leading-relaxed">
+                            This is the secret of the 7-year method. We use <strong>Sleep Hypnosis</strong> to force the subconscious into a new reality. Night 1: Reprogramming. Night 2: Theta Waves. It may take months or years to fully move across timelines.
+                        </p>
+
+                        <h4 class="gold-text font-bold uppercase text-xs">Phase 4: Mastering Manifesting</h4>
+                        <p class="text-xs italic mb-4">"The morning work drives the car. Act as if the life you want is already here."</p>
+                        <p class="text-xs leading-relaxed">
+                            Walk, talk, and think as the version of you who has already succeeded. You must pray every day. Gratitude is the glue. <strong>If you are self-centered, this will not work.</strong>
+                        </p>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </section>
+        
+        <footer class="text-center py-20 text-[10px] text-gray-600 uppercase tracking-widest">Sunny Daze © 2026</footer>
     </div>
 
     <script>
@@ -103,26 +131,27 @@
         function unlockContent() {
             document.getElementById('locked-section').classList.add('hidden');
             document.getElementById('premium-content').classList.remove('hidden');
-            document.getElementById('display').innerHTML = "<span class='gold-text'>9.63Hz Activated. Inner Circle Unlocked.</span>";
+            document.getElementById('display').innerHTML = "<span class='gold-text'>The Key of 9.63 is Active. Advanced Protocols Unlocked.</span>";
         }
 
-        function getFreeFortune() {
+        function getFreeFortune(type) {
             const name = document.getElementById('userName').value;
             if(!name) return alert("Enter your name first.");
-            document.getElementById('display').innerText = `Calculating alignment for ${name}... Today brings a shift in your timeline.`;
+            document.getElementById('display').innerHTML = `<span class='pink-glow'>${type} Reading for ${name}:</span><br>High frequency detected. Stay neutral and watch for signs.`;
         }
 
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
-            if(!email) return alert("Email required for cosmic delivery.");
-
-            const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ priceId, userEmail: email, serviceName })
-            });
-            const session = await response.json();
-            if(session.url) window.location.href = session.url;
+            if(!email) return alert("Email required.");
+            try {
+                const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ priceId, userEmail: email, serviceName })
+                });
+                const session = await response.json();
+                if(session.url) window.location.href = session.url;
+            } catch (err) { alert("Server connection error."); }
         }
 
         function toggleArticle() {
