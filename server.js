@@ -12,7 +12,6 @@ app.get('/', (req, res) => {
 
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
-    
     let domain = clientUrl || 'https://sunny-daze-production.up.railway.app';
     if (!domain.startsWith('http')) domain = `https://${domain}`;
 
@@ -29,7 +28,6 @@ app.post('/create-checkout-session', async (req, res) => {
         });
         res.json({ url: session.url });
     } catch (err) {
-        console.error("Stripe Error:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
