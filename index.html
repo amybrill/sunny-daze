@@ -66,18 +66,10 @@
             
             <article class="space-y-6 text-sm leading-relaxed">
                 <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
+                <p class="text-pink-50 italic">Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it.</p>
+                <p>Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the <strong>three P's in Realestate</strong>, there is the three P's in honing a craft: <strong>Practice, practice, practice.</strong></p>
                 
-                <p class="text-pink-50 italic">
-                    Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it.
-                </p>
-
-                <p>
-                    Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the <strong>three P's in Realestate</strong>, there is the three P's in honing a craft: <strong>Practice, practice, practice.</strong>
-                </p>
-
-                <p class="text-gray-300">
-                    I first started with <strong>vibrational music and frequencies</strong>. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me throughout my day.
-                </p>
+                <p class="text-gray-300">I first started with <strong>vibrational music and frequencies</strong>. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me throughout my day.</p>
 
                 <div class="bg-black/40 p-4 rounded-xl border border-white/10">
                     <p class="text-[10px] text-pink-400 font-bold uppercase mb-2">Recommended Frequencies:</p>
@@ -88,17 +80,11 @@
                     </div>
                 </div>
 
-                <p>
-                    I incorporated guided meditation and sleep hypnosis. I now listen to vibrational music, meditate, and use <strong>sleep hypnosis to reprogram my subconscious.</strong> Some of my favorites are <strong>Michael Sealey</strong> and <strong>John Moyer</strong>. They are free on YouTube and provide wonderful reprogramming sessions.
-                </p>
+                <p>I incorporated guided meditation and sleep hypnosis. I now listen to vibrational music, meditate, and use <strong>sleep hypnosis to reprogram my subconscious.</strong> Some of my favorites are <strong>Michael Sealey</strong> and <strong>John Moyer</strong>. They are free on YouTube and provide wonderful reprogramming sessions.</p>
 
-                <p class="text-yellow-200/80 italic border-l-2 border-yellow-500 pl-4">
-                    "It is possible to slip back into the old reality should your vibration drop to that level."
-                </p>
+                <p class="text-yellow-200/80 italic border-l-2 border-yellow-500 pl-4">"It is possible to slip back into the old reality should your vibration drop to that level."</p>
 
-                <p class="text-gray-300 text-xs">
-                    You can tell when you are slipping back. Suttle signs appear—bad luck snow-balling, car breaking down, arguments with loved ones. It hit me that I was getting caught up in the drama. That night I went back to my vibrational music and reprogramming. After a few weeks, positive people and situations started flowing again.
-                </p>
+                <p class="text-gray-300 text-xs">You can tell when you are slipping back. Suttle signs appear—bad luck snow-balling, car breaking down, arguments with loved ones. It hit me that I was getting caught up in the drama. That night I went back to my vibrational music and reprogramming. After a few weeks, positive people and situations started flowing again.</p>
 
                 <div class="bg-black/60 p-6 rounded-2xl border border-pink-500/20">
                     <p class="text-[10px] text-pink-400 font-bold uppercase mb-4 tracking-widest text-center">Emotional Vibrational Scale</p>
@@ -129,9 +115,6 @@
 
                 <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
                     <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Subconscious Reprogramming</h5>
-                    <p class="text-xs text-gray-200">
-                        To stop the "slip" and anchor your consciousness permanently, use these specific sessions nightly:
-                    </p>
                     <div class="flex flex-col gap-3">
                         <a href="https://www.youtube.com/@MichaelSealey" target="_blank" class="bg-pink-900/40 p-3 rounded-xl border border-pink-500/30 text-xs text-center font-bold">Michael Sealey Hypnosis →</a>
                         <a href="https://www.youtube.com/@JohnMoyerHypnosis" target="_blank" class="bg-purple-900/40 p-3 rounded-xl border border-purple-500/30 text-xs text-center font-bold">John Moyer Reprogramming →</a>
@@ -173,8 +156,10 @@
             const display = document.getElementById('display');
 
             if(!emailField || !emailField.value) return alert("Email required in Alignment Details.");
-
             if(display) display.innerHTML = "Opening Portal...";
+
+            // FIX: Explicitly providing the current URL with HTTPS scheme
+            const currentUrl = window.location.origin + window.location.pathname;
 
             try {
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
@@ -184,13 +169,14 @@
                         priceId: priceId, 
                         userEmail: emailField.value, 
                         userName: nameField ? nameField.value : "Seeker",
-                        serviceName: serviceName 
+                        serviceName: serviceName,
+                        clientUrl: currentUrl // This tells the server exactly where to return to
                     })
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(errorText || "Server error");
+                    const errorJson = await response.json();
+                    throw new Error(JSON.stringify(errorJson));
                 }
 
                 const session = await response.json();
