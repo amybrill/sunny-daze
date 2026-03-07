@@ -6,7 +6,6 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Serve the website at the root
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -14,7 +13,6 @@ app.get('/', (req, res) => {
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
     
-    // Auto-detect domain or fallback to your Railway URL
     let domain = clientUrl || 'https://sunny-daze-production.up.railway.app';
     if (!domain.startsWith('http')) domain = `https://${domain}`;
 

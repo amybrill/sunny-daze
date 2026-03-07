@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+k<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,44 +33,92 @@
             <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
             <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
             <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+            
             <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
                 <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
             </div>
             <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
+            
             <div class="pt-4 border-t border-white/10">
                 <input type="text" id="targetName" placeholder="Partner / Friend / Boss Name" class="w-full bg-black/60 border border-yellow-500/50 p-4 rounded-xl outline-none text-white text-sm">
             </div>
         </section>
 
         <section class="space-y-4 mb-10">
-            <button onclick="pay('Lotto Picks', 'price_LOTTO')" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-indigo-700 transition"><span>Lotto Picks</span><span>$0.99</span></button>
-            <button onclick="pay('Life Path/Soul Urge', 'price_SOUL')" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-pink-600 transition"><span>Life Path/Soul Urge</span><span>$2.22</span></button>
-            <button onclick="pay('Timeline Transit', 'price_TRANSIT')" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-purple-700 transition"><span>Timeline Transit</span><span>$4.44</span></button>
-            <button onclick="pay('Cosmic Compatibility', 'price_COMPAT')" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-yellow-500/20 transition"><span class="gold-text">Cosmic Compatibility</span><span class="gold-text">$7.77</span></button>
+            <button onclick="pay('Lotto Picks', 'price_LOTTO')" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Lotto Picks</span><span>$0.99</span></button>
+            <button onclick="pay('Life Path & Soul Urge Reveal Reading', 'PASTE_YOUR_ACTUAL_STRIPE_ID_HERE')" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Life Path & Soul Urge Reveal</span><span>$2.22</span></button>
+            <button onclick="pay('Timeline Transit', 'price_TRANSIT')" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit</span><span>$4.44</span></button>
+            <button onclick="pay('Cosmic Compatibility', 'price_COMPAT')" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Compatibility</span><span class="gold-text">$7.77</span></button>
         </section>
 
         <section class="py-10 space-y-8">
             <div id="display" class="crystal-ball text-sm font-medium">Ready to Decode...</div>
             <div class="grid grid-cols-3 gap-3 px-2">
-                <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Money</button>
-                <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Success</button>
-                <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Love</button>
+                <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Money</button>
+                <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Success</button>
+                <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Love</button>
             </div>
         </section>
 
         <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8">
             <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">The Reading Corner</h3>
+            
             <article class="space-y-6 text-sm leading-relaxed">
                 <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
-                <p>Changing my life through manifesting is probably one of the best things I ever learned how to do. I tried many ways before I found what works. I first started with vibrational frequencies and sleep hypnosis...</p>
                 
+                <p class="text-pink-50 italic">
+                    Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it.
+                </p>
+
+                <p>
+                    Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the <strong>three P's in Realestate</strong>, there is the three P's in honing a craft: <strong>Practice, practice, practice.</strong>
+                </p>
+
+                <p class="text-gray-300">
+                    I first started with <strong>vibrational music and frequencies</strong>. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me throughout my day.
+                </p>
+
+                <div class="bg-black/40 p-4 rounded-xl border border-white/10">
+                    <p class="text-[10px] text-pink-400 font-bold uppercase mb-2">Recommended Frequencies:</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://www.youtube.com/watch?v=apwjhGxO17U" target="_blank" class="freq-link">432 Hz</a>
+                        <a href="https://www.youtube.com/watch?v=1MPRbX7ACh8" target="_blank" class="freq-link">528 Hz</a>
+                        <a href="https://www.youtube.com/watch?v=3FjGTvfHmzc" target="_blank" class="freq-link">963 Hz</a>
+                    </div>
+                </div>
+
+                <p>
+                    I incorporated guided meditation and sleep hypnosis. I now listen to vibrational music, meditate, and use <strong>sleep hypnosis to reprogram my subconscious.</strong> Some of my favorites are <strong>Michael Sealey</strong> and <strong>John Moyer</strong>. They are free on YouTube and provide wonderful reprogramming sessions.
+                </p>
+
+                <p class="text-yellow-200/80 italic border-l-2 border-yellow-500 pl-4">
+                    "It is possible to slip back into the old reality should your vibration drop to that level."
+                </p>
+
+                <p class="text-gray-300 text-xs">
+                    You can tell when you are slipping back. Suttle signs appear—bad luck snow-balling, car breaking down, arguments with loved ones. It hit me that I was getting caught up in the drama. That night I went back to my vibrational music and reprogramming. After a few weeks, positive people and situations started flowing again.
+                </p>
+
                 <div class="bg-black/60 p-6 rounded-2xl border border-pink-500/20">
                     <p class="text-[10px] text-pink-400 font-bold uppercase mb-4 tracking-widest text-center">Emotional Vibrational Scale</p>
                     <div class="space-y-1">
                         <div class="vibe-row text-green-400 font-bold"><span>700+</span><span>Gratitude</span></div>
+                        <div class="vibe-row text-green-400"><span>600</span><span>Peace</span></div>
+                        <div class="vibe-row text-green-500"><span>540</span><span>Joy</span></div>
                         <div class="vibe-row text-green-500"><span>500</span><span>Love</span></div>
+                        <div class="vibe-row text-yellow-300"><span>400</span><span>Reason</span></div>
+                        <div class="vibe-row text-yellow-400"><span>350</span><span>Acceptance</span></div>
+                        <div class="vibe-row text-yellow-500"><span>310</span><span>Willingness</span></div>
+                        <div class="vibe-row text-orange-400"><span>250</span><span>Neutrality</span></div>
+                        <div class="vibe-row text-orange-500"><span>200</span><span>Courage</span></div>
+                        <div class="vibe-row text-red-300"><span>175</span><span>Pride</span></div>
+                        <div class="vibe-row text-red-400"><span>150</span><span>Anger</span></div>
+                        <div class="vibe-row text-red-500"><span>125</span><span>Desire</span></div>
                         <div class="vibe-row text-red-600"><span>100</span><span>Fear</span></div>
+                        <div class="vibe-row text-red-700"><span>75</span><span>Grief</span></div>
+                        <div class="vibe-row text-gray-500"><span>50</span><span>Apathy</span></div>
+                        <div class="vibe-row text-gray-600"><span>30</span><span>Guilt</span></div>
                         <div class="vibe-row text-gray-700"><span>20</span><span>Shame</span></div>
                     </div>
                 </div>
@@ -80,7 +128,10 @@
                 </div>
 
                 <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
-                    <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Reprogramming</h5>
+                    <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Subconscious Reprogramming</h5>
+                    <p class="text-xs text-gray-200">
+                        To stop the "slip" and anchor your consciousness permanently, use these specific sessions nightly:
+                    </p>
                     <div class="flex flex-col gap-3">
                         <a href="https://www.youtube.com/@MichaelSealey" target="_blank" class="bg-pink-900/40 p-3 rounded-xl border border-pink-500/30 text-xs text-center font-bold">Michael Sealey Hypnosis →</a>
                         <a href="https://www.youtube.com/@JohnMoyerHypnosis" target="_blank" class="bg-purple-900/40 p-3 rounded-xl border border-purple-500/30 text-xs text-center font-bold">John Moyer Reprogramming →</a>
@@ -94,7 +145,7 @@
 
     <script>
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
-        
+
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('unlocked') === 'true') { unlockContent(); }
@@ -119,18 +170,15 @@
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        priceId, 
-                        userEmail: email, 
-                        userName: name || "Seeker", 
-                        serviceName,
-                        clientUrl: currentUrl 
-                    })
+                    body: JSON.stringify({ priceId, userEmail: email, userName: name || "Seeker", serviceName, clientUrl: currentUrl })
                 });
-                const session = await response.json();
-                if(session.url) window.location.href = session.url;
-                else throw new Error(session.error);
-            } catch (err) { alert("Payment Error: " + err.message); }
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Server error");
+                if(data.url) window.location.href = data.url;
+            } catch (err) {
+                alert("Payment Error: " + err.message);
+            }
         }
 
         function getFreeFortune(type) {
