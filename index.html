@@ -1,169 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Daze | Reveal Your Destiny</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: radial-gradient(circle, #00001a 0%, #000000 100%); color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
-        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
-        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 30px; transition: all 0.5s ease; background: rgba(0,0,0,0.6); margin: 0 auto; line-height: 1.4; }
-        .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 50px; }
-        .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); transition: all 0.3s ease; text-transform: uppercase; }
-        .freq-link { color: #f9a8d4; text-decoration: underline; font-weight: bold; margin-right: 12px; font-size: 0.85rem; }
-        .vibe-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 4px 0; font-family: monospace; font-size: 0.8rem; }
-    </style>
-</head>
-<body class="min-h-screen p-4 flex flex-col items-center">
+<script>
+    // Ensure this URL is exactly what you see in your Railway Dashboard
+    const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
 
-    <div id="main-ui" class="w-full max-w-md">
-        <header class="text-center my-10">
-            <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
-            <div class="mt-6 px-4">
-                <p class="text-[11px] leading-relaxed text-pink-100 italic">
-                    My journey with numbers started in 1990 when I moved 1100 miles with a newborn, a baby, a toddler and a six year old. Deciforing the codes of life is how I managed to survive and thrive. Numbers have the power to heal, boost energy, raise your emotional state, lower anxiety, and clear negative energy. Numbers also hold the key to your life's path in your timeline. I have built this site so I can show others their destiny through numbers.
-                </p>
-            </div>
-        </header>
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('unlocked') === 'true') { unlockContent(); }
+    };
 
-        <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
-            <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
-            <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-            <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
-            
-            <div class="grid grid-cols-2 gap-3">
-                <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
-                <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
-            </div>
-            <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
-            
-            <div class="pt-4 border-t border-white/10">
-                <input type="text" id="targetName" placeholder="Partner / Friend / Boss Name" class="w-full bg-black/60 border border-yellow-500/50 p-4 rounded-xl outline-none text-white text-sm">
-            </div>
-        </section>
+    function unlockContent() {
+        document.getElementById('locked-section').classList.add('hidden');
+        document.getElementById('premium-content').classList.remove('hidden');
+        document.getElementById('display').innerHTML = "<span class='gold-text'>Manifestation Field Unlocked.</span>";
+    }
 
-        <section class="space-y-4 mb-10">
-            <button onclick="pay('Lotto Picks', 'price_LOTTO')" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-indigo-700"><span>Lotto Picks</span><span>$0.99</span></button>
-            <button onclick="pay('Life Path/Soul Urge', 'price_SOUL')" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-pink-600"><span>Life Path/Soul Urge</span><span>$2.22</span></button>
-            <button onclick="pay('Timeline Transit', 'price_TRANSIT')" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-purple-700"><span>Timeline Transit</span><span>$4.44</span></button>
-            <button onclick="pay('Cosmic Compatibility', 'price_COMPAT')" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 hover:bg-yellow-500/20"><span class="gold-text">Cosmic Compatibility</span><span class="gold-text">$7.77</span></button>
-        </section>
+    function getFreeFortune(type) {
+        const name = document.getElementById('userName').value;
+        if(!name) return alert("Please fill in your Alignment Details at the top first.");
+        document.getElementById('display').innerHTML = `<span class='pink-glow'>${type} Reading for ${name}:</span><br>The numbers are shifting in your favor.`;
+    }
 
-        <section class="py-10 space-y-8">
-            <div id="display" class="crystal-ball text-sm font-medium">Decoding...</div>
-            <div class="grid grid-cols-3 gap-3 px-2">
-                <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Money</button>
-                <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Success</button>
-                <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase transition">Love</button>
-            </div>
-        </section>
+    async function pay(serviceName, priceId) {
+        const email = document.getElementById('userEmail').value;
+        const name = document.getElementById('userName').value;
 
-        <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8">
-            <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">The Reading Corner</h3>
-            
-            <article class="space-y-6 text-sm leading-relaxed">
-                <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
-                
-                <p class="text-pink-50 italic">
-                    Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it.
-                </p>
+        if(!email) return alert("Email required in Alignment Details.");
 
-                <p>
-                    Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the <strong>three P's in Realestate</strong>, there is the three P's in honing a craft: <strong>Practice, practice, practice.</strong>
-                </p>
+        // Visual feedback so the user knows something is happening
+        const display = document.getElementById('display');
+        display.innerHTML = "Connecting to Cosmic Servers...";
 
-                <p class="text-gray-300">
-                    I tried many different ways before I found what really works for me. And it did take me many years to get good at doing it. But the initial manifesting didn't take long at all. I first started with <strong>vibrational music and frequencies</strong>. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning.
-                </p>
+        try {
+            const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    priceId: priceId, 
+                    userEmail: email, 
+                    userName: name,
+                    serviceName: serviceName 
+                })
+            });
 
-                <div class="bg-black/40 p-4 rounded-xl border border-white/10">
-                    <p class="text-[10px] text-pink-400 font-bold uppercase mb-2">My Favorite Frequencies:</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://www.youtube.com/watch?v=apwjhGxO17U" target="_blank" class="freq-link">432 Hz</a>
-                        <a href="https://www.youtube.com/watch?v=1MPRbX7ACh8" target="_blank" class="freq-link">528 Hz</a>
-                        <a href="https://www.youtube.com/watch?v=3FjGTvfHmzc" target="_blank" class="freq-link">963 Hz</a>
-                    </div>
-                </div>
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Server Error: ${response.status}`);
+            }
 
-                <p>
-                    So now I was listening to vibrational music and frequencies while sleeping and meditating. As well as <strong>sleep hypnosis to reprogram my subconscious.</strong> I also love to listen to sleep guided meditation hypnosis. Some of my favorites for that are <strong>Michael Sealey</strong> and <strong>John Moyer</strong>. They are free on YouTube and they are wonderful with reprogramming hypnosis.
-                </p>
-
-                <p class="text-yellow-200/80 italic">
-                    "It is possible to slip back into the old reality should your vibration drop to that level."
-                </p>
-
-                <p class="text-gray-300 text-xs">
-                    You can always tell after awhile that you may be slipping back. Suttle signs would start to appear... losing at gambling, car breaking down, getting into arguments. I had gotten so caught up in the drama that I didn't notice until it started snow-balling. That night I went back to listening to my vibrational music and reprogramming my subconscious. After a few weeks, things started moving smoothly again.
-                </p>
-
-                <p class="font-bold text-pink-300">
-                    Positive people and situations are flowing again. Stick around and I'll tell you how I did it.
-                </p>
-
-                <div class="bg-black/60 p-6 rounded-2xl border border-pink-500/20">
-                    <p class="text-[10px] text-pink-400 font-bold uppercase mb-4 tracking-widest text-center">Vibrational Reference</p>
-                    <div class="space-y-1">
-                        <div class="vibe-row text-green-400 font-bold"><span>700+</span><span>Gratitude</span></div>
-                        <div class="vibe-row text-green-500"><span>500</span><span>Love</span></div>
-                        <div class="vibe-row text-orange-500"><span>200</span><span>Courage</span></div>
-                        <div class="vibe-row text-red-600"><span>100</span><span>Fear</span></div>
-                        <div class="vibe-row text-gray-700"><span>20</span><span>Shame</span></div>
-                    </div>
-                </div>
-
-                <div id="locked-section" class="locked-overlay">
-                    <button onclick="pay('Full Journey Access', 'price_963')" class="unlock-btn">Unlock Full Guide — $9.63</button>
-                </div>
-
-                <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
-                    <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Subconscious Reprogramming</h5>
-                    <p class="text-xs text-gray-200">
-                        In this section, I share the specific John Moyer and Michael Sealey sessions I used to stop the "slip" and anchor my consciousness into the new reality permanently.
-                    </p>
-                    <div class="flex flex-col gap-3">
-                        <a href="https://www.youtube.com/@MichaelSealey" target="_blank" class="bg-pink-900/40 p-3 rounded-xl border border-pink-500/30 text-xs text-center">Explore Michael Sealey Hypnosis →</a>
-                        <a href="https://www.youtube.com/@JohnMoyerHypnosis" target="_blank" class="bg-purple-900/40 p-3 rounded-xl border border-purple-500/30 text-xs text-center">Explore John Moyer Reprogramming →</a>
-                    </div>
-                </div>
-            </article>
-        </section>
-        
-        <footer class="text-center py-10 text-[10px] text-gray-600 uppercase tracking-widest">Sunny Daze © 2026</footer>
-    </div>
-
-    <script>
-        const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('unlocked') === 'true') { unlockContent(); }
-        };
-        function unlockContent() {
-            document.getElementById('locked-section').classList.add('hidden');
-            document.getElementById('premium-content').classList.remove('hidden');
-            document.getElementById('display').innerHTML = "<span class='gold-text'>Manifestation Field Unlocked.</span>";
+            const session = await response.json();
+            if(session.url) {
+                window.location.href = session.url;
+            } else {
+                throw new Error("No checkout URL received.");
+            }
+        } catch (err) {
+            console.error("Payment Error:", err);
+            display.innerHTML = "Connection Interrupted.";
+            alert("Payment failed: " + err.message);
         }
-        function getFreeFortune(type) {
-            const name = document.getElementById('userName').value;
-            if(!name) return alert("Please fill in your Alignment Details at the top first.");
-            document.getElementById('display').innerHTML = `<span class='pink-glow'>${type} Reading for ${name}:</span><br>The numbers are shifting in your favor.`;
-        }
-        async function pay(serviceName, priceId) {
-            const email = document.getElementById('userEmail').value;
-            if(!email) return alert("Email required in Alignment Details.");
-            try {
-                const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ priceId, userEmail: email, serviceName })
-                });
-                const session = await response.json();
-                if(session.url) window.location.href = session.url;
-            } catch (err) { alert("Server error."); }
-        }
-    </script>
-</body>
-</html>
+    }
+</script>
