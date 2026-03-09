@@ -7,15 +7,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
-            /* Fixed background to fill the dark space on tablets/laptops */
-            background: url('ball.png') no-repeat center center fixed; 
+            /* Improved background logic to ensure ball.png displays */
+            background-image: url('ball.png'); 
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
             background-size: cover;
             background-color: #000;
             color: #ffffff; 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden; 
+            margin: 0;
+            padding: 0;
         }
-        /* Dark overlay keeps the content readable while showing the image on the sides */
         .page-overlay {
             background: rgba(0, 0, 0, 0.82);
             min-height: 100vh;
@@ -109,14 +113,13 @@
     </div>
 
     <script>
-        /* STRIPE PRICE IDS MAPPED DIRECTLY FROM YOUR LIST */
         const STRIPE_IDS = {
-            LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',    // $0.99
-            SOUL: 'price_1SlNjUFumfdhryie12U9osUh',     // $2.22
-            TIMELINE: 'price_1SpESiFumfdhryieW60etfbc', // $4.44
-            COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE',   // $5.55
-            TRINITY: 'price_1T6LUwFumfdhryieEahD079A',  // $7.77
-            QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'   // $9.63
+            LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',
+            SOUL: 'price_1SlNjUFumfdhryie12U9osUh',
+            TIMELINE: 'price_1SpESiFumfdhryieW60etfbc',
+            COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE',
+            TRINITY: 'price_1T6LUwFumfdhryieEahD079A',
+            QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'
         };
 
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
@@ -146,15 +149,8 @@
                     })
                 });
                 const data = await response.json();
-                if (data.url) {
-                    window.location.href = data.url;
-                } else {
-                    alert("Error creating session. Please try again.");
-                }
-            } catch (err) { 
-                console.error(err);
-                alert("The server is not responding. Please try again in a moment."); 
-            }
+                if (data.url) window.location.href = data.url;
+            } catch (err) { alert("Server is busy. Try again in a minute."); }
         }
 
         function getFreeFortune(type) {
@@ -167,7 +163,6 @@
             document.getElementById('display').innerHTML = `<span class='pink-glow'>${type}:</span><br>${random}`;
         }
 
-        /* AUTO-UNLOCK PHASE 2 AFTER SUCCESSFUL $9.63 PAYMENT */
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('unlocked') === 'true') {

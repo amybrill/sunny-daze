@@ -20,6 +20,7 @@ app.post('/create-checkout-session', async (req, res) => {
             customer_email: userEmail,
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
+allow_promotion_codes: true,
             success_url: serviceName === 'Full Journey Access' 
                 ? `${domain}?success=true&unlocked=true` 
                 : `${domain}?success=true`,
