@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
-            /* Improved background logic to ensure ball.png displays */
             background-image: url('ball.png'); 
             background-repeat: no-repeat;
             background-position: center center;
@@ -20,14 +19,7 @@
             margin: 0;
             padding: 0;
         }
-        .page-overlay {
-            background: rgba(0, 0, 0, 0.82);
-            min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .page-overlay { background: rgba(0, 0, 0, 0.82); min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
         .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
         .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -35,11 +27,12 @@
         .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 50px; }
         .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); transition: all 0.3s ease; text-transform: uppercase; cursor: pointer; border: none; }
         .hidden { display: none; }
+        .compat-input { transition: all 0.4s ease; max-height: 0; overflow: hidden; opacity: 0; }
+        .compat-input.open { max-height: 100px; opacity: 1; margin-top: 10px; }
     </style>
 </head>
 <body class="min-h-screen">
     <div class="page-overlay p-4">
-
         <div id="main-ui" class="w-full max-w-md">
             <header class="text-center my-10">
                 <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
@@ -65,7 +58,15 @@
                 <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
                 <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge & Life Path Reveal</span><span>$2.22</span></button>
                 <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit Reading</span><span>$4.44</span></button>
-                <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                
+                <div class="flex flex-col">
+                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <div id="compatBox" class="compat-input flex flex-col gap-2">
+                        <input type="text" id="partnerName" placeholder="Enter Partner/Boss/Friend's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl text-white text-sm">
+                        <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Confirm & Pay</button>
+                    </div>
+                </div>
+
                 <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
             </section>
 
@@ -83,9 +84,7 @@
                 <article class="space-y-6 text-sm leading-relaxed">
                     <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
                     <p>changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it. Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the three P;s in Realestate, there is the three P's in honing a craft, Practice, practice, practice.</p>
-
                     <button id="readMoreBtn" onclick="toggleArticle()" class="text-pink-400 font-bold text-xs underline uppercase">Read My Full Story ↓</button>
-
                     <div id="fullArticle" class="hidden space-y-6">
                         <p>Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways before I found what really works for me. And it did take me many years to get good at doing it. But the initial manifesting didn't take long at all., I first started with vibrational music and frequencies. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me thoughout my day.. I did this for several months and the results were good but I wanted more.</p>
                         <p>So I incorporated into my routine guided meditation and sleep hypnosis. That's when things really started to take off. So now I was listening to vibrational music and frequencies while sleeping and meditating. As well as sleep hypnosis to reprogram my subconscious. And there is so many of these spiritual videos to choose from. All you have to do is go to google and type in high vibrational frequency and more than you could imagine will pop up.</p>
@@ -94,11 +93,9 @@
                         <p>usually by the end of that day or the next few whatever crisis I was going through would be averted in some way.</p>
                         <p>You can always tell after awhile that you may be slipping back into the old reality. Suttle signs would start to appear throughout my day. Things that I hadn't had to deal with in more than six years. They would come up like they never went away. I would run into people that I hadn't heard from for many years. And it seemed as if they were going through the same crisis as before. And as I talked and hung out I would start to notice the negative words being used. I would start losing at gambling and lottery. I would get stuck in traffic and my car would start to break down. I would accidently hurt myself and get into arguments with my boyfriend. I had even stopped doing things that I had been doing that I enjoyed. It was as if my old life was taking over some how. That's when it hit me. I must be slipping back into my old reality. I had gotten so caught up in all the drama that I didn't notice until all the bad luck I guess you could call it, started snow-balling. That night I went back to listening to my vibrational music and reprogramming my subconscious through hypnosis. And like I said it took a while but after a few weeks things started moving smoothly and falling into place with ease. No more running into old people from the past and their drama. Positive people and situations are flowing again. Doing well at games I play. Not always winning but not losing bad. I'm back to having things go in my favor by just mentioning that I want to fix it, eat it, wear it, listen to it, see it, or have it in some way. All those things I do every day on a regular bases. And so can you. Stick around and I'll tell you how I did it.</p>
                     </div>
-
                     <div id="locked-section" class="locked-overlay">
                         <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 — $9.63</button>
                     </div>
-
                     <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
                         <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Reprogramming</h5>
                         <div class="flex flex-col gap-3">
@@ -124,6 +121,10 @@
 
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
 
+        function toggleCompat() {
+            document.getElementById('compatBox').classList.toggle('open');
+        }
+
         function toggleArticle() {
             const art = document.getElementById('fullArticle');
             const btn = document.getElementById('readMoreBtn');
@@ -133,24 +134,18 @@
 
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
-            if(!email) {
-                alert("Please enter your email first in the Alignment Details.");
-                return;
-            }
+            if(!email) { alert("Please enter your email first."); return; }
             try {
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        priceId, 
-                        userEmail: email, 
-                        serviceName, 
-                        clientUrl: window.location.origin 
+                        priceId, userEmail: email, serviceName, clientUrl: window.location.origin 
                     })
                 });
                 const data = await response.json();
                 if (data.url) window.location.href = data.url;
-            } catch (err) { alert("Server is busy. Try again in a minute."); }
+            } catch (err) { alert("Payment error. Check connection."); }
         }
 
         function getFreeFortune(type) {
