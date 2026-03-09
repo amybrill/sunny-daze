@@ -7,17 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { 
-            /* Added your image as a full-screen background to fill blank space */
-            background: url('https://i.imgur.com/rWvE09k.png') no-repeat center center fixed; 
+            /* Fixed background to fill the dark space on tablets/laptops */
+            background: url('ball.png') no-repeat center center fixed; 
             background-size: cover;
+            background-color: #000;
             color: #ffffff; 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden; 
         }
-        /* Dark overlay to ensure text is readable over the image */
+        /* Dark overlay keeps the content readable while showing the image on the sides */
         .page-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            min-height: 100-vh;
+            background: rgba(0, 0, 0, 0.82);
+            min-height: 100vh;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -57,7 +58,7 @@
             </section>
 
             <section class="space-y-4 mb-10">
-                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-800/80 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
+                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
                 <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge & Life Path Reveal</span><span>$2.22</span></button>
                 <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit Reading</span><span>$4.44</span></button>
                 <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
@@ -108,12 +109,13 @@
     </div>
 
     <script>
+        /* STRIPE PRICE IDS MAPPED DIRECTLY FROM YOUR LIST */
         const STRIPE_IDS = {
             LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',    // $0.99
             SOUL: 'price_1SlNjUFumfdhryie12U9osUh',     // $2.22
             TIMELINE: 'price_1SpESiFumfdhryieW60etfbc', // $4.44
-            COMPAT: 'price_1T6LUwFumfdhryieEahD079A',   // $5.55
-            TRINITY: 'price_1Su1cLFumfdhryieQVyQn6hE',  // $7.77
+            COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE',   // $5.55
+            TRINITY: 'price_1T6LUwFumfdhryieEahD079A',  // $7.77
             QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'   // $9.63
         };
 
@@ -128,16 +130,31 @@
 
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
-            if(!email) return alert("Email required in Alignment Details.");
+            if(!email) {
+                alert("Please enter your email first in the Alignment Details.");
+                return;
+            }
             try {
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ priceId, userEmail: email, serviceName, clientUrl: window.location.origin })
+                    body: JSON.stringify({ 
+                        priceId, 
+                        userEmail: email, 
+                        serviceName, 
+                        clientUrl: window.location.origin 
+                    })
                 });
                 const data = await response.json();
-                if (data.url) window.location.href = data.url;
-            } catch (err) { alert("Payment Error: " + err.message); }
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert("Error creating session. Please try again.");
+                }
+            } catch (err) { 
+                console.error(err);
+                alert("The server is not responding. Please try again in a moment."); 
+            }
         }
 
         function getFreeFortune(type) {
@@ -150,6 +167,7 @@
             document.getElementById('display').innerHTML = `<span class='pink-glow'>${type}:</span><br>${random}`;
         }
 
+        /* AUTO-UNLOCK PHASE 2 AFTER SUCCESSFUL $9.63 PAYMENT */
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('unlocked') === 'true') {
