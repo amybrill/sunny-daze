@@ -1,10 +1,19 @@
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors');
+const path = require('path'); // Added to handle file paths logically
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Logic: Serve static files (index.html, ball.png, etc.) from the root directory
+app.use(express.static(__dirname));
+
+// Logic: Explicitly serve index.html when someone visits the main URL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Main checkout endpoint
 app.post('/create-checkout-session', async (req, res) => {
