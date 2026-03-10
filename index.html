@@ -44,5 +44,51 @@ In 1990, I moved 1,100 miles with four young children. I didn't just survive; I 
 </div>
 </header>
 
+<section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
+<h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
+<input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+<input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+<div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+</div>
+</section>
+
+<section class="space-y-4 mb-10">
+<button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number</span><span>$0.99</span></button>
+<button onclick="pay('Soul Urge & Life Path', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge Reveal</span><span>$2.22</span></button>
+<button onclick="pay('Timeline Transit', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Reading</span><span>$4.44</span></button>
+<button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Compatibility</span><span>$5.55</span></button>
+<div id="compatBox" class="compat-input flex flex-col gap-2"><input type="text" id="partnerName" placeholder="Partner's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl text-white text-sm"></div>
+<button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
+</section>
+
+<section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mb-10 space-y-8">
+<h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">Reading Corner</h3>
+<div class="text-center space-y-1"><h3 class="text-sm font-black uppercase text-white tracking-widest">Method:</h3><h2 class="text-xl font-bold pink-glow uppercase tracking-tighter">Quantum Pulse Shifting</h2></div>
+<div id="phase-1-content" class="space-y-6">
+<h5 class="gold-text font-bold uppercase text-lg tracking-widest text-center">Phase 1: Vibrational Alignment</h5>
+<div class="grid grid-cols-1 gap-4 text-[11px]">
+<div class="bg-black/40 p-4 rounded-xl border border-pink-500/20"><p class="font-bold pink-glow">432 HZ</p><p>Improves mood and reduces anxiety.</p></div>
+<div class="bg-black/40 p-4 rounded-xl border border-pink-500/20"><p class="font-bold pink-glow">528 HZ</p><p>The Love Frequency. Lowers cortisol.</p></div>
+<div class="bg-black/40 p-4 rounded-xl border border-pink-500/20"><p class="font-bold pink-glow">963 HZ</p><p>Frequency of Gods. Pineal activation.</p></div>
+</div>
+</div>
+<div id="locked-section" class="locked-overlay"><button onclick="pay('Quantum Pulse', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 — $9.63</button></div>
+</section>
+
+<footer class="text-center py-10 text-[10px] text-gray-400 uppercase tracking-widest">Sunny Daze © 2026</footer>
+</div>
+</div>
+<script>
+const STRIPE_IDS = { LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K', SOUL: 'price_1SlNjUFumfdhryie12U9osUh', TIMELINE: 'price_1SpESiFumfdhryieW60etfbc', COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE', TRINITY: 'price_1T6LUwFumfdhryieEahD079A', QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW' };
+const RAILWAY_URL = '';
+function toggleCompat() { document.getElementById('compatBox').classList.toggle('open'); }
+async function pay(serviceName, priceId) {
+const email = document.getElementById('userEmail').value; if(!email) { alert("Enter email first."); return; }
+const response = await fetch(${RAILWAY_URL}/create-checkout-session, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId, userEmail: email, serviceName, clientUrl: window.location.origin }) });
+const data = await response.json(); if (data.url) window.location.href = data.url;
+}
+</script>
 </body>
 </html>
