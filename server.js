@@ -1,65 +1,66 @@
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const path = require('path');
 const cors = require('cors');
-const path = require('path'); // Added to handle file paths logically
 const app = express();
 
-app.use(cors());
+// Middleware
 app.use(express.json());
+app.use(cors());
 
-// Logic: Serve static files (index.html, ball.png, etc.) from the root directory
+// STEP 1: Serve all static files (images, html, css) from the main folder
 app.use(express.static(__dirname));
 
-// Logic: Explicitly serve index.html when someone visits the main URL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Main checkout endpoint
+// STEP 2: Main checkout endpoint
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
 
-    // STEP 1: Define where people go after payment
-    // Default to the 24-hour notice page for Timeline, Trinity, and Compatibility
-    let successUrl = `${clientUrl}/confirmation.html`; 
-    
-    // STEP 2: Logic for specific instant-access pages
-    if (serviceName.includes('Soul Urge')) {
-        // Sends them to the Spirit Board results
-        successUrl = `${clientUrl}/spirit-board.html`; 
-    } else if (serviceName.includes('Lucky Number')) {
-        // Sends them to the Lottery Generator results
-        successUrl = `${clientUrl}/lucky-picks.html`;
-    } else if (serviceName.includes('Quantum')) {
-        // Sends them back to main page and triggers the UNLOCK script
-        successUrl = `${clientUrl}?unlocked=true`;
-    }
-
     try {
-        // STEP 3: Create the Stripe Session
+        // Default success path (for email-based readings like Trinity/Compatibility)
+        let successUrl = `${clientUrl}/confirmation.html`; 
+        
+        // Logic for instant-access content
+        // Since spirit-board.html and lucky-picks.html are missing, 
+        // we redirect them back to the main index.html with instructions.
+        if (serviceName.includes('Soul Urge') || serviceName.includes('Quantum')) {
+            // This triggers the "Unlock" logic in index.html for Phase 2 & 3
+            successUrl = `${clientUrl}/index.html?unlocked=true`; 
+        } else if (serviceName.includes('Lucky Number')) {
+            // This will tell index.html to show the lottery section
+            successUrl = `${clientUrl}/index.html?lottery=true`;
+        }
+
         const session = await stripe.checkout.sessions.create({
-            customer_email: userEmail,
-            line_items: [{ price: priceId, quantity: 1 }],
+            payment_method_types: ['card'],
+            line_items: [
+                {
+                    price: priceId,
+                    quantity: 1,
+                },
+            ],
             mode: 'payment',
-            
-            // This line enables the "Cosmic" coupon code box
-            allow_promotion_codes: true, 
-            
             success_url: successUrl,
             cancel_url: clientUrl,
             metadata: { 
                 serviceName: serviceName,
                 customerEmail: userEmail 
-            }
+            },
         });
 
         res.json({ url: session.url });
-    } catch (e) {
-        console.error("Stripe Error:", e.message);
-        res.status(500).json({ error: e.message });
+    } catch (error) {
+        console.error("Stripe Error:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
-// Start the server
+// STEP 3: Route for the homepage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// STEP 4: Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
