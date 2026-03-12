@@ -8,28 +8,31 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// STEP 1: Serve all static files (images, html, css) from the main folder
+// Serve all static files (images, html, css) from the main folder
 app.use(express.static(__dirname));
 
-// STEP 2: Main checkout endpoint
+// Main checkout endpoint
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId, userEmail, serviceName, clientUrl } = req.body;
+    const { priceId, userEmail, serviceName, clientUrl, couponCode } = req.body;
 
     try {
-        // Default success path (for email-based readings like Trinity/Compatibility)
+        // STEP 1: Define the success paths
         let successUrl = `${clientUrl}/confirmation.html`; 
         
-        // Logic for instant-access content
-        // Since spirit-board.html and lucky-picks.html are missing, 
-        // we redirect them back to the main index.html with instructions.
         if (serviceName.includes('Soul Urge') || serviceName.includes('Quantum')) {
-            // This triggers the "Unlock" logic in index.html for Phase 2 & 3
             successUrl = `${clientUrl}/index.html?unlocked=true`; 
         } else if (serviceName.includes('Lucky Number')) {
-            // This will tell index.html to show the lottery section
             successUrl = `${clientUrl}/index.html?lottery=true`;
         }
 
+        // STEP 2: Restore the Coupon Logic
+        // If the user enters "cosmic", send them to the success URL immediately for free
+        if (couponCode && couponCode.toLowerCase() === 'cosmic') {
+            console.log(`Coupon applied for ${userEmail}: Redirecting to ${successUrl}`);
+            return res.json({ url: successUrl });
+        }
+
+        // STEP 3: Regular Stripe Session (if no valid coupon)
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
@@ -54,12 +57,12 @@ app.post('/create-checkout-session', async (req, res) => {
     }
 });
 
-// STEP 3: Route for the homepage
+// Route for the homepage
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// STEP 4: Start the server
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
