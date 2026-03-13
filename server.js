@@ -27,6 +27,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 successUrl = `${baseUrl}/spirit-board.html`;
             }
         } else if (serviceName && (serviceName.includes('Lucky Number') || serviceName.includes('Lottery'))) {
+            // Checks for 'Lucky-picks.html' (Capital L)
             if (fs.existsSync(path.join(__dirname, 'Lucky-picks.html'))) {
                 successUrl = `${baseUrl}/Lucky-picks.html`;
             }
@@ -39,13 +40,13 @@ app.post('/create-checkout-session', async (req, res) => {
             return res.json({ url: successUrl });
         }
 
-        // 4. Sanitize inputs to prevent "Empty String" errors.
-        // If a value is empty or just whitespace, we set it to 'undefined'.
-        // Stripe's library will remove 'undefined' keys from the request, preventing the crash.
-        const cleanName = (userName && userName.trim() !== "") ? userName.trim() : undefined;
-        const cleanEmail = (userEmail && userEmail.trim() !== "") ? userEmail.trim() : undefined;
+        // 4. PREVENT "EMPTY STRING" ERROR:
+        // We trim the values. If they are empty, we set them to 'null'.
+        const cleanName = (userName && userName.trim() !== "") ? userName.trim() : null;
+        const cleanEmail = (userEmail && userEmail.trim() !== "") ? userEmail.trim() : null;
 
         // 5. Build the Stripe Session Options
+        // We EXCLUDE 'customer_data' and 'customer' name fields to stop the crash.
         const sessionOptions = {
             payment_method_types: ['card'],
             line_items: [{
@@ -56,7 +57,8 @@ app.post('/create-checkout-session', async (req, res) => {
             allow_promotion_codes: true,
             success_url: successUrl,
             cancel_url: baseUrl,
-            // Metadata is for your internal logs in the Stripe Dashboard
+            // We store the name safely in metadata ONLY. 
+            // Stripe does not validate metadata for "empty" values the same way.
             metadata: { 
                 buyer_name: cleanName || "Guest",
                 buyer_email: cleanEmail || "No Email Provided",
@@ -64,8 +66,7 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         };
 
-        // ONLY attach customer_email if it's not undefined.
-        // This is where your previous error "customer_data[name] cannot be unset" was coming from.
+        // Only attach email if it actually exists.
         if (cleanEmail) {
             sessionOptions.customer_email = cleanEmail;
         }
@@ -74,8 +75,9 @@ app.post('/create-checkout-session', async (req, res) => {
 
         res.json({ url: session.url });
     } catch (error) {
-        console.error("Stripe Error Details:", error);
-        res.status(500).json({ error: "Checkout error. Please ensure your inputs are correct." });
+        // This will print the exact error to your Railway logs so we can see it.
+        console.error("STRIPE DIAGNOSTIC ERROR:", error.message);
+        res.status(500).json({ error: "Checkout error. Please ensure your name is entered correctly." });
     }
 });
 
