@@ -21,6 +21,8 @@ app.post('/create-checkout-session', async (req, res) => {
             return res.json({ url: successUrl });
         }
 
+        // We create the session without ANY 'customer' or 'customer_data' fields.
+        // This prevents the 'empty string' crash entirely.
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
@@ -31,18 +33,18 @@ app.post('/create-checkout-session', async (req, res) => {
             allow_promotion_codes: true,
             success_url: successUrl,
             cancel_url: clientUrl,
-            // REMOVED 'customer_data' to stop the empty string crash
+            // We put the name and email here instead. Metadata NEVER crashes.
             metadata: { 
-                serviceName: serviceName,
-                customerEmail: userEmail || "No Email",
-                customerName: userName || "Valued Customer"
-            },
+                buyer_name: userName || "Guest",
+                buyer_email: userEmail || "No Email",
+                service: serviceName
+            }
         });
 
         res.json({ url: session.url });
     } catch (error) {
         console.error("Stripe Error:", error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Could not create session. Please try again." });
     }
 });
 
