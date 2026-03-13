@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Serve all static files from the main folder
+// Serve all static files (images, html, css) from the main folder
 app.use(express.static(__dirname));
 
 // Main checkout endpoint
@@ -16,21 +16,24 @@ app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl, couponCode } = req.body;
 
     try {
-        // STEP 1: Define success paths
-        let successUrl = `${clientUrl}/confirmation.html`; 
+        // STEP 1: Define specific success paths for each product
+        let successUrl = `${clientUrl}/confirmation.html`; // Default for email readings
         
-        if (serviceName.includes('Soul Urge') || serviceName.includes('Quantum')) {
-            successUrl = `${clientUrl}/index.html?unlocked=true`; 
+        // Fix: Separate Soul Urge from Quantum
+        if (serviceName.includes('Soul Urge')) {
+            successUrl = `${clientUrl}/spirit-board.html`; // Takes them to the board
         } else if (serviceName.includes('Lucky Number')) {
-            successUrl = `${clientUrl}/index.html?lottery=true`;
+            successUrl = `${clientUrl}/lucky-picks.html`; // Takes them to the lottery
+        } else if (serviceName.includes('Quantum')) {
+            successUrl = `${clientUrl}/index.html?unlocked=true`; // Unlocks the method on main page
         }
 
-        // STEP 2: Logic for your "cosmic" code on YOUR site
+        // STEP 2: Logic for the "cosmic" bypass
         if (couponCode && couponCode.toLowerCase() === 'cosmic') {
             return res.json({ url: successUrl });
         }
 
-        // STEP 3: Stripe Session with Promotion Codes ENABLED
+        // STEP 3: Create Stripe Session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
@@ -40,7 +43,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 },
             ],
             mode: 'payment',
-            allow_promotion_codes: true, // THIS BRINGS THE BOX BACK TO STRIPE
+            allow_promotion_codes: true, // Restores the coupon box on Stripe
             success_url: successUrl,
             cancel_url: clientUrl,
             metadata: { 
@@ -56,6 +59,7 @@ app.post('/create-checkout-session', async (req, res) => {
     }
 });
 
+// Serve the index.html at the root
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
