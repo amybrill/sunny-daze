@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Lucky Picks | Sunny Daze</title>
+    <style>
+        body { background: #000; color: #ffd700; font-family: 'Inter', sans-serif; text-align: center; padding: 40px 20px; }
+        .ball-container { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
+        .ball { width: 50px; height: 50px; line-height: 50px; border-radius: 50%; background: #fff; color: #000; font-weight: bold; font-size: 1.2rem; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+        .powerball { background: #ec4899; color: #fff; box-shadow: 0 0 20px #ec4899; }
+        button { background: transparent; border: 2px solid #ec4899; color: #fff; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        button:hover { background: #ec4899; }
+    </style>
+</head>
+<body>
+    <h1 style="color: #ec4899; text-transform: uppercase;">Your Destiny Numbers</h1>
+    <div class="ball-container" id="balls"></div>
+    <button onclick="generate()">Draw New Numbers</button>
+    <script>
+        function generate() {
+            const container = document.getElementById('balls');
+            let whites = [];
+            while(whites.length < 5) {
+                let r = Math.floor(Math.random() * 69) + 1;
+                if(!whites.includes(r)) whites.push(r);
+            }
+            whites.sort((a,b) => a-b);
+            let red = Math.floor(Math.random() * 26) + 1;
+            container.innerHTML = whites.map(n => `<div class="ball">${n}</div>`).join('') + `<div class="ball powerball">${red}</div>`;
+        }
+        window.onload = generate;
+    </script>
+</body>
+</html>
