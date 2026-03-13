@@ -3,33 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Lucky Picks | Sunny Daze</title>
+    <title>Your Destiny Numbers | Sunny Daze</title>
     <style>
-        body { background: #000; color: #ffd700; font-family: 'Inter', sans-serif; text-align: center; padding: 40px 20px; }
-        .ball-container { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
+        body { background: #000; color: #ffd700; font-family: 'Inter', sans-serif; text-align: center; padding: 60px 20px; }
+        .ball-container { display: flex; justify-content: center; gap: 10px; margin: 40px 0; flex-wrap: wrap; }
         .ball { width: 50px; height: 50px; line-height: 50px; border-radius: 50%; background: #fff; color: #000; font-weight: bold; font-size: 1.2rem; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
         .powerball { background: #ec4899; color: #fff; box-shadow: 0 0 20px #ec4899; }
-        button { background: transparent; border: 2px solid #ec4899; color: #fff; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        button:hover { background: #ec4899; }
+        .locked-msg { color: #888; font-size: 0.8rem; font-style: italic; margin-top: 40px; }
+        a { color: #ec4899; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1 style="color: #ec4899; text-transform: uppercase;">Your Destiny Numbers</h1>
+    <h1 style="color: #ec4899; text-transform: uppercase; letter-spacing: 2px;">Your Aligned Numbers</h1>
+    <p>These numbers have been decoded specifically for your current energy.</p>
+    
     <div class="ball-container" id="balls"></div>
-    <button onclick="generate()">Draw New Numbers</button>
+
+    <p class="locked-msg">These numbers are locked to your session. <br> 
+    <a href="/">Return to Sunny Daze</a></p>
+
     <script>
-        function generate() {
+        function getNumbers() {
             const container = document.getElementById('balls');
-            let whites = [];
-            while(whites.length < 5) {
-                let r = Math.floor(Math.random() * 69) + 1;
-                if(!whites.includes(r)) whites.push(r);
+            
+            // Check if we already generated numbers for this session
+            let savedNumbers = sessionStorage.getItem('luckyPicks');
+            let whites, red;
+
+            if (savedNumbers) {
+                // Load the existing numbers
+                const data = JSON.parse(savedNumbers);
+                whites = data.whites;
+                red = data.red;
+            } else {
+                // Generate fresh numbers only ONCE
+                whites = [];
+                while(whites.length < 5) {
+                    let r = Math.floor(Math.random() * 69) + 1;
+                    if(!whites.includes(r)) whites.push(r);
+                }
+                whites.sort((a,b) => a-b);
+                red = Math.floor(Math.random() * 26) + 1;
+
+                // Save them so they don't change on refresh
+                sessionStorage.setItem('luckyPicks', JSON.stringify({ whites, red }));
             }
-            whites.sort((a,b) => a-b);
-            let red = Math.floor(Math.random() * 26) + 1;
+
             container.innerHTML = whites.map(n => `<div class="ball">${n}</div>`).join('') + `<div class="ball powerball">${red}</div>`;
         }
-        window.onload = generate;
+
+        window.onload = getNumbers;
     </script>
 </body>
 </html>
