@@ -21,12 +21,12 @@ app.post('/create-checkout-session', async (req, res) => {
         // 2. Set the default fallback success page
         let successUrl = `${baseUrl}/confirmation.html`;
 
-        // 3. Conditional Logic for specific pages
+        // 3. Conditional Logic: Redirect to Powerball/Spirit Board only if files exist
         if (serviceName && serviceName.includes('Soul Urge')) {
             if (fs.existsSync(path.join(__dirname, 'spirit-board.html'))) {
                 successUrl = `${baseUrl}/spirit-board.html`;
             }
-        } else if (serviceName && serviceName.includes('Lucky Number')) {
+        } else if (serviceName && (serviceName.includes('Lucky Number') || serviceName.includes('Lottery'))) {
             if (fs.existsSync(path.join(__dirname, 'Lucky-picks.html'))) {
                 successUrl = `${baseUrl}/Lucky-picks.html`;
             }
@@ -39,8 +39,14 @@ app.post('/create-checkout-session', async (req, res) => {
             return res.json({ url: successUrl });
         }
 
-        // 4. Create Stripe Session with strict validation to prevent "Empty String" errors
-        const session = await stripe.checkout.sessions.create({
+        // 4. Sanitize inputs to prevent "Empty String" errors.
+        // If a value is empty or just whitespace, we set it to 'undefined'.
+        // Stripe's library will remove 'undefined' keys from the request, preventing the crash.
+        const cleanName = (userName && userName.trim() !== "") ? userName.trim() : undefined;
+        const cleanEmail = (userEmail && userEmail.trim() !== "") ? userEmail.trim() : undefined;
+
+        // 5. Build the Stripe Session Options
+        const sessionOptions = {
             payment_method_types: ['card'],
             line_items: [{
                 price: priceId,
@@ -50,18 +56,26 @@ app.post('/create-checkout-session', async (req, res) => {
             allow_promotion_codes: true,
             success_url: successUrl,
             cancel_url: baseUrl,
-            // Metadata logic uses fallbacks to ensure Stripe never receives an empty ""
+            // Metadata is for your internal logs in the Stripe Dashboard
             metadata: { 
-                buyer_name: (userName && userName.trim() !== "") ? userName.trim() : "Guest",
-                buyer_email: (userEmail && userEmail.trim() !== "") ? userEmail.trim() : "no-email@provided.com",
+                buyer_name: cleanName || "Guest",
+                buyer_email: cleanEmail || "No Email Provided",
                 service: serviceName || "General Service"
             }
-        });
+        };
+
+        // ONLY attach customer_email if it's not undefined.
+        // This is where your previous error "customer_data[name] cannot be unset" was coming from.
+        if (cleanEmail) {
+            sessionOptions.customer_email = cleanEmail;
+        }
+
+        const session = await stripe.checkout.sessions.create(sessionOptions);
 
         res.json({ url: session.url });
     } catch (error) {
-        console.error("Stripe Error:", error);
-        res.status(500).json({ error: "Checkout error. Please check your inputs." });
+        console.error("Stripe Error Details:", error);
+        res.status(500).json({ error: "Checkout error. Please ensure your inputs are correct." });
     }
 });
 
@@ -74,4 +88,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { 
     console.log(`Server running on port ${PORT}`); 
 });
-
