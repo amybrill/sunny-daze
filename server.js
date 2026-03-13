@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
-// VERSION CHECK: 1.0.5 - Emergency Stripe Fix
-console.log("SERVER STARTING: Version 1.0.5 - Customer Data Fix Active");
+// VERSION CHECK: 1.0.6 - The Final Fix
+console.log("SERVER STARTING: Version 1.0.6 - Nuclear Data Fix");
 
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, userName, serviceName, clientUrl, couponCode } = req.body;
@@ -19,7 +19,6 @@ app.post('/create-checkout-session', async (req, res) => {
         const baseUrl = clientUrl.replace(/\/$/, "");
         let successUrl = `${baseUrl}/confirmation.html`;
 
-        // Success Page Logic
         if (serviceName && serviceName.includes('Soul Urge')) {
             if (fs.existsSync(path.join(__dirname, 'spirit-board.html'))) {
                 successUrl = `${baseUrl}/spirit-board.html`;
@@ -30,17 +29,18 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         }
 
-        // Coupon Logic
         if (couponCode && couponCode.toLowerCase() === 'cosmic') {
             return res.json({ url: successUrl });
         }
 
-        // THE FIX: We create a completely fresh object and only add keys that HAVE values.
+        // We create the session with NO customer_data at all.
+        // We set 'billing_address_collection' to 'required' so Stripe handles the name.
         const sessionOptions = {
             payment_method_types: ['card'],
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
             allow_promotion_codes: true,
+            billing_address_collection: 'required', // This forces Stripe to collect the name properly
             success_url: successUrl,
             cancel_url: baseUrl,
             metadata: {
@@ -49,13 +49,10 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         };
 
-        // ONLY add email if it exists. NEVER send an empty string.
+        // Only add email if it's not an empty string
         if (userEmail && userEmail.trim() !== "") {
             sessionOptions.customer_email = userEmail.trim();
         }
-
-        // CRITICAL: We DO NOT add 'customer_data' here. 
-        // If Stripe is still seeing it, it's because the old code is still running.
 
         const session = await stripe.checkout.sessions.create(sessionOptions);
         res.json({ url: session.url });
