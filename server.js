@@ -13,16 +13,20 @@ app.post('/create-checkout-session', async (req, res) => {
 
     try {
         let successUrl = `${clientUrl}/confirmation.html`; 
-        if (serviceName.includes('Soul Urge')) successUrl = `${clientUrl}/spirit-board.html`; 
-        else if (serviceName.includes('Lucky Number')) successUrl = `${clientUrl}/lucky-picks.html`; 
-        else if (serviceName.includes('Quantum')) successUrl = `${clientUrl}/index.html?unlocked=true`; 
+        
+        // FIXED CAPITALIZATION to match your GitHub files
+        if (serviceName.includes('Soul Urge')) {
+            successUrl = `${clientUrl}/spirit-board.html`; 
+        } else if (serviceName.includes('Lucky Number')) {
+            successUrl = `${clientUrl}/Lucky-picks.html`; // Matches 'Lucky-picks.html'
+        } else if (serviceName.includes('Quantum')) {
+            successUrl = `${clientUrl}/index.html?unlocked=true`; 
+        }
 
         if (couponCode && couponCode.toLowerCase() === 'cosmic') {
             return res.json({ url: successUrl });
         }
 
-        // We create the session without ANY 'customer' or 'customer_data' fields.
-        // This prevents the 'empty string' crash entirely.
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
@@ -33,7 +37,6 @@ app.post('/create-checkout-session', async (req, res) => {
             allow_promotion_codes: true,
             success_url: successUrl,
             cancel_url: clientUrl,
-            // We put the name and email here instead. Metadata NEVER crashes.
             metadata: { 
                 buyer_name: userName || "Guest",
                 buyer_email: userEmail || "No Email",
@@ -44,7 +47,7 @@ app.post('/create-checkout-session', async (req, res) => {
         res.json({ url: session.url });
     } catch (error) {
         console.error("Stripe Error:", error);
-        res.status(500).json({ error: "Could not create session. Please try again." });
+        res.status(500).json({ error: "Checkout error." });
     }
 });
 
