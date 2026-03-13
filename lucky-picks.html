@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Powerball Destiny</title>
+    <style>
+        body { background: #0b0d17; color: #ffd700; font-family: 'Georgia', serif; text-align: center; padding: 20px; }
+        .container { border: 2px solid #ffd700; padding: 40px 20px; max-width: 500px; margin: 50px auto; border-radius: 15px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
+        h1 { text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        .balls-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .ball { width: 50px; height: 50px; line-height: 50px; border-radius: 50%; background: #ffffff; color: #000; font-weight: bold; font-size: 1.2rem; box-shadow: inset -3px -3px 5px rgba(0,0,0,0.2); }
+        .powerball { background: #e63946; color: #fff; box-shadow: 0 0 15px #e63946; }
+        button { background: transparent; border: 1px solid #ffd700; color: #ffd700; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 5px; transition: 0.3s; }
+        button:hover { background: #ffd700; color: #000; }
+        .footer-link { display: block; margin-top: 30px; color: #888; text-decoration: none; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Powerball Picks</h1>
+        <div class="balls-container" id="ballbox">
+            </div>
+        <p><i>Your numbers are aligned with your destiny.</i></p>
+        <button onclick="generatePowerball()">Generate New Alignment</button>
+        <a href="/" class="footer-link">Return to Site</a>
+    </div>
+
+    <script>
+        function generatePowerball() {
+            const ballbox = document.getElementById('ballbox');
+            let whiteBalls = [];
+            
+            // Generate 5 unique white balls (1-69)
+            while(whiteBalls.length < 5) {
+                let r = Math.floor(Math.random() * 69) + 1;
+                if(whiteBalls.indexOf(r) === -1) whiteBalls.push(r);
+            }
+            whiteBalls.sort((a, b) => a - b);
+
+            // Generate 1 red Powerball (1-26)
+            let redBall = Math.floor(Math.random() * 26) + 1;
+
+            // Render to screen
+            let html = whiteBalls.map(n => `<div class="ball">${n}</div>`).join('');
+            html += `<div class="ball powerball">${redBall}</div>`;
+            ballbox.innerHTML = html;
+        }
+
+        // Run on load
+        window.onload = generatePowerball;
+    </script>
+</body>
+</html>
