@@ -3,78 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed | Sunny Daze</title>
+    <title>Alignment Confirmed | Sunny Daze</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { 
-            background: url('ball.png') no-repeat center center fixed; 
-            background-size: cover;
+        body {
             background-color: #000;
-            color: #ffffff; 
-            font-family: 'Inter', sans-serif; 
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
         }
-        .page-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .glass { 
-            background: rgba(0, 0, 0, 0.7); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(236, 72, 153, 0.3); 
-            padding: 40px;
-            border-radius: 24px;
-            max-width: 450px;
+        .glass-card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 3rem;
+            border-radius: 2rem;
             text-align: center;
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.2);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 40px rgba(236, 72, 153, 0.2);
         }
-        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
-        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .back-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
-            border-radius: 50px;
-            background: rgba(236, 72, 153, 0.2);
-            border: 1px solid #ec4899;
-            color: #ec4899;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+        .pink-glow { text-shadow: 0 0 15px #ec4899; }
+        .gold-text { 
+            background: linear-gradient(45deg, #ffd700, #ffae00); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
         }
-        .back-btn:hover {
-            background: #ec4899;
-            color: #fff;
-            box-shadow: 0 0 15px #ec4899;
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #ec4899;
+            stroke-miterlimit: 10;
+            margin: 0 auto 2rem;
+            box-shadow: inset 0px 0px 0px #ec4899;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
         }
     </style>
 </head>
 <body>
-    <div class="page-overlay">
-        <div class="glass">
-            <h1 class="text-4xl font-bold text-pink-500 pink-glow uppercase tracking-tighter mb-6">Payment Received</h1>
-            <div class="space-y-4">
-                <p class="text-lg gold-text font-bold italic">Thank you for trusting the numbers.</p>
-                <p class="text-pink-100 leading-relaxed">
-                    Your personalized reading is being decoded and prepared right now. 
-                    <br><br>
-                    Please check your inbox—you will receive your full alignment details **within 24 hours** at the email address provided.
-                </p>
-            </div>
-            
-            <a href="index.html" class="back-btn">Return to Site</a>
+    <div class="glass-card">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+
+        <h1 class="text-4xl font-bold text-pink-500 uppercase tracking-tighter pink-glow mb-4">Payment Received</h1>
+        <h2 class="gold-text font-bold uppercase text-xs tracking-widest mb-6">Your frequency is being mapped</h2>
+        
+        <div class="space-y-6 text-pink-100 text-sm leading-relaxed italic">
+            <p>Thank you for trusting the numbers.</p>
+            <p>Your personalized reading is currently being decoded and prepared with the utmost care.</p>
+            <p class="font-bold text-white not-italic">You will receive your full alignment details via email within 24 hours.</p>
+        </div>
+
+        <div class="mt-10 pt-8 border-t border-pink-500/20">
+            <a href="/" class="text-xs text-gray-400 uppercase tracking-widest hover:text-pink-400 transition-colors">
+                ← Return to Sunny Daze
+            </a>
         </div>
     </div>
+
+    <script>
+        // Optional: Clear any temporary session data if needed
+        // sessionStorage.removeItem('luckyPicks');
+    </script>
 </body>
 </html>
