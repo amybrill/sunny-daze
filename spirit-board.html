@@ -7,83 +7,79 @@
     <style>
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; padding: 40px 20px; line-height: 1.6; }
         .container { max-width: 600px; margin: auto; }
-        .glass-card { background: rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.3); padding: 30px; border-radius: 24px; margin-bottom: 20px; }
+        .glass-card { background: rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.3); padding: 30px; border-radius: 24px; margin-bottom: 20px; text-align: center; }
         .number-display { font-size: 5rem; font-weight: 900; color: #ec4899; text-shadow: 0 0 20px rgba(236, 72, 153, 0.5); margin: 10px 0; }
         h2 { color: #ffd700; text-transform: uppercase; letter-spacing: 3px; font-size: 1.2rem; }
-        h3 { color: #f9a8d4; font-size: 1rem; margin-top: 0; }
-        .meaning-text { color: #d1d5db; font-size: 0.95rem; text-align: left; margin-top: 15px; }
-        .bridge-logic { border-top: 1px solid #333; padding-top: 20px; margin-top: 40px; font-style: italic; color: #f9a8d4; }
+        .meaning-text { color: #d1d5db; font-size: 1rem; text-align: left; margin-top: 15px; border-top: 1px solid #333; pt-4; }
+        .master-badge { background: #ffd700; color: #000; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; }
     </style>
 </head>
 <body>
     <div class="container">
         <header style="margin-bottom: 40px; text-align: center;">
             <h1 style="color: #ec4899; text-transform: uppercase;">Your Soul Alignment</h1>
-            <p style="color: #888;">Deciphering the codes of your birth</p>
+            <p id="welcome-name" style="color: #888; font-style: italic;">Deciphering your birth code...</p>
         </header>
 
         <div class="glass-card">
-            <h2>Soul Urge</h2>
-            <h3>The Heart's Secret Desire</h3>
+            <h2>Soul Urge Number</h2>
             <div id="soul-num" class="number-display">--</div>
             <div id="soul-meaning" class="meaning-text"></div>
         </div>
 
-        <div class="glass-card">
-            <h2>Life Path</h2>
-            <h3>The Roadmap of Your Journey</h3>
-            <div id="path-num" class="number-display">--</div>
-            <div id="path-meaning" class="meaning-text"></div>
-        </div>
-
-        <div class="bridge-logic" id="bridge-text">
-            </div>
-
         <footer style="margin-top: 40px; text-align: center;">
-            <a href="/" style="color: #666; text-decoration: none; font-size: 0.8rem; text-transform: uppercase;">Return to Site</a>
+            <a href="/" style="color: #666; text-decoration: none; font-size: 0.8rem; text-transform: uppercase;">← Back to Sunny Daze</a>
         </footer>
     </div>
 
     <script>
         const meanings = {
-            1: "The Leader: Your soul craves independence and the courage to start anew. You are meant to pave your own way.",
-            2: "The Diplomat: Peace and partnership are your core needs. You find strength in balance and sensitivity.",
-            3: "The Creative: Your heart yearns for self-expression. You are a natural communicator and a joy-bringer.",
-            4: "The Builder: You seek stability, order, and a solid foundation. You thrive when things are structured.",
-            5: "The Adventurer: Freedom is your oxygen. You are here to experience change and the variety of life.",
-            6: "The Nurturer: Your heart is tied to home, family, and service. You find meaning in caring for others.",
-            7: "The Seeker: You are driven by a need for truth and spiritual understanding. You look beneath the surface.",
-            8: "The Achiever: You crave mastery over the material world. Abundance and power are your spiritual tools.",
-            9: "The Humanitarian: Your soul is focused on the bigger picture. You seek to leave the world better than you found it."
+            1: "The Pioneer: Your soul craves independence and leadership. You are here to innovate.",
+            2: "The Partner: You seek harmony, balance, and deep connection with others.",
+            3: "The Artist: Your heart yearns for creative expression and communication.",
+            4: "The Architect: You seek stability, hard work, and building lasting things.",
+            5: "The Free Spirit: Change and adventure are your soul's true requirements.",
+            6: "The Guardian: You find your greatest joy in nurturing and family.",
+            7: "The Mystic: You are here to seek the truth and analyze the unknown.",
+            8: "The CEO: Your soul is aligned with authority, finance, and material success.",
+            9: "The Sage: You are focused on global healing and humanitarian goals.",
+            11: "The Illuminator: As a Master Number, your soul is here to bring light to others. You are highly intuitive, sensitive, and possess a visionary spirit that sees beyond the physical world.",
+            22: "The Master Builder: You have the soul of a visionary who can turn huge dreams into physical reality.",
+            33: "The Master Teacher: Your soul is at the highest level of service to humanity."
         };
 
+        function calculateSoulUrge(name) {
+            const vowels = { 'A': 1, 'E': 5, 'I': 9, 'O': 6, 'U': 3 };
+            let total = 0;
+            const cleanName = name.toUpperCase();
+            
+            for (let char of cleanName) {
+                if (vowels[char]) total += vowels[char];
+            }
+
+            if (total === 11 || total === 22 || total === 33) return total;
+            
+            while (total > 9) {
+                total = total.toString().split('').reduce((a, b) => a + parseInt(b), 0);
+                if (total === 11) return 11; // Catching master numbers during reduction
+            }
+            return total;
+        }
+
         window.onload = () => {
-            // Check session storage so numbers stay the same on refresh
-            let saved = sessionStorage.getItem('soulReading');
-            let soul, path;
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get('userName') || "Seeker";
+            document.getElementById('welcome-name').innerText = `Reading for: ${name}`;
 
-            if (saved) {
-                const data = JSON.parse(saved);
-                soul = data.soul;
-                path = data.path;
-            } else {
-                soul = Math.floor(Math.random() * 9) + 1;
-                path = Math.floor(Math.random() * 9) + 1;
-                sessionStorage.setItem('soulReading', JSON.stringify({ soul, path }));
+            const soulNum = calculateSoulUrge(name);
+            const display = document.getElementById('soul-num');
+            
+            display.innerText = soulNum;
+            if([11, 22, 33].includes(soulNum)) {
+                display.innerHTML += ' <span class="master-badge">MASTER</span>';
             }
-
-            document.getElementById('soul-num').innerText = soul;
-            document.getElementById('path-num').innerText = path;
-            document.getElementById('soul-meaning').innerText = meanings[soul];
-            document.getElementById('path-meaning').innerText = meanings[path];
-
-            // Relationship Logic
-            const bridge = document.getElementById('bridge-text');
-            if (soul === path) {
-                bridge.innerText = "Rare Alignment: Your Heart's Desire and your Life's Path are identical. You are walking exactly where your soul wants to be.";
-            } else {
-                bridge.innerText = `Interpreting the Connection: Your internal drive (${soul}) is providing the fuel for your external journey (${path}). When you listen to your heart, your path becomes clear.`;
-            }
+            
+            document.getElementById('soul-meaning').innerText = meanings[soulNum] || "Your soul carries a complex vibration that is still being decoded.";
         };
     </script>
 </body>

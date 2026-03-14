@@ -15,9 +15,7 @@
             background-color: #000;
             color: #ffffff;
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
         }
         .page-overlay { background: rgba(0, 0, 0, 0.82); min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
@@ -55,62 +53,55 @@
             </section>
 
             <section class="space-y-4 mb-10">
-                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase tracking-widest text-green-400 hover:bg-green-800 transition">Get Lucky Numbers — $0.99</button>
-                <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8 shadow-lg"><span>Soul Urge Reveal</span><span>$0.99</span></button>
-                <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit</span><span>$9.63</span></button>
+                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase tracking-widest text-green-400">Get Lucky Numbers — $0.99</button>
+                <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge Reveal</span><span>$2.22</span></button>
+                <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit</span><span>$4.44</span></button>
 
                 <div class="flex flex-col">
-                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Compatibility</span><span>$9.63</span></button>
+                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Compatibility</span><span>$5.55</span></button>
                     <div id="compatBox" class="compat-input flex flex-col gap-2">
-                        <input type="text" id="partnerName" placeholder="Enter Partner/Boss/Friend's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl outline-none text-white text-sm">
+                        <input type="text" id="partnerName" placeholder="Partner's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl outline-none text-white text-sm">
                         <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Begin Matchmaking</button>
                     </div>
                 </div>
 
-                <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Trinity</span><span>$22.00</span></button>
+                <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Trinity</span><span>$7.77</span></button>
             </section>
 
-            <section class="py-10 space-y-8">
-                <div id="display" class="crystal-ball text-sm font-medium">Ready to Decode...</div>
-                <div class="grid grid-cols-3 gap-3 px-2">
-                    <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Money</button>
-                    <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Success</button>
-                    <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Love</button>
-                </div>
-            </section>
-
-            <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8">
+            <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8 text-sm leading-relaxed">
                 <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">The Reading Corner</h3>
-                <article class="space-y-6 text-sm leading-relaxed">
-                    <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
-                    <p>Changing my life through manifesting is probably one of the best things I ever learned how to do.</p>
-                    <button id="readMoreBtn" onclick="toggleArticle()" class="text-pink-400 font-bold text-xs underline uppercase">Read My Full Story ↓</button>
-                    <div id="fullArticle" class="hidden space-y-6">
-                        <p>I incorporated into my routine guided meditation and sleep hypnosis. That's when things really started to take off.</p>
-                        <div class="pt-6 border-t border-white/10">
-                            <h5 class="text-xs font-bold uppercase gold-text mb-4">Influences & Recommended Listening</h5>
-                            <ul class="text-[11px] space-y-2 text-pink-200">
-                                <li>• Michael Sealey (Hypnosis)</li>
-                                <li>• John Moyer (Reprogramming)</li>
-                            </ul>
-                        </div>
-                    </div>
+                <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
+                <p>Changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how easy it is. If you truly believe in what you are manifesting, you can accomplish your three P's: prosperity, peace, and purpose.</p>
+                
+                <button id="readMoreBtn" onclick="toggleArticle()" class="text-pink-400 font-bold text-xs underline uppercase">Read My Full Story ↓</button>
+                
+                <div id="fullArticle" class="hidden space-y-6">
+                    <p>Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways through the years, but I must say that I failed most of them. Not because the process was wrong, but because my mind wasn't ready to receive it.</p>
+                    <p>So I incorporated into my routine guided meditation and sleep hypnosis. That's when things really started to take off. So now I want to explain what I did and still do to keep the three P's in my life.</p>
+                    <p>As a matter of fact, still to this day I listen to them as I sleep. I have some favorites that I would like to share at this time. I also want to tell you that there will be times when you may slip back into your old reality. This usually happens when something major is going on in your life and you're not paying attention.</p>
+                    <p>I don't think though that you go completely all the way back to the past reality. When i noticed that things in my reality were shifting, I would immediately start my listening routine. usually by the end of that day or the next few whatever crisis I was going through would be averted in some way.</p>
+                    <p>You can always tell after awhile that you may be slipping back into the old reality. Suttle signs would start to appear throughout the day. Things that didn't go quite the way you wanted them to, people that were once helpful now seemed a little distant. That is your signal to restart the frequency work.</p>
+                </div>
 
-                    <div id="phase-one-section" class="pt-10 space-y-6 border-t border-pink-500/30">
-                        <h4 class="text-2xl font-bold pink-glow uppercase tracking-tighter">Quantum Pulse Shifting</h4>
-                        <p class="text-xs">Phase one is about building your vibration using 432Hz, 528Hz, and 963Hz frequencies.</p>
-                    </div>
+                <div class="pt-10 space-y-4 border-t border-pink-500/30">
+                    <h4 class="text-2xl font-bold pink-glow uppercase">Quantum Pulse Shifting</h4>
+                    <p class="font-bold uppercase text-pink-400 text-xs">Phase One: The Foundation of Frequency</p>
+                    <p class="text-xs">Phase one is about building your vibration using the power of 432Hz, 528Hz, and 963Hz frequencies. To begin, listen to these tones daily to clear energetic blockages.</p>
+                    <ul class="text-xs space-y-2 text-pink-200">
+                        <li><strong>432Hz:</strong> Nature’s frequency. Grounding and heart-rate reduction.</li>
+                        <li><strong>528Hz:</strong> The Love Frequency. Emotional repair and stress relief.</li>
+                        <li><strong>963Hz:</strong> Frequency of the Gods. Crown chakra and cosmic awareness.</li>
+                    </ul>
+                </div>
 
-                    <div id="locked-section" class="locked-overlay">
-                        <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 & 3 — $9.63</button>
-                    </div>
+                <div id="locked-section" class="locked-overlay">
+                    <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 & 3 — $9.63</button>
+                </div>
 
-                    <div id="premium-content" class="hidden space-y-8 pt-10 border-t border-pink-500/30">
-                        <p class="text-xs">Phases 2 and 3 involve advanced subconscious reprogramming and harmonic integration.</p>
-                    </div>
-                </article>
-            </section>
-            <footer class="text-center py-10 text-[10px] text-gray-400 uppercase tracking-widest">Sunny Daze © 2026</footer>
+                <div id="premium-content" class="hidden pt-10 border-t border-pink-500/30 text-xs italic">
+                    <p>Phase Two & Three: Deep subconscious reprogramming and harmonic integration unlocked.</p>
+                </div>
+            </article>
         </div>
     </div>
 
@@ -126,10 +117,7 @@
 
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
 
-        function toggleCompat() {
-            document.getElementById('compatBox').classList.toggle('open');
-        }
-
+        function toggleCompat() { document.getElementById('compatBox').classList.toggle('open'); }
         function toggleArticle() {
             const art = document.getElementById('fullArticle');
             const btn = document.getElementById('readMoreBtn');
@@ -139,44 +127,18 @@
 
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
-            const name = document.getElementById('userName').value; // RELEVANT: Added name capture
-
-            if(!email || !name) { 
-                alert("Please enter both your full birth name and email first."); 
-                return; 
-            }
-
+            const name = document.getElementById('userName').value;
+            if(!email || !name) { alert("Please enter both your full birth name and email first."); return; }
+            
             try {
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        priceId, 
-                        userEmail: email, 
-                        userName: name, // RELEVANT: Sending name to server
-                        serviceName, 
-                        clientUrl: window.location.origin
-                    })
+                    body: JSON.stringify({ priceId, userEmail: email, userName: name, serviceName, clientUrl: window.location.origin })
                 });
                 const data = await response.json();
-                
-                // RELEVANT: Appending name to redirect URL so the Spirit Board can use it
-                if (data.url) {
-                    window.location.href = data.url + `&userName=${encodeURIComponent(name)}`;
-                }
-            } catch (err) { 
-                alert("Payment error. Check connection."); 
-            }
-        }
-
-        function getFreeFortune(type) {
-            const fortunes = {
-                'Money': ['Expect an unexpected windfall.', 'Abundance flows to you easily now.'],
-                'Success': ['Victory is your natural state.', 'A goal is within reach.'],
-                'Relationship': ['Harmony is returning to your heart.', 'A soul connection is deepening.']
-            };
-            const random = fortunes[type][Math.floor(Math.random() * fortunes[type].length)];
-            document.getElementById('display').innerHTML = `<span class='pink-glow'>${type}:</span><br>${random}`;
+                if (data.url) window.location.href = data.url + `&userName=${encodeURIComponent(name)}`;
+            } catch (err) { alert("Payment error."); }
         }
 
         window.onload = function() {
