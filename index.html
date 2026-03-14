@@ -136,7 +136,7 @@
                     <p class="font-bold uppercase text-pink-400 mt-6">Phase three: The harmonic integration</p>
                     <p>Now it is time to start using your subconscious to your advantage. Phase three was designed just for that reason. Now that you have reprogrammed your subconscious to start making your conscious mind behave in the way you are training it . You are ready for the “Mention Technique.” This technique will guide in manifesting the shift.</p>
                     <p>What you will do on a weekly basis is write down everything that you want this reality to be.But you have to write it like it already happened. You will be journaling things that you want to happen in a way that reads as if they already did. Really feel like it has happened. Carry yourself like you are living the life you always dreamed. And most importantly be very grateful. Voice how grateful you are everyday. You can thank God, the universe, your higher self. Or all three if that’s what you choose. Whomever you believe is your creator. Showing gratitude is the best form of praise and will elevate your vibration for the day. This is just one of the ways you can maintain the super charged state of being.</p>
-                    <p>Find time throughout your day to smile and say hi to people whether you know them or not. Help someone in need if you are able. Hold the door open or tell someone they look nice. Warm gestures are a key way of keeping that vibration high. The happier you are the higher you will vibrate. The higher you vibrate the more you will manifest into your reality. Soon you will start noticing things that you ask for out loud will seemingly appear for you. A job you always wanted is suddenly being offered. Or that promotion comes through out of the blue. That dream house or car you always wanted but could never afford is now put in your path for the taking. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over. this is how I want it done do not change it other than what I just showed you</p>
+                    <p>Find time throughout your day to smile and say hi to people whether you know them or not. Help someone in need if you are able. Hold the door open or tell someone they look nice. Warm gestures are a key way of keeping that vibration high. The happier you are the higher you will vibrate. The higher you vibrate the more you will manifest into your reality. Soon you will start noticing things that you ask for out loud will seemingly appear for you. A job you always wanted is suddenly being offered. Or that promotion comes through out of the blue. That dream house or car you always wanted but could never afford is now put in your path for the taking. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over.</p>
                 </div>
             </section>
         </div>
@@ -183,34 +183,18 @@
             const name = document.getElementById('userName').value;
             if(!email || !name) { alert("Please enter name and email first."); return; }
             
-            const currentUrl = window.location.origin;
-
+            // Reverting to your stable logic
             try {
-                const response = await fetch(`${currentUrl}/create-checkout-session`, {
+                const response = await fetch('/create-checkout-session', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        priceId, 
-                        userEmail: email, 
-                        userName: name, 
-                        serviceName, 
-                        clientUrl: currentUrl
-                    })
+                    body: JSON.stringify({ priceId, userEmail: email, userName: name, serviceName })
                 });
-                
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
-
                 const data = await response.json();
                 if (data.url) {
                     window.location.href = data.url;
-                } else {
-                    alert("Error: Stripe session could not be created.");
                 }
-            } catch (err) { 
-                alert("Connection error: " + err.message); 
-            }
+            } catch (err) { alert("Connection Error."); }
         }
 
         window.onload = function() {
