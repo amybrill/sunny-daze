@@ -21,7 +21,6 @@
         .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
         .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
         .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
         .crystal-ball { 
             border: 4px solid #f9a8d4; 
             box-shadow: 0 0 30px #ec4899; 
@@ -39,7 +38,6 @@
             background: rgba(0,0,0,0.4);
         }
         .crystal-ball:hover { transform: scale(1.05); }
-        
         .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 40px; }
         .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4); text-transform: uppercase; letter-spacing: 2px; }
         .hidden { display: none; }
@@ -88,7 +86,6 @@
                         <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Begin Matchmaking</button>
                     </div>
                 </div>
-                
                 <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Trinity</span><span>$7.77</span></button>
             </section>
 
@@ -170,7 +167,6 @@
         }
 
         function toggleCompat() { document.getElementById('compatBox').classList.toggle('open'); }
-        
         function toggleArticle() {
             const art = document.getElementById('fullArticle');
             const btn = document.getElementById('readMoreBtn');
@@ -183,7 +179,6 @@
             const name = document.getElementById('userName').value;
             if(!email || !name) { alert("Please enter name and email first."); return; }
             
-            // Reverting to your stable logic
             try {
                 const response = await fetch('/create-checkout-session', {
                     method: 'POST',
@@ -191,9 +186,7 @@
                     body: JSON.stringify({ priceId, userEmail: email, userName: name, serviceName })
                 });
                 const data = await response.json();
-                if (data.url) {
-                    window.location.href = data.url;
-                }
+                if (data.url) { window.location.href = data.url; }
             } catch (err) { alert("Connection Error."); }
         }
 
