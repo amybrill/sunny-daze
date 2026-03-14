@@ -43,20 +43,19 @@
 
             <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
                 <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
-                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white placeholder-pink-300/50">
-                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white placeholder-pink-300/50">
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
                 <div class="grid grid-cols-2 gap-3">
                     <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white"></div>
                     <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white"></div>
                 </div>
-                <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white placeholder-pink-300/50">
+                <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
             </section>
 
             <section class="space-y-4 mb-10">
                 <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase tracking-widest text-green-400">Get Lucky Numbers — $0.99</button>
                 <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge Reveal</span><span>$2.22</span></button>
                 <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit</span><span>$4.44</span></button>
-
                 <div class="flex flex-col">
                     <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Compatibility</span><span>$5.55</span></button>
                     <div id="compatBox" class="compat-input flex flex-col gap-2">
@@ -64,7 +63,6 @@
                         <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Begin Matchmaking</button>
                     </div>
                 </div>
-
                 <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Trinity</span><span>$7.77</span></button>
             </section>
 
@@ -83,23 +81,34 @@
                     <p>You can always tell after awhile that you may be slipping back into the old reality. Suttle signs would start to appear throughout the day. Things that didn't go quite the way you wanted them to, people that were once helpful now seemed a little distant. That is your signal to restart the frequency work.</p>
                 </div>
 
-                <div class="pt-10 space-y-4 border-t border-pink-500/30">
-                    <h4 class="text-2xl font-bold pink-glow uppercase">Quantum Pulse Shifting</h4>
-                    <p class="font-bold uppercase text-pink-400 text-xs">Phase One: The Foundation of Frequency</p>
-                    <p class="text-xs">Phase one is about building your vibration using the power of 432Hz, 528Hz, and 963Hz frequencies. To begin, listen to these tones daily to clear energetic blockages.</p>
-                    <ul class="text-xs space-y-2 text-pink-200">
-                        <li><strong>432Hz:</strong> Nature’s frequency. Grounding and heart-rate reduction.</li>
-                        <li><strong>528Hz:</strong> The Love Frequency. Emotional repair and stress relief.</li>
-                        <li><strong>963Hz:</strong> Frequency of the Gods. Crown chakra and cosmic awareness.</li>
-                    </ul>
+                <div class="pt-10 space-y-6 border-t border-pink-500/30">
+                    <h4 class="text-2xl font-bold pink-glow uppercase tracking-tighter">Quantum Pulse Shifting</h4>
+                    <h5 class="text-lg gold-text italic">The Art of Frequency Mapping</h5>
+                    <div class="text-xs space-y-4 leading-relaxed text-pink-100">
+                        <p class="font-bold uppercase text-pink-400">Phase One: The Foundation of Frequency</p>
+                        <p>Phase one is about building your vibration using the power of 432Hz, 528Hz, and 963Hz frequencies. To begin, listen to these tones daily to clear energetic blockages and prepare your mind for the higher shift.</p>
+                        <p><strong>Break down of frequencies:</strong></p>
+                        <p><strong>432Hz:</strong> Nature’s frequency. A 2020 study found that it influences better sleep and reduces the heart rate, grounding you to the Earth.</p>
+                        <p><strong>528Hz:</strong> The Love Frequency. This tone promotes relaxation, reduces stress, and has been linked to the repair of DNA and emotional cells.</p>
+                        <p><strong>963Hz:</strong> Frequency of the Gods. Used to activate the pineal gland and open the crown chakra, connecting you to pure cosmic awareness.</p>
+                    </div>
                 </div>
 
                 <div id="locked-section" class="locked-overlay">
                     <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 & 3 — $9.63</button>
                 </div>
 
-                <div id="premium-content" class="hidden pt-10 border-t border-pink-500/30 text-xs italic">
-                    <p>Phase Two & Three: Deep subconscious reprogramming and harmonic integration unlocked.</p>
+                <div id="premium-content" class="hidden space-y-8 pt-10 border-t border-pink-500/30">
+                    <div class="text-xs space-y-6 leading-relaxed text-pink-100">
+                        <div>
+                            <h5 class="gold-text font-bold uppercase text-xs tracking-widest mb-4">Phase Two: Subconscious Reprogramming</h5>
+                            <p>Once your vibration is high enough, it is time for the reprogramming. You will need a good set of cushioned headphones for the sleep hypnosis portion of your journey.</p>
+                        </div>
+                        <div>
+                            <h5 class="gold-text font-bold uppercase text-xs tracking-widest mb-4">Phase Three: Harmonic Integration</h5>
+                            <p>Now, you will begin using your subconscious to your advantage. Anchor your high vibration through daily warm gestures and gratitude.</p>
+                        </div>
+                    </div>
                 </div>
             </article>
         </div>
@@ -114,7 +123,6 @@
             TRINITY: 'price_1T6LUwFumfdhryieEahD079A',
             QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'
         };
-
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
 
         function toggleCompat() { document.getElementById('compatBox').classList.toggle('open'); }
@@ -124,12 +132,10 @@
             art.classList.toggle('hidden');
             btn.innerText = art.classList.contains('hidden') ? "Read My Full Story ↓" : "Hide Full Story ↑";
         }
-
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
             const name = document.getElementById('userName').value;
-            if(!email || !name) { alert("Please enter both your full birth name and email first."); return; }
-            
+            if(!email || !name) { alert("Please enter name and email first."); return; }
             try {
                 const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
                     method: 'POST',
@@ -140,7 +146,6 @@
                 if (data.url) window.location.href = data.url + `&userName=${encodeURIComponent(name)}`;
             } catch (err) { alert("Payment error."); }
         }
-
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('unlocked') === 'true') {
