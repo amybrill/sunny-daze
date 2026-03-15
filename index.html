@@ -1,11 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunny Daze | Reveal Your Destiny</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background-image: url('ball.png'); 
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #000;
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+            margin: 0;
+            padding: 0;
+        }
+        .page-overlay { background: rgba(0, 0, 0, 0.82); min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
+        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
+        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 30px; transition: all 0.5s ease; background: rgba(0,0,0,0.8); margin: 0 auto; line-height: 1.4; }
+        .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 50px; }
+        .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); transition: all 0.3s ease; text-transform: uppercase; cursor: pointer; border: none; }
+        .hidden { display: none; }
+        .compat-input { transition: all 0.4s ease; max-height: 0; overflow: hidden; opacity: 0; }
+        .compat-input.open { max-height: 100px; opacity: 1; margin-top: 10px; }
+        .article-block { white-space: pre-wrap; margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="page-overlay p-4">
+        <div id="main-ui" class="w-full max-w-md">
+            <header class="text-center my-10">
+                <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
+                <div class="mt-6 px-4">
+                    <p class="text-[14px] leading-relaxed text-pink-100 italic">
+                        In 1990, I moved 1,100 miles with four young children. I didn't just survive; I thrived by decoding the hidden language of numbers. Numbers are more than math—they are tools to heal, lower anxiety, and clear negative energy. I built this site to help you unlock your timeline and discover your destiny through the power of numerical alignment.
+                    </p>
+                </div>
+            </header>
 
+            <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
+                <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                </div>
+                <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
+            </section>
 
-Quantum Pulse Shifting
-The Art of Frequency Mapping
+            <section class="space-y-4 mb-10">
+                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
+                <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge & Life Path Reveal</span><span>$2.22</span></button>
+                <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit Reading</span><span>$4.44</span></button>
+                
+                <div class="flex flex-col">
+                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <div id="compatBox" class="compat-input flex flex-col gap-2">
+                        <input type="text" id="partnerName" placeholder="Enter Partner/Boss/Friend's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl text-white text-sm">
+                        <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Confirm & Pay</button>
+                    </div>
+                </div>
 
-Phase one
+                <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
+            </section>
 
-Description of method: A method that focuses on the bridge between being super charged upon waking and maintaining that deliberate, unhurried state throughout the day.
+            <section class="py-10 space-y-8">
+                <div id="display" class="crystal-ball text-sm font-medium">Ready to Decode...</div>
+                <div class="grid grid-cols-3 gap-3 px-2">
+                    <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Money</button>
+                    <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Success</button>
+                    <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Love</button>
+                </div>
+            </section>
+
+            <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8">
+                <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">The Reading Corner</h3>
+                <article class="space-y-6 text-sm leading-relaxed">
+                    <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
+                    <p>changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it. Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the three P;s in Realestate, there is the three P's in honing a craft, Practice, practice, practice.</p>
+                    <button id="readMoreBtn" onclick="toggleArticle()" class="text-pink-400 font-bold text-xs underline uppercase">Read My Full Story ↓</button>
+                    
+                    <div id="fullArticle" class="hidden space-y-6">
+                        <div class="article-block">Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways before I found what really works for me. And it did take me many years to get good at doing it. But the initial manifesting didn't take long at all., I first started with vibrational music and frequencies. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me thoughout my day.. I did this for several months and the results were good but I wanted more.
+
+So I incorporated into my routine guided meditation and sleep hypnosis. That's when things really started to take off. So now I was listening to vibrational music and frequencies while sleeping and meditating. As well as sleep hypnosis to reprogram my subconscious. And there is so many of these spiritual videos to choose from. All you have to do is go to google and type in high vibrational frequency and more than you could imagine will pop up.
+
+As a matter of fact, still to this day I listen to them as I sleep. I have some favorites that I would like to share at this time. For frequency vibrational tones and music I choose to listen to 432 Hz, 528 Hz, and 963 Hz to just name a few. Those will raise your vibration up to levels that will give off positive and calming vibe. The practicer gives off a feeling of balance and centeredness. Things run more smoothly and you move with less haste in a more deliberate way. Emotions are more even keeled and managed. These frequencies tended to help me reset my nervous system and I projected a more unhurried and grounded feeling. A sence of oneness about me. I  I also love to listen to sleep guided meditation hypnosis. Some of my favorites for that are Michael Sealey his hypnosis and hypnotherapy sessions. They are free on youtube and he has a variety of catagories to help with whatever change you may be after. Also John Moyer. He is wonderful with his reprogramming hypnosis. I use this one quite often to help keep my manifesting and my reality in check. It is possible to slip back into the old reality should your vibration drop to that level.
+
+I don't think though that you go completely all the way back to the past reality. When i noticed that things in my reality were starting to look a lot like the one I left behind. I immediatley started to raise my vibration back up to a higher frequency. It took a while but I started to notice the shift again. Things started getting back to normal for me. Before long everything was running smoothly. My days move along with positivity and a warm feeling of being good with the world. All worries I can overcome with ease. I'm not saying the problems that rise up are not bad. Some are so bad that I think I can't do it anymore. And then I go to bed and I listen to some high vibrational music and guided hypnosis for reality jumping. I get up the next morning and throughout my day people and things would just happen to assist in resolving my problem.
+
+usually by the end of that day or the next few whatever crisis I was going through would be averted in some way.
+
+You can always tell after awhile that you may be slipping back into the old reality. Suttle signs would start to appear throughout my day. Things that I hadn't had to deal with in more than six years. They would come up like they never went away. I would run into people that I hadn't heard from for many years. And it seemed as if they were going through the same crisis as before. And as I talked and hung out I would start to notice the negative words being used. I would start losing at gambling and lottery. I would get stuck in traffic and my car would start to break down. I would accidently hurt myself and get into arguments with my boyfriend. I had even stopped doing things that I had been doing that I enjoyed. It was as if my old life was taking over some how. That's when it hit me. I must be slipping back into my old reality. I had gotten so caught up in all the drama that I didn't notice until all the bad luck I guess you could call it, started snow-balling. That night I went back to listening to my vibrational music and reprogramming my subconscious through hypnosis. And like I said it took a while but after a few weeks things started moving smoothly and falling into place with ease. No more running into old people from the past and their drama. Positive people and situations are flowing again. Doing well at games I play. Not always winning but not losing bad. I'm back to having things go in my favor by just mentioning that I want to fix it, eat it, wear it, listen to it, see it, or have it in some way. All those things I do every day on a regular bases. And so can you. Stick around and I'll tell you how I did it.</div>
+
+                        <div class="article-block border-t border-pink-500/30 pt-6">
+                            <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest mb-4">Quantum Pulse Shifting: The Art of Frequency Mapping</h4>
+                            
+                            <p class="font-bold text-pink-200 mb-2">Phase one</p>
+                            <p class="mb-4">Description of method: A method that focuses on the bridge between being super charged upon waking and maintaining that deliberate, unhurried state throughout the day.
 
 Frequency Mapping: It’s combining your intentions with the conscious mind to lock in the new reality. You use intentions to trigger the leap.
 
@@ -16,26 +115,101 @@ Break down of frequencies:
 
 528: is known as the love frequency. It is believed that the tone promotes relaxation, reduces stress, and helps in DNA cell repair. Research shows that the frequency lowers cortisol levels and boosts oxytocin which is the hormone that helps to aid in the role of social bonding, trust and procreation and child birth. 
 
-963: Also known as the frequency of the Gods. This tone is used to activate the pineal gland, open the crown chakra. It enhances mental clarity and calms the mind. Promotes a feeling of returning to your original state. Like a brand new you.
+963: Also known as the frequency of the Gods. This tone is used to activate the pineal gland, open the crown chakra. It enhances mental clarity and calms the mind. Promotes a feeling of returning to your original state. Like a brand new you.</p>
 
-Phase two
-
-Now that your vibration is high enough to leap it is time for the reprogramming. You will need a good set of cushioned head phones and a place to lie down where you will not be disturbed. On a daily or nightly basis listen to a deep sleep hypnosis audio. Specifically tailored towards reprogramming the subconscious mind. It doesn’t matter which ones you choose and their are plenty of free ones available on youtube. 
+                            <p class="font-bold text-pink-200 mb-2">Phase two</p>
+                            <p class="mb-4">Now that your vibration is high enough to leap it is time for the reprogramming. You will need a good set of cushioned head phones and a place to lie down where you will not be disturbed. On a daily or nightly basis listen to a deep sleep hypnosis audio. Specifically tailored towards reprogramming the subconscious mind. It doesn’t matter which ones you choose and their are plenty of free ones available on youtube. 
 
 Once you get comfortable and before you start the audio set your intentions. What is it you are needing? What would you like to be doing in your new reality?  How would you like to be living? Really narrow it down. Pick one main difference and focus all your intentions on that change. Either say it out loud or in your head. This sets it up for your subconscious to learn. Now turn on the audio and follow the guided hypnosis.  It is recommended to do this process every night until you start to notice changes. 
 
 Phase two is a major process. Don’t be discouraged if you don’t experience any changes right away.  The conscious mind can be stubborn. It is having to relearn a whole new way of doing things. Since we were born we have been conditioned on how to look, act, think and even dream by our parents, elders, peers, and society.  If you have been told all your life this is the way it is and nothing can be done about it. Your subconscious will push that narrative and your waking conscious mind will act upon it. That is why phase two of my method is a very important step. 
 
-Once you start to feel a difference in the way you carry yourself. You should start to see that others are noticing something different in you as well. They may even go as far as to say so. Its time to advance to phase three.
+Once you start to feel a difference in the way you carry yourself. You should start to see that others are noticing something different in you as well. They may even go as far as to say so. Its time to advance to phase three.</p>
 
-
-Phase three: The harmonic integration
-
-Now it is time to start using your subconscious to your advantage. Phase three was designed just for that reason. Now that you have reprogrammed your subconscious to start making your conscious mind behave in the way you are training it . You are ready for the “Mention Technique.” This technique will guide in manifesting the shift. 
+                            <p class="font-bold text-pink-200 mb-2">Phase three: The harmonic integration</p>
+                            <p class="mb-4">Now it is time to start using your subconscious to your advantage. Phase three was designed just for that reason. Now that you have reprogrammed your subconscious to start making your conscious mind behave in the way you are training it . You are ready for the “Mention Technique.” This technique will guide in manifesting the shift. 
 
 What you will do on a weekly basis is write down everything that you want this reality to be.But you have to write it like it already happened. You will be journaling things that you want to happen in a way that reads as if they already did. Really feel like it has happened. Carry yourself like you are living the life you always dreamed. And most importantly be very grateful.
 Voice how grateful you are everyday. You can thank God, the universe, your higher self. Or all three if that’s what you choose. Whomever you believe is your creator. Showing gratitude is the best form of praise and will elevate your vibration for the day. This is just one of the ways you can maintain the super charged state of being.
 
 Find time throughout your day to smile and say hi to people whether you know them or not. Help someone in need if you are able. Hold the door open or tell someone they look nice. Warm gestures  are a key way of keeping that vibration high. The happier you are the higher you will vibrate. The higher you vibrate the more you will manifest into your reality.
 
-Soon you will start noticing things that you ask for out loud will seemingly appear for you. A job you always wanted is suddenly being offered. Or that promotion comes through out of the blue. That dream house or car you always wanted but could never afford is now put in your path for the taking. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over.
+Soon you will start noticing things that you ask for out loud will seemingly appear for you. A job you always wanted is suddenly being offered. Or that promotion comes through out of the blue. That dream house or car you always wanted but could never afford is now put in your path for the taking. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over.</p>
+                        </div>
+                    </div>
+
+                    <div id="locked-section" class="locked-overlay">
+                        <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 — $9.63</button>
+                    </div>
+                    <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
+                        <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Reprogramming</h5>
+                        <div class="flex flex-col gap-3">
+                            <a href="https://www.youtube.com/@MichaelSealey" target="_blank" class="bg-pink-900/40 p-3 rounded-xl border border-pink-500/30 text-xs text-center font-bold">Michael Sealey Hypnosis →</a>
+                            <a href="https://www.youtube.com/@JohnMoyerHypnosis" target="_blank" class="bg-purple-900/40 p-3 rounded-xl border border-purple-500/30 text-xs text-center font-bold">John Moyer Reprogramming →</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <footer class="text-center py-10 text-[10px] text-gray-400 uppercase tracking-widest">Sunny Daze © 2026</footer>
+        </div>
+    </div>
+
+    <script>
+        const STRIPE_IDS = {
+            LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',
+            SOUL: 'price_1SlNjUFumfdhryie12U9osUh',
+            TIMELINE: 'price_1SpESiFumfdhryieW60etfbc',
+            COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE',
+            TRINITY: 'price_1T6LUwFumfdhryieEahD079A',
+            QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'
+        };
+
+        const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
+
+        function toggleCompat() {
+            document.getElementById('compatBox').classList.toggle('open');
+        }
+
+        function toggleArticle() {
+            const art = document.getElementById('fullArticle');
+            const btn = document.getElementById('readMoreBtn');
+            art.classList.toggle('hidden');
+            btn.innerText = art.classList.contains('hidden') ? "Read My Full Story ↓" : "Hide Full Story ↑";
+        }
+
+        async function pay(serviceName, priceId) {
+            const email = document.getElementById('userEmail').value;
+            if(!email) { alert("Please enter your email first."); return; }
+            try {
+                const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        priceId, userEmail: email, serviceName, clientUrl: window.location.origin 
+                    })
+                });
+                const data = await response.json();
+                if (data.url) window.location.href = data.url;
+            } catch (err) { alert("Payment error. Check connection."); }
+        }
+
+        function getFreeFortune(type) {
+            const fortunes = {
+                'Money': ['Expect an unexpected windfall.', 'Abundance flows to you easily now.'],
+                'Success': ['Victory is your natural state.', 'A goal is within reach.'],
+                'Relationship': ['Harmony is returning to your heart.', 'A soul connection is deepening.']
+            };
+            const random = fortunes[type][Math.floor(Math.random() * fortunes[type].length)];
+            document.getElementById('display').innerHTML = `<span class='pink-glow'>${type}:</span><br>${random}`;
+        }
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('unlocked') === 'true') {
+                document.getElementById('locked-section').classList.add('hidden');
+                document.getElementById('premium-content').classList.remove('hidden');
+            }
+        };
+    </script>
+</body>
+</html>
