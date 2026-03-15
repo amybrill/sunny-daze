@@ -1,59 +1,58 @@
-require('dotenv').config();
+k
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const path = require('path');
 const cors = require('cors');
-
 const app = express();
 
-// Middleware
-app.use(express.static(__dirname)); 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-/**
- * STRIPE CHECKOUT SESSION ROUTE
- * Handles both paid and 100% discounted (free) orders
- */
+// Main checkout endpoint
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId } = req.body;
+    const { priceId, userEmail, serviceName, clientUrl } = req.body;
+
+    // STEP 1: Define where people go after payment
+    // Default to the 24-hour notice page for Timeline, Trinity, and Compatibility
+    let successUrl = `${clientUrl}/confirmation.html`; 
+    
+    // STEP 2: Logic for specific instant-access pages
+    if (serviceName.includes('Soul Urge')) {
+        // Sends them to the Spirit Board results
+        successUrl = `${clientUrl}/spirit-board.html`; 
+    } else if (serviceName.includes('Lucky Number')) {
+        // Sends them to the Lottery Generator results
+        successUrl = `${clientUrl}/lucky-picks.html`;
+    } else if (serviceName.includes('Quantum')) {
+        // Sends them back to main page and triggers the UNLOCK script
+        successUrl = `${clientUrl}?unlocked=true`;
+    }
 
     try {
+        // STEP 3: Create the Stripe Session
         const session = await stripe.checkout.sessions.create({
-            // Allows the user to enter the "DESTINY" code
-            allow_promotion_codes: true,
-
-            // CRITICAL: Allows $0.00 checkout without requiring a credit card
-            payment_method_collection: 'if_required',
-
-            line_items: [
-                {
-                    price: priceId,
-                    quantity: 1,
-                },
-            ],
+            customer_email: userEmail,
+            line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
             
-            // Redirects after successful "purchase"
-            success_url: `https://sunny-daze-production.up.railway.app/success.html`,
-            cancel_url: `https://sunny-daze-production.up.railway.app/cancel.html`,
+            // This line enables the "Cosmic" coupon code box
+            allow_promotion_codes: true, 
+            
+            success_url: successUrl,
+            cancel_url: clientUrl,
+            metadata: { 
+                serviceName: serviceName,
+                customerEmail: userEmail 
+            }
         });
 
-        // Send the session URL back to the frontend to redirect the user
         res.json({ url: session.url });
-    } catch (error) {
-        console.error('Stripe Error:', error);
-        res.status(500).json({ error: error.message });
+    } catch (e) {
+        console.error("Stripe Error:", e.message);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// Fallback for React/Single Page App routing
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
-// Port configuration for Railway
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sunny Daze Server is running on port ${PORT}`);
-});
