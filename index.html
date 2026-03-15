@@ -1,99 +1,320 @@
+
+const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// Main checkout endpoint
+app.post('/create-checkout-session', async (req, res) => {
+    const { priceId, userEmail, serviceName, clientUrl } = req.body;
+
+    // STEP 1: Define where people go after payment
+    // Default to the 24-hour notice page for Timeline, Trinity, and Compatibility
+    let successUrl = `${clientUrl}/confirmation.html`; 
+    
+    // STEP 2: Logic for specific instant-access pages
+    if (serviceName.includes('Soul Urge')) {
+        // Sends them to the Spirit Board results
+        successUrl = `${clientUrl}/spirit-board.html`; 
+    } else if (serviceName.includes('Lucky Number')) {
+        // Sends them to the Lottery Generator results
+        successUrl = `${clientUrl}/lucky-picks.html`;
+    } else if (serviceName.includes('Quantum')) {
+        // Sends them back to main page and triggers the UNLOCK script
+        successUrl = `${clientUrl}?unlocked=true`;
+    }
+
+    try {
+        // STEP 3: Create the Stripe Session
+        const session = await stripe.checkout.sessions.create({
+            customer_email: userEmail,
+            line_items: [{ price: priceId, quantity: 1 }],
+            mode: 'payment',
+            
+            // This line enables the "Cosmic" coupon code box
+            allow_promotion_codes: true, 
+            
+            success_url: successUrl,
+            cancel_url: clientUrl,
+            metadata: { 
+                serviceName: serviceName,
+                customerEmail: userEmail 
+            }
+        });
+
+        res.json({ url: session.url });
+    } catch (e) {
+        console.error("Stripe Error:", e.message);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Daze Production</title>
+    <title>Sunny Daze | Reveal Your Destiny</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfbf0; }
-        header { text-align: center; padding: 40px 0; background: #fff8e1; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .bio-section, .reading-corner, .services { background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #ff9800; }
-        .price-card { border: 2px solid #fff3e0; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
-        input[type="email"] { width: 80%; padding: 12px; margin: 10px 0; border: 2px solid #ffe082; border-radius: 8px; font-size: 1rem; }
-        button { background: #ff9800; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: background 0.3s; }
-        button:hover { background: #f57c00; }
-        .article-content { white-space: pre-wrap; text-align: left; }
+        body { 
+            background-image: url('ball.png'); 
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #000;
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+            margin: 0;
+            padding: 0;
+        }
+        .page-overlay { background: rgba(0, 0, 0, 0.82); min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(236, 72, 153, 0.3); }
+        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
+        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .crystal-ball { border: 4px solid #f9a8d4; box-shadow: 0 0 30px #ec4899; border-radius: 50%; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; padding: 30px; transition: all 0.5s ease; background: rgba(0,0,0,0.8); margin: 0 auto; line-height: 1.4; }
+        .locked-overlay { background: linear-gradient(to bottom, transparent, #000 85%); height: 300px; margin-top: -220px; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 50px; }
+        .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); transition: all 0.3s ease; text-transform: uppercase; cursor: pointer; border: none; }
+        .hidden { display: none; }
+        .compat-input { transition: all 0.4s ease; max-height: 0; overflow: hidden; opacity: 0; }
+        .compat-input.open { max-height: 100px; opacity: 1; margin-top: 10px; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="page-overlay p-4">
+        <div id="main-ui" class="w-full max-w-md">
+            <header class="text-center my-10">
+                <h1 class="text-6xl font-bold text-pink-500 tracking-tighter pink-glow uppercase">Sunny Daze</h1>
+                <div class="mt-6 px-4">
+                    <p class="text-[14px] leading-relaxed text-pink-100 italic">
+                        In 1990, I moved 1,100 miles with four young children. I didn't just survive; I thrived by decoding the hidden language of numbers. Numbers are more than math—they are tools to heal, lower anxiety, and clear negative energy. I built this site to help you unlock your timeline and discover your destiny through the power of numerical alignment.
+                    </p>
+                </div>
+            </header>
+
+            <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
+                <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                </div>
+                <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
+            </section>
+
+            <section class="space-y-4 mb-10">
+                <button onclick="pay('Lucky Number Generator', STRIPE_IDS.LUCKY)" class="w-full bg-green-900/60 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
+                <button onclick="pay('Soul Urge and Life Path Reveal Reading', STRIPE_IDS.SOUL)" class="w-full bg-pink-700/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge & Life Path Reveal</span><span>$2.22</span></button>
+                <button onclick="pay('Timeline Transit Number Reading', STRIPE_IDS.TIMELINE)" class="w-full bg-purple-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit Reading</span><span>$4.44</span></button>
+                
+                <div class="flex flex-col">
+                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/80 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <div id="compatBox" class="compat-input flex flex-col gap-2">
+                        <input type="text" id="partnerName" placeholder="Enter Partner/Boss/Friend's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl text-white text-sm">
+                        <button onclick="pay('Cosmic Compatibility', STRIPE_IDS.COMPAT)" class="bg-indigo-600 p-2 rounded-lg text-[10px] font-bold uppercase">Confirm & Pay</button>
+                    </div>
+                </div>
+
+                <button onclick="pay('Cosmic Trinity', STRIPE_IDS.TRINITY)" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
+            </section>
+
+            <section class="py-10 space-y-8">
+                <div id="display" class="crystal-ball text-sm font-medium">Ready to Decode...</div>
+                <div class="grid grid-cols-3 gap-3 px-2">
+                    <button onclick="getFreeFortune('Money')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Money</button>
+                    <button onclick="getFreeFortune('Success')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Success</button>
+                    <button onclick="getFreeFortune('Relationship')" class="bg-black/40 border border-white/20 py-4 rounded-2xl text-[10px] font-bold uppercase">Love</button>
+                </div>
+            </section>
+
+            <section id="reading-corner" class="glass p-8 rounded-3xl border-yellow-500/20 mt-16 mb-10 space-y-8">
+                <h3 class="text-3xl font-bold gold-text uppercase tracking-tighter text-center italic">The Reading Corner</h3>
+                <article class="space-y-6 text-sm leading-relaxed">
+                    <h4 class="text-pink-400 font-bold uppercase text-xs tracking-widest border-b border-pink-500/30 pb-2">Manifesting My Reality</h4>
+                    <p>changing my life through manifesting is probably one of the best things I ever learned how to do. Now I would love to show others how I did it. Some would think that it takes years to learn how to change your reality. But its really quite simple. Now I'm not saying that there is not any work involved. Quite the opposite. Just like there is the three P;s in Realestate, there is the three P's in honing a craft, Practice, practice, practice.</p>
+                    <button id="readMoreBtn" onclick="toggleArticle()" class="text-pink-400 font-bold text-xs underline uppercase">Read My Full Story ↓</button>
+                    <div id="fullArticle" class="hidden space-y-6">
+                        <p>Of course, constantly learning of new ways to accomplish the three P's is exhausting at times but worth it. I tried many different ways before I found what really works for me. And it did take me many years to get good at doing it. But the initial manifesting didn't take long at all., I first started with vibrational music and frequencies. I would listen to them as I slept. And I could feel something starting to happen within me. I felt super charged when I would wake up in the morning. I also noticed that things went smoother for me thoughout my day.. I did this for several months and the results were good but I wanted more.</p>
+                        <p>So I incorporated into my routine guided meditation and sleep hypnosis. That's when things really started to take off. So now I was listening to vibrational music and frequencies while sleeping and meditating. As well as sleep hypnosis to reprogram my subconscious. And there is so many of these spiritual videos to choose from. All you have to do is go to google and type in high vibrational frequency and more than you could imagine will pop up.</p>
+                        <p>As a matter of fact, still to this day I listen to them as I sleep. I have some favorites that I would like to share at this time. For frequency vibrational tones and music I choose to listen to 432 Hz, 528 Hz, and 963 Hz to just name a few. Those will raise your vibration up to levels that will give off positive and calming vibe. The practicer gives off a feeling of balance and centeredness. Things run more smoothly and you move with less haste in a more deliberate way. Emotions are more even keeled and managed. These frequencies tended to help me reset my nervous system and I projected a more unhurried and grounded feeling. A sence of oneness about me. I  I also love to listen to sleep guided meditation hypnosis. Some of my favorites for that are Michael Sealey his hypnosis and hypnotherapy sessions. They are free on youtube and he has a variety of catagories to help with whatever change you may be after. Also John Moyer. He is wonderful with his reprogramming hypnosis. I use this one quite often to help keep my manifesting and my reality in check. It is possible to slip back into the old reality should your vibration drop to that level.</p>
+                        <p>I don't think though that you go completely all the way back to the past reality. When i noticed that things in my reality were starting to look a lot like the one I left behind. I immediatley started to raise my vibration back up to a higher frequency. It took a while but I started to notice the shift again. Things started getting back to normal for me. Before long everything was running smoothly. My days move along with positivity and a warm feeling of being good with the world. All worries I can overcome with ease. I'm not saying the problems that rise up are not bad. Some are so bad that I think I can't do it anymore. And then I go to bed and I listen to some high vibrational music and guided hypnosis for reality jumping. I get up the next morning and throughout my day people and things would just happen to assist in resolving my problem.</p>
+                        <p>usually by the end of that day or the next few whatever crisis I was going through would be averted in some way.</p>
+                        <p>You can always tell after awhile that you may be slipping back into the old reality. Suttle signs would start to appear throughout my day. Things that I hadn't had to deal with in more than six years. They would come up like they never went away. I would run into people that I hadn't heard from for many years. And it seemed as if they were going through the same crisis as before. And as I talked and hung out I would start to notice the negative words being used. I would start losing at gambling and lottery. I would get stuck in traffic and my car would start to break down. I would accidently hurt myself and get into arguments with my boyfriend. I had even stopped doing things that I had been doing that I enjoyed. It was as if my old life was taking over some how. That's when it hit me. I must be slipping back into my old reality. I had gotten so caught up in all the drama that I didn't notice until all the bad luck I guess you could call it, started snow-balling. That night I went back to listening to my vibrational music and reprogramming my subconscious through hypnosis. And like I said it took a while but after a few weeks things started moving smoothly and falling into place with ease. No more running into old people from the past and their drama. Positive people and situations are flowing again. Doing well at games I play. Not always winning but not losing bad. I'm back to having things go in my favor by just mentioning that I want to fix it, eat it, wear it, listen to it, see it, or have it in some way. All those things I do every day on a regular bases. And so can you. Stick around and I'll tell you how I did it.</p>
+                    </div>
+                    <div id="locked-section" class="locked-overlay">
+                        <button onclick="pay('Quantum Pulse Shifting', STRIPE_IDS.QUANTUM)" class="unlock-btn">Unlock Phase 2 — $9.63</button>
+                    </div>
+                    <div id="premium-content" class="hidden space-y-6 pt-10 border-t border-pink-500/30">
+                        <h5 class="gold-text font-bold uppercase text-xs tracking-widest text-center">Phase 2: Reprogramming</h5>
+                        <div class="flex flex-col gap-3">
+                            <a href="https://www.youtube.com/@MichaelSealey" target="_blank" class="bg-pink-900/40 p-3 rounded-xl border border-pink-500/30 text-xs text-center font-bold">Michael Sealey Hypnosis →</a>
+                            <a href="https://www.youtube.com/@JohnMoyerHypnosis" target="_blank" class="bg-purple-900/40 p-3 rounded-xl border border-purple-500/30 text-xs text-center font-bold">John Moyer Reprogramming →</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <footer class="text-center py-10 text-[10px] text-gray-400 uppercase tracking-widest">Sunny Daze © 2026</footer>
+        </div>
+    </div>
+
+    <script>
+        const STRIPE_IDS = {
+            LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',
+            SOUL: 'price_1SlNjUFumfdhryie12U9osUh',
+            TIMELINE: 'price_1SpESiFumfdhryieW60etfbc',
+            COMPAT: 'price_1Su1cLFumfdhryieQVyQn6hE',
+            TRINITY: 'price_1T6LUwFumfdhryieEahD079A',
+            QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'
+        };
+
+        const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
+
+        function toggleCompat() {
+            document.getElementById('compatBox').classList.toggle('open');
+        }
+
+        function toggleArticle() {
+            const art = document.getElementById('fullArticle');
+            const btn = document.getElementById('readMoreBtn');
+            art.classList.toggle('hidden');
+            btn.innerText = art.classList.contains('hidden') ? "Read My Full Story ↓" : "Hide Full Story ↑";
+        }
+
+        async function pay(serviceName, priceId) {
+            const email = document.getElementById('userEmail').value;
+            if(!email) { alert("Please enter your email first."); return; }
+            try {
+                const response = await fetch(`${RAILWAY_URL}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        priceId, userEmail: email, serviceName, clientUrl: window.location.origin 
+                    })
+                });
+                const data = await response.json();
+                if (data.url) window.location.href = data.url;
+            } catch (err) { alert("Payment error. Check connection."); }
+        }
+
+        function getFreeFortune(type) {
+            const fortunes = {
+                'Money': ['Expect an unexpected windfall.', 'Abundance flows to you easily now.'],
+                'Success': ['Victory is your natural state.', 'A goal is within reach.'],
+                'Relationship': ['Harmony is returning to your heart.', 'A soul connection is deepening.']
+            };
+            const random = fortunes[type][Math.floor(Math.random() * fortunes[type].length)];
+            document.getElementById('display').innerHTML = `<span class='pink-glow'>${type}:</span><br>${random}`;
+        }
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('unlocked') === 'true') {
+                document.getElementById('locked-section').classList.add('hidden');
+                document.getElementById('premium-content').classList.remove('hidden');
+            }
+        };
+    </script>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed | Sunny Daze</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background: url('ball.png') no-repeat center center fixed; 
+            background-size: cover;
+            background-color: #000;
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .page-overlay {
+            background: rgba(0, 0, 0, 0.85);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .glass { 
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(236, 72, 153, 0.3); 
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.2);
+        }
+        .pink-glow { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899; }
+        .gold-text { background: linear-gradient(45deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid #ec4899;
+            color: #ec4899;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #ec4899;
+            color: #fff;
+            box-shadow: 0 0 15px #ec4899;
+        }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>Sunny Daze Production</h1>
-    <p><i>Decoding the hidden language of numbers to light your path.</i></p>
-</header>
-
-<section class="bio-section">
-    <h2>The Journey</h2>
-    <p>I am Amy Brill. My journey into the world of numbers and energy wasn't born in a classroom, but through the grit of real life. In 1990, I moved 1,100 miles with a newborn, a baby, a toddler, and a six-year-old. That experience taught me about the frequencies of change and the resilience of the human spirit. Today, I use those lessons to help you navigate your own destiny through numerology and vibrational alignment.</p>
-</section>
-
-<section class="services">
-    <h2>Services & Tools</h2>
-    <p>Enter your email to receive your results after checkout:</p>
-    <input type="email" id="userEmail" placeholder="Your Email Address" required>
-
-    <div class="price-card">
-        <h3>Lottery Number Generator</h3>
-        <p>Unlock your personalized lucky numbers based on your current vibration.</p>
-        <button onclick="pay('Lottery Generator', 'price_1TB4bRFumfdhryieFIWND1HV')">Get Numbers - $0.99</button>
+    <div class="page-overlay">
+        <div class="glass">
+            <h1 class="text-4xl font-bold text-pink-500 pink-glow uppercase tracking-tighter mb-6">Payment Received</h1>
+            <div class="space-y-4">
+                <p class="text-lg gold-text font-bold italic">Thank you for trusting the numbers.</p>
+                <p class="text-pink-100 leading-relaxed">
+                    Your personalized reading is being decoded and prepared right now. 
+                    <br><br>
+                    Please check your inbox—you will receive your full alignment details **within 24 hours** at the email address provided.
+                </p>
+            </div>
+            
+            <a href="index.html" class="back-btn">Return to Site</a>
+        </div>
     </div>
-
-    <div class="price-card">
-        <h3>The Cosmic Trinity</h3>
-        <p>Full Numerology Reading: Soul Urge, Life Path, and Expression numbers.</p>
-        <button onclick="pay('Cosmic Trinity', 'price_1TA2p5FumfdhryieXk7p2Zq9')">Get Reading - $7.77</button>
-    </div>
-</section>
-
-<section class="reading-corner">
-    <h2>Reading Corner: Manifesting Your Reality</h2>
-    <div class="article-content">
-        Manifesting isn't just wishful thinking; it's a frequency you tune into. To change your outer world, you must first align your inner vibration. 
-
-        The "Three P's" of Manifestation:
-        1. Practice: Consistently visualizing your goal as already achieved.
-        2. Practice: Training your mind to ignore the "how" and focus on the "feel."
-        3. Practice: Maintaining gratitude even before the result appears.
-
-        I highly recommend exploring the works of Michael Sealey for sleep meditations and John Moyer for subconscious reprogramming. Their frequencies align perfectly with the 432 Hz healing tones we discuss here at Sunny Daze. Your thoughts are the architects of your destiny—build wisely.
-    </div>
-</section>
-
-<script>
-    async function pay(serviceName, priceId) {
-        const userEmail = document.getElementById('userEmail').value;
-
-        if (!userEmail || !userEmail.includes('@')) {
-            alert("Please enter a valid email address to receive your reading.");
-            return;
-        }
-
-        try {
-            const response = await fetch('/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    priceId: priceId,
-                    userEmail: userEmail,
-                    serviceName: serviceName
-                }),
-            });
-
-            const data = await response.json();
-
-            if (data.url) {
-                // This takes the user to Stripe where they enter "DESTINY"
-                window.location.href = data.url;
-            } else {
-                alert("Error: " + data.error);
-            }
-        } catch (err) {
-            console.error('Fetch error:', err);
-            alert("Connection error. Please ensure your Railway server is live.");
-        }
-    }
-</script>
-
 </body>
 </html>
+
+
