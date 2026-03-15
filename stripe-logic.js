@@ -13,17 +13,25 @@ async function createCheckoutSession(priceId, userEmail, userName, serviceName, 
     };
 
     try {
-        // Direct link: If they type COSMIC, use the internal Stripe ID c2OMHTJ7
-        if (couponCode && couponCode.trim().toUpperCase() === "COSMIC") {
+        const inputCode = couponCode ? couponCode.trim().toUpperCase() : "";
+
+        if (inputCode === "COSMIC") {
+            // We apply the coupon ID directly as a fallback
             sessionOptions.discounts = [{ coupon: 'c2OMHTJ7' }];
         }
 
         return await stripe.checkout.sessions.create(sessionOptions);
     } catch (e) {
         console.error("Stripe Error:", e.message);
-        // Fallback so buttons never 'freeze'
-        delete sessionOptions.discounts;
-        return await stripe.checkout.sessions.create(sessionOptions);
+        // Fallback: If the discount fails, still let the user go to checkout
+        return await stripe.checkout.sessions.create({
+            customer_email: userEmail,
+            line_items: [{ price: priceId, quantity: 1 }],
+            mode: 'payment',
+            success_url: successUrl,
+            cancel_url: `https://sunny-daze-production.up.railway.app/`,
+            allow_promotion_codes: true 
+        });
     }
 }
 
