@@ -11,23 +11,21 @@ app.use(express.static(__dirname));
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
     
-    // Default success page
+    // Set default redirect
     let successUrl = `${clientUrl}/confirmation.html`; 
     
-    // Logic for routing based on the specific Service Name
+    // Redirect logic based on service selection
     if (serviceName.includes('Soul Urge')) {
         successUrl = `${clientUrl}/spirit-board.html`; 
     } else if (serviceName.includes('Lucky Number')) {
         successUrl = `${clientUrl}/lucky-picks.html`;
     } else if (serviceName.includes('Timeline')) {
         successUrl = `${clientUrl}/timeline-results.html`;
-    } else if (serviceName.includes('Cosmic Compatibility')) {
+    } else if (serviceName.includes('Compatibility')) {
         successUrl = `${clientUrl}/compatibility-results.html`;
     } else if (serviceName.includes('Cosmic Trinity')) {
         successUrl = `${clientUrl}/trinity-reveal.html`;
-    } else if (serviceName.includes('Quantum')) {
-        // Matches the button: 'Quantum Pulse Shifting Phase 2 & 3'
-        // Sends user back to main page and triggers the 'unlocked' state
+    } else if (serviceName.includes('Quantum Pulse')) {
         successUrl = `${clientUrl}?unlocked=true`;
     }
 
@@ -39,8 +37,8 @@ app.post('/create-checkout-session', async (req, res) => {
                 quantity: 1 
             }],
             mode: 'payment',
+            // Enables the use of your "destiny" coupon at checkout
             allow_promotion_codes: true, 
-            payment_method_collection: 'if_required', 
             success_url: successUrl,
             cancel_url: clientUrl,
             metadata: { 
@@ -50,7 +48,7 @@ app.post('/create-checkout-session', async (req, res) => {
         });
         res.json({ url: session.url });
     } catch (e) {
-        console.error("Stripe Error:", e.message);
+        console.error("Stripe Checkout Error:", e.message);
         res.status(500).json({ error: e.message });
     }
 });
