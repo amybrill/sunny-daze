@@ -14,19 +14,20 @@ app.post('/create-checkout-session', async (req, res) => {
     // Default success page
     let successUrl = `${clientUrl}/confirmation.html`; 
     
-    // Specific Redirection Logic for your different services
+    // Logic for routing based on the specific Service Name
     if (serviceName.includes('Soul Urge')) {
         successUrl = `${clientUrl}/spirit-board.html`; 
     } else if (serviceName.includes('Lucky Number')) {
         successUrl = `${clientUrl}/lucky-picks.html`;
     } else if (serviceName.includes('Timeline')) {
         successUrl = `${clientUrl}/timeline-results.html`;
-    } else if (serviceName.includes('Compatibility')) {
+    } else if (serviceName.includes('Cosmic Compatibility')) {
         successUrl = `${clientUrl}/compatibility-results.html`;
     } else if (serviceName.includes('Cosmic Trinity')) {
         successUrl = `${clientUrl}/trinity-reveal.html`;
     } else if (serviceName.includes('Quantum')) {
-        // This triggers the ?unlocked=true logic in your index.html
+        // Matches the button: 'Quantum Pulse Shifting Phase 2 & 3'
+        // Sends user back to main page and triggers the 'unlocked' state
         successUrl = `${clientUrl}?unlocked=true`;
     }
 
@@ -49,12 +50,12 @@ app.post('/create-checkout-session', async (req, res) => {
         });
         res.json({ url: session.url });
     } catch (e) {
-        console.error("Stripe Session Error:", e.message);
+        console.error("Stripe Error:", e.message);
         res.status(500).json({ error: e.message });
     }
 });
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sunny Daze Server is active on port ${PORT}`);
+    console.log(`Sunny Daze Server is running on port ${PORT}`);
 });
