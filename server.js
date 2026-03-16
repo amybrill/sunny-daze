@@ -12,6 +12,7 @@ app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
     let successUrl = `${clientUrl}/confirmation.html`; 
     
+    // Custom Redirection Logic
     if (serviceName.includes('Soul Urge')) successUrl = `${clientUrl}/spirit-board.html`; 
     else if (serviceName.includes('Lucky Number')) successUrl = `${clientUrl}/lucky-picks.html`;
     else if (serviceName.includes('Quantum')) successUrl = `${clientUrl}?unlocked=true`;
