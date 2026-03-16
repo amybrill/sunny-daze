@@ -11,10 +11,9 @@ app.use(express.static(__dirname));
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, userEmail, serviceName, clientUrl } = req.body;
     
-    // Set default redirect
+    // Success Redirect Logic
     let successUrl = `${clientUrl}/confirmation.html`; 
     
-    // Redirect logic based on service selection
     if (serviceName.includes('Soul Urge')) {
         successUrl = `${clientUrl}/spirit-board.html`; 
     } else if (serviceName.includes('Lucky Number')) {
@@ -37,8 +36,10 @@ app.post('/create-checkout-session', async (req, res) => {
                 quantity: 1 
             }],
             mode: 'payment',
-            // Enables the use of your "destiny" coupon at checkout
+            
+            // This line allows your 'destiny' coupon code to be used at checkout
             allow_promotion_codes: true, 
+            
             success_url: successUrl,
             cancel_url: clientUrl,
             metadata: { 
@@ -48,7 +49,7 @@ app.post('/create-checkout-session', async (req, res) => {
         });
         res.json({ url: session.url });
     } catch (e) {
-        console.error("Stripe Checkout Error:", e.message);
+        console.error("Stripe Session Error:", e.message);
         res.status(500).json({ error: e.message });
     }
 });
