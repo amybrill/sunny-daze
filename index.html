@@ -29,6 +29,8 @@
         .unlock-btn { background: linear-gradient(45deg, #ffd700, #ec4899); padding: 20px 40px; border-radius: 50px; font-weight: 900; color: #000; box-shadow: 0 0 35px rgba(255, 215, 0, 0.5); transition: all 0.3s ease; text-transform: uppercase; cursor: pointer; border: none; display: inline-block; }
         .hidden { display: none; }
         .article-content { white-space: pre-wrap; line-height: 1.8; }
+        .compat-input { transition: all 0.4s ease; max-height: 0; overflow: hidden; opacity: 0; }
+        .compat-input.open { max-height: 200px; opacity: 1; margin-top: 10px; }
     </style>
 </head>
 <body class="min-h-screen">
@@ -43,8 +45,31 @@
                 </div>
             </header>
 
-            <section class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-10 text-center">
-                <input type="text" id="userEmail" placeholder="Enter Email to Unlock Readings" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-center">
+            <section id="user-inputs" class="glass p-8 rounded-3xl space-y-4 border-pink-500/30 mb-8">
+                <h2 class="text-center gold-text font-bold uppercase text-[10px] tracking-widest mb-2">Alignment Details</h2>
+                <input type="text" id="userName" placeholder="Your Full Birth Name" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white">
+                <input type="email" id="userEmail" placeholder="Email Address" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-pink-300">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Date</label><input type="date" id="birthDate" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                    <div class="flex flex-col"><label class="text-[9px] text-pink-400 mb-1 ml-1 uppercase">Birth Time</label><input type="time" id="birthTime" class="bg-black/60 border border-pink-500 p-3 rounded-xl text-xs text-white"></div>
+                </div>
+                <input type="text" id="birthCity" placeholder="City & Country of Birth" class="w-full bg-black/60 border border-pink-500 p-4 rounded-xl outline-none text-white text-sm">
+            </section>
+
+            <section class="space-y-4 mb-10">
+                <button onclick="pay('Lucky Number Generator', 'price_1SkydkFumfdhryieQKJsRb6K')" class="w-full bg-green-900/40 border border-green-500/40 py-4 rounded-2xl font-bold uppercase flex justify-between px-8 text-xs italic"><span>Lucky Number Generator</span><span>$0.99</span></button>
+                <button onclick="pay('Soul Urge and Life Path Reveal Reading', 'price_1SlNjUFumfdhryie12U9osUh')" class="w-full bg-pink-700/60 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Soul Urge & Life Path Reveal</span><span>$2.22</span></button>
+                <button onclick="pay('Timeline Transit Number Reading', 'price_1SpESiFumfdhryieW60etfbc')" class="w-full bg-purple-800/60 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Timeline Transit Reading</span><span>$4.44</span></button>
+                
+                <div class="flex flex-col">
+                    <button onclick="toggleCompat()" class="w-full bg-indigo-800/60 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
+                    <div id="compatBox" class="compat-input flex flex-col gap-2">
+                        <input type="text" id="partnerName" placeholder="Enter Partner/Boss/Friend's Name" class="bg-black/80 border border-indigo-500 p-4 rounded-xl text-white text-sm mt-2">
+                        <button onclick="pay('Cosmic Compatibility', 'price_1Su1cLFumfdhryieQVyQn6hE')" class="bg-indigo-600 p-3 rounded-xl text-[10px] font-bold uppercase">Confirm & Pay Compatibility Reading</button>
+                    </div>
+                </div>
+
+                <button onclick="pay('Cosmic Trinity', 'price_1T6LUwFumfdhryieEahD079A')" class="w-full border-2 border-yellow-500 bg-yellow-950/30 py-5 rounded-2xl font-bold uppercase flex justify-between px-8"><span class="gold-text">Cosmic Trinity</span><span class="gold-text">$7.77</span></button>
             </section>
 
             <section class="py-10 text-center">
@@ -81,19 +106,13 @@
 
                     <div id="premium-content" class="hidden mt-10 border-t border-pink-500/30 pt-10">
 <p class="text-2xl font-bold text-pink-500 mb-4">Phase two</p>
-
 <p>Now that your vibration is high enough to leap it is time for the reprogramming. You will need a good set of cushioned head phones and a place to lie down where you will not be disturbed. On a daily or nightly basis listen to a deep sleep hypnosis audio. Specifically tailored towards reprogramming the subconscious mind. It doesn’t matter which ones you choose and their are plenty of free ones available on youtube.</p>
-
 <p>Once you get comfortable and before you start the audio set your intentions. What is it you are needing? What would you like to be doing in your new reality? How would you like to be living? Really narrow it down. Pick one main difference and focus all your intentions on that change. Either say it out loud or in your head. This sets it up for your subconscious to learn. Now turn on the audio and follow the guided hypnosis. It is recommended to do this process every night until you start to notice changes.</p>
-
 <p>Phase two is a major process. Don’t be discouraged if you don’t experience any changes right away. The conscious mind can be stubborn. It is having to relearn a whole new way of doing things. Since we were born we have been conditioned on how to look, act, think and even dream by our parents, elders, peers, and society. If you have been told all your life this is the way it is and nothing can be done about it. Your subconscious will push that narrative and your waking conscious mind will act upon it. That is why phase two of my method is a very important step. Once you start to feel a difference in the way you carry yourself. You should start to see that others are noticing something different in you as well. They may even go as far as to say so. Its time to advance to phase three.</p>
 
 <p class="text-2xl font-bold text-pink-500 mt-12 mb-4">Phase three: The harmonic integration</p>
-
 <p>Now it is time to start using your subconscious to your advantage. Phase three was designed just for that reason. Now that you have reprogrammed your subconscious to start making your conscious mind behave in the way you are training it. You are ready for the “Mention Technique.” This technique will guide in manifesting the shift.</p>
-
 <p>What you will do on a weekly basis is write down everything that you want this reality to be. But you have to write it like it already happened. You will be journaling things that you want to happen in a way that reads as if they already did. Really feel like it has happened. Carry yourself like you are living the life you always dreamed. And most importantly be very grateful. Voice how grateful you are everyday. You can thank God, the universe, your higher self. Or all three if that’s what you choose. Whomever you believe is your creator. Showing gratitude is the best form of praise and will elevate your vibration for the day. This is just one of the ways you can maintain the super charged state of being.</p>
-
 <p>Find time throughout your day to smile and say hi to people whether you know them or not. Help someone in need if you are able. Hold the door open or tell someone they look nice. Warm gestures are a key way of keeping that vibration high. The happier you are the higher you will vibrate. The higher you vibrate the more you will manifest into your reality. Soon you will start noticing things that you ask for out loud will seemingly appear for you. A job you always wanted is suddenly being offered. Or that promotion comes through out of the blue. That dream house or car you always wanted but could never afford is now put in your path for the taking. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over.</p>
                     </div>
                 </div>
@@ -103,6 +122,8 @@
 
     <script>
         const RAILWAY_URL = 'https://sunny-daze-production.up.railway.app';
+
+        function toggleCompat() { document.getElementById('compatBox').classList.toggle('open'); }
 
         async function pay(serviceName, priceId) {
             const email = document.getElementById('userEmail').value;
@@ -124,7 +145,7 @@
                 "A long-awaited message is finally on its way.",
                 "Your vibration is attracting a new soul connection.",
                 "Abundance flows to you easily now.",
-                "A peaceful resolution is coming.",
+                "The shift is already happening within you.",
                 "Trust your intuition; it is tuned to the correct frequency."
             ];
             const random = fortunes[Math.floor(Math.random() * fortunes.length)];
