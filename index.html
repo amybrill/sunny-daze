@@ -248,22 +248,25 @@
         };
 
         async function pay(item, priceId) {
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
-            if (!name || !email) return alert("Please fill in your alignment details first.");
+    try {
+        const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item: item }) // We send the name now
+        });
 
-            const response = await fetch('/create-checkout-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ priceId, email, name, item })
-            });
-            const session = await response.json();
-            if (session.id) {
-                window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
-            } else {
-                console.error("Session creation failed", session);
-            }
+        const data = await response.json();
+        if (data.url) {
+            // This takes the user directly to your working Stripe page
+            window.location.href = data.url;
+        } else {
+            alert("Something went wrong with the link.");
         }
+    } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong.");
+    }
+}
     </script>
 </body>
 </html>
