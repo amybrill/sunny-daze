@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static(__dirname));
 app.use(express.json());
 
-const DOMAIN = process.env.DOMAIN || 'https://sunny-daze.railway.app';
+const DOMAIN = process.env.DOMAIN || 'https://sunny-daze-production.up.railway.app';
 
 // CHECKOUT SESSION ROUTE
 app.post('/create-checkout-session', async (req, res) => {
