@@ -204,7 +204,6 @@
             document.getElementById('compatBox').classList.toggle('open');
         }
 
-        // --- CALCULATION LOGIC ---
         function reduce(n) {
             if ([11, 22, 33].includes(n)) return n;
             while (n > 9) {
@@ -219,13 +218,11 @@
             const dob = document.getElementById('birthDate').value;
             if (!name || !dob) return;
 
-            // Soul Urge (Vowels)
             const vowels = { 'a':1, 'e':5, 'i':9, 'o':6, 'u':3 };
             let sSum = 0;
             for (let char of name.toLowerCase()) { if (vowels[char]) sSum += vowels[char]; }
             const sNum = reduce(sSum);
 
-            // Life Path (DOB)
             const dSum = dob.replace(/-/g, '').split('').reduce((s, d) => s + Number(d), 0);
             const lNum = reduce(dSum);
 
@@ -236,7 +233,6 @@
             document.getElementById('numerology-results').classList.remove('hidden');
         }
 
-        // Handle Redirects for Success
         window.onload = () => {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('success') === 'true') {
@@ -259,7 +255,7 @@
             const response = await fetch('/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ priceId, email, name })
+                body: JSON.stringify({ priceId, email, name, item })
             });
             const session = await response.json();
             window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
