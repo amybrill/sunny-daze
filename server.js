@@ -6,7 +6,7 @@ const app = express();
 app.use(express.static(__dirname));
 app.use(express.json());
 
-const DOMAIN = process.env.DOMAIN || 'https://sunny-daze.railway.app';
+const DOMAIN = process.env.DOMAIN || 'https://sunny-daze-production.up.railway.app';
 
 app.post('/create-checkout-session', async (req, res) => {
     const { priceId, email, name, item } = req.body;
@@ -20,28 +20,19 @@ app.post('/create-checkout-session', async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            // Corrected Redirect Logic
             success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
-                customer_name: name,substring(0, 40), // Limits length to prevent Stripe errors
-        item: "Soul Urge Reveal" // Use a shorter string here for the backend
-    }
-});
-});
-                product_item: item // This will now correctly pass "Soul Urge and Life Path Reveal Reading"
+                customer_name: name ? name.substring(0, 40) : "Guest",
+                product_item: item 
             }
         });
 
         res.json({ id: session.id });
     } catch (error) {
-        console.error("Stripe Error:", error.message);
+        console.error('Stripe Error:', error);
         res.status(500).json({ error: error.message });
     }
-});
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 8080;
