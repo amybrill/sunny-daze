@@ -6,6 +6,7 @@ const app = express();
 app.use(express.static(__dirname));
 app.use(express.json());
 
+// Fallback to your production URL if the environment variable isn't set
 const DOMAIN = process.env.DOMAIN || 'https://sunny-daze-production.up.railway.app';
 
 app.post('/create-checkout-session', async (req, res) => {
@@ -22,7 +23,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 },
             ],
             mode: 'payment',
-            // Removed payment_method_collection to fix the 400 error
+            // Removed payment_method_collection to fix the 400 error for one-time payments
             success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
