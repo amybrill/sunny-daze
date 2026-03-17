@@ -24,7 +24,11 @@ app.post('/create-checkout-session', async (req, res) => {
             success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
-                customer_name: name,
+                customer_name: name,substring(0, 40), // Limits length to prevent Stripe errors
+        item: "Soul Urge Reveal" // Use a shorter string here for the backend
+    }
+});
+});
                 product_item: item // This will now correctly pass "Soul Urge and Life Path Reveal Reading"
             }
         });
