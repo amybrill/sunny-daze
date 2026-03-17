@@ -22,7 +22,7 @@ app.post('/create-checkout-session', async (req, res) => {
                 },
             ],
             mode: 'payment',
-            allow_promotion_codes: true,
+            // Removed payment_method_collection to fix the 400 error
             success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
