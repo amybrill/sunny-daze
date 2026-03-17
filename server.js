@@ -1,59 +1,61 @@
-require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const cors = require('cors');
+const path = require('path');
 const app = express();
 
-app.use(cors());
-app.use(express.json());
 app.use(express.static(__dirname));
+app.use(express.json());
 
+const DOMAIN = process.env.DOMAIN || 'https://sunny-daze.railway.app';
+
+// CHECKOUT SESSION ROUTE
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId, userEmail, serviceName, clientUrl } = req.body;
-    
-    // Set default redirect
-    let successUrl = `${clientUrl}/confirmation.html`; 
-    
-    // Redirect logic based on service selection
-    if (serviceName.includes('Soul Urge')) {
-        successUrl = `${clientUrl}/spirit-board.html`; 
-    } else if (serviceName.includes('Lucky Number')) {
-        successUrl = `${clientUrl}/lucky-picks.html`;
-    } else if (serviceName.includes('Timeline')) {
-        successUrl = `${clientUrl}/timeline-results.html`;
-    } else if (serviceName.includes('Compatibility')) {
-        successUrl = `${clientUrl}/compatibility-results.html`;
-    } else if (serviceName.includes('Cosmic Trinity')) {
-        successUrl = `${clientUrl}/trinity-reveal.html`;
-    } else if (serviceName.includes('Quantum Pulse')) {
-        successUrl = `${clientUrl}?unlocked=true`;
-    }
+    const { priceId, email, name } = req.body;
 
     try {
         const session = await stripe.checkout.sessions.create({
-            customer_email: userEmail,
-            line_items: [{ 
-                price: priceId, 
-                quantity: 1 
-            }],
+            customer_email: email,
+            line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
-            // Enables the use of your "destiny" coupon at checkout
-            allow_promotion_codes: true, 
-            success_url: successUrl,
-            cancel_url: clientUrl,
-            metadata: { 
-                serviceName: serviceName, 
-                customerEmail: userEmail 
+            // Success URL passes back the 'type' to unlock the specific content in index.html
+            success_url: `${DOMAIN}/?success=true&type=${priceId.includes('T8Ekf') ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${DOMAIN}/?canceled=true`,
+            metadata: {
+                customer_name: name,
+                item_type: priceId
             }
         });
-        res.json({ url: session.url });
-    } catch (e) {
-        console.error("Stripe Checkout Error:", e.message);
-        res.status(500).json({ error: e.message });
+
+        res.json({ id: session.id });
+    } catch (error) {
+        console.error("Stripe Error:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sunny Daze Server is running on port ${PORT}`);
+// WEBHOOK FOR PERMANENT RECORDS (Optional but recommended)
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        console.log(`Payment successful for ${session.metadata.customer_name}`);
+    }
+
+    res.json({ received: true });
 });
+
+// SERVE THE MAIN PAGE
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Sunny Daze Server running on port ${PORT}`));
