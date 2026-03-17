@@ -1,37 +1,47 @@
+require('dotenv').config();
 const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
 const app = express();
-const path = require('path');
-// Insert your actual sk_live key here
-const stripe = require('stripe')('sk_live_51P6WvjFumfdhryie6v8W1vVlO8...'); 
 
-// This line tells Express your files are in the main folder
-app.use(express.static(__dirname));
+app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
-// ROUTE TO SERVE THE MAIN PAGE
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// STRIPE SESSION LOGIC
 app.post('/create-checkout-session', async (req, res) => {
+    const { priceId, userEmail, serviceName, clientUrl } = req.body;
+    let successUrl = `${clientUrl}/confirmation.html`; 
+    
+    if (serviceName.includes('Soul Urge')) {
+        successUrl = `${clientUrl}/spirit-board.html`; 
+    } else if (serviceName.includes('Lucky Number')) {
+        successUrl = `${clientUrl}/lucky-picks.html`;
+    } else if (serviceName.includes('Timeline')) {
+        successUrl = `${clientUrl}/timeline-results.html`;
+    } else if (serviceName.includes('Compatibility')) {
+        successUrl = `${clientUrl}/compatibility-results.html`;
+    } else if (serviceName.includes('Cosmic Trinity')) {
+        successUrl = `${clientUrl}/trinity-reveal.html`;
+    } else if (serviceName.includes('Quantum Pulse')) {
+        successUrl = `${clientUrl}?unlocked=true`;
+    }
+
     try {
-        const { priceId } = req.body;
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'cashapp'],
+            customer_email: userEmail,
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
-            allow_promotion_codes: true,
-            success_url: `${req.headers.origin}/index.html?success=true`,
-            cancel_url: `${req.headers.origin}/index.html`,
+            allow_promotion_codes: true, // This enables the 'destiny' box
+            success_url: successUrl,
+            cancel_url: clientUrl,
+            metadata: { serviceName, customerEmail: userEmail }
         });
-        res.json({ id: session.id });
+        res.json({ url: session.url });
     } catch (e) {
+        console.error("Stripe Error:", e.message);
         res.status(500).json({ error: e.message });
     }
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sunny Daze is Live on Port ${PORT}`);
-});
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
