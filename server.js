@@ -6,7 +6,6 @@ const app = express();
 app.use(express.static(__dirname));
 app.use(express.json());
 
-// Fallback to your production URL if the environment variable isn't set
 const DOMAIN = process.env.DOMAIN || 'https://sunny-daze-production.up.railway.app';
 
 app.post('/create-checkout-session', async (req, res) => {
@@ -23,12 +22,13 @@ app.post('/create-checkout-session', async (req, res) => {
                 },
             ],
             mode: 'payment',
-            // Removed payment_method_collection to fix the 400 error for one-time payments
-            success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
+            allow_promotion_codes: true,
+            // Match the successful log's redirect style
+            success_url: `${DOMAIN}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
-                customer_name: name ? name.substring(0, 40) : "Guest",
-                product_item: item 
+                customerEmail: email, // Matches successful log key
+                serviceName: item     // Matches successful log key
             }
         });
 
@@ -40,4 +40,4 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Sunny Daze Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
