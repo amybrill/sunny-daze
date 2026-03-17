@@ -258,7 +258,11 @@
                 body: JSON.stringify({ priceId, email, name, item })
             });
             const session = await response.json();
-            window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
+            if (session.id) {
+                window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
+            } else {
+                console.error("Session creation failed", session);
+            }
         }
     </script>
 </body>

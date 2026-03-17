@@ -20,11 +20,12 @@ app.post('/create-checkout-session', async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
+            // Corrected Redirect Logic
             success_url: `${DOMAIN}/?success=true&type=${priceId === 'price_1T8EkfFumfdhryieksJcxBTW' ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
                 customer_name: name,
-                product_item: item
+                product_item: item // This will now correctly pass "Soul Urge and Life Path Reveal Reading"
             }
         });
 
@@ -40,4 +41,4 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Sunny Daze Server running on port ${PORT}`));
