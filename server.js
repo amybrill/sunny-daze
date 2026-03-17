@@ -1,60 +1,51 @@
-require('dotenv').config();
-const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const cors = require('cors');
+kconst express = require('express');
 const app = express();
+const path = require('path');
+const stripe = require('stripe')('sk_live_51P6WvjFumfdhryie6v8W1vVlO8...'); // Your Live Key
 
-app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.static(__dirname));
 
+// STRIPE PRODUCT IDS (Preserved from your setup)
+const STRIPE_IDS = {
+    QUANTUM: 'price_1Su1cLFumfdhryie94Vy03', // $9.63
+    SOUL: 'price_1Su1cLFumfdhryieQVyQn6hE'    // $2.22
+};
+
+// CREATE CHECKOUT SESSION
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId, userEmail, serviceName, clientUrl } = req.body;
-    
-    // Success Redirect Logic
-    let successUrl = `${clientUrl}/confirmation.html`; 
-    
-    if (serviceName.includes('Soul Urge')) {
-        successUrl = `${clientUrl}/spirit-board.html`; 
-    } else if (serviceName.includes('Lucky Number')) {
-        successUrl = `${clientUrl}/lucky-picks.html`;
-    } else if (serviceName.includes('Timeline')) {
-        successUrl = `${clientUrl}/timeline-results.html`;
-    } else if (serviceName.includes('Compatibility')) {
-        successUrl = `${clientUrl}/compatibility-results.html`;
-    } else if (serviceName.includes('Cosmic Trinity')) {
-        successUrl = `${clientUrl}/trinity-reveal.html`;
-    } else if (serviceName.includes('Quantum Pulse')) {
-        successUrl = `${clientUrl}?unlocked=true`;
-    }
+    const { priceId, serviceName } = req.body;
 
     try {
         const session = await stripe.checkout.sessions.create({
-            customer_email: userEmail,
-            line_items: [{ 
-                price: priceId, 
-                quantity: 1 
+            payment_method_types: ['card', 'cashapp', 'afterpay_clearpay', 'klarna'],
+            line_items: [{
+                price: priceId,
+                quantity: 1,
             }],
             mode: 'payment',
+            allow_promotion_codes: true, // Crucial for the 'destiny' code to work!
             
-            // This line allows your 'destiny' coupon code to be used at checkout
-            allow_promotion_codes: true, 
+            // REDIRECT LOGIC:
+            // If they bought the Soul/Life Path Reveal, send them to spirit-board.html
+            // Otherwise, send them back to the main site with an 'unlocked' tag
+            success_url: priceId === STRIPE_IDS.SOUL 
+                ? `${req.headers.origin}/spirit-board.html?success=true` 
+                : `${req.headers.origin}/index.html?unlocked=true`,
             
-            success_url: successUrl,
-            cancel_url: clientUrl,
-            metadata: { 
-                serviceName: serviceName, 
-                customerEmail: userEmail 
-            }
+            cancel_url: `${req.headers.origin}/index.html`,
         });
-        res.json({ url: session.url });
-    } catch (e) {
-        console.error("Stripe Session Error:", e.message);
-        res.status(500).json({ error: e.message });
+
+        res.json({ id: session.id });
+    } catch (error) {
+        console.error("Stripe Error:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
+// START SERVER
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sunny Daze Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Full logic active for Sunny Daze deployments.`);
 });
