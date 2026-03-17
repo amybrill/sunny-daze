@@ -19,7 +19,7 @@ app.post('/create-checkout-session', async (req, res) => {
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
             // Success URL passes back the 'type' to unlock the specific content in index.html
-            success_url: `${DOMAIN}/?success=true&type=${priceId.includes('T8Ekf') ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${DOMAIN}?success=true&type=${priceId.includes('T8Ekf') ? 'quantum' : 'reveal'}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}/?canceled=true`,
             metadata: {
                 customer_name: name,
