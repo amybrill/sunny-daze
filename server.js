@@ -1,26 +1,46 @@
+require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const path = require('path');
 const app = express();
 
-app.use(express.static(__dirname));
+// We removed the 'public' static line because your files are in the root
 app.use(express.json());
 
-// HARDCODED TO YOUR EXACT URL
-const DOMAIN = 'https://sunny-daze-production.up.railway.app';
+// Routes to serve your files directly from the root
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
+// If you have ball.png in the root as well, this ensures it loads
+app.get('/ball.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'ball.png'));
+});
+
+// The Stripe Checkout Logic
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId, email, name } = req.body;
     try {
+        const { priceId, email, name } = req.body;
+
         const session = await stripe.checkout.sessions.create({
             customer_email: email,
-            line_items: [{ price: priceId, quantity: 1 }],
+            line_items: [
+                {
+                    price: priceId,
+                    quantity: 1,
+                },
+            ],
             mode: 'payment',
-            // Simplified URL to prevent handshaking errors
-            success_url: `${DOMAIN}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${DOMAIN}/?canceled=true`,
-            metadata: { customer_name: name, item_type: priceId }
+            metadata: {
+                customer_name: name,
+                customer_email: email,
+                product_id: priceId
+            },
+            // Redirect back to the root with the success trigger
+            success_url: `https://sunny-daze-production.up.railway.app/?success=true`,
+            cancel_url: `https://sunny-daze-production.up.railway.app/?canceled=true`,
         });
+
         res.json({ id: session.id });
     } catch (error) {
         console.error("Stripe Error:", error);
@@ -28,9 +48,5 @@ app.post('/create-checkout-session', async (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Sunny Daze Server running on port ${PORT}`));
