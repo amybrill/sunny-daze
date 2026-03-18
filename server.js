@@ -1,21 +1,20 @@
-require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Using Railway Environment Variables
 const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const cors = require('cors');
+const app = express();
 const path = require('path');
 
-const app = express();
-
-// Middleware
-app.use(express.static(path.join(__dirname, '/'))); // Serves index.html from root
+// Serves all files (index.html, ball.png, etc.) directly from your root directory
+app.use(express.static(__dirname));
 app.use(express.json());
-app.use(cors());
 
-/**
- * Stripe Checkout Session Creation
- */
+// Serves the main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Stripe Session Logic
 app.post('/create-checkout-session', async (req, res) => {
-    const { priceId, email, name } = req.body;
+    const { email, name, dob, city, time, partner, priceId } = req.body;
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -28,30 +27,25 @@ app.post('/create-checkout-session', async (req, res) => {
                 },
             ],
             mode: 'payment',
-            // success_url includes the ?success=true flag to trigger the Spirit Board
-            success_url: `${req.headers.origin}/?success=true`,
-            cancel_url: `${req.headers.origin}/`,
             metadata: {
-                customer_name: name,
-                product_request: priceId
-            }
+                fullName: name,
+                dateOfBirth: dob,
+                birthCity: city,
+                birthTime: time,
+                partnerName: partner || 'N/A'
+            },
+            // Using req.headers.origin ensures Railway redirects to your live domain automatically
+            success_url: `${req.headers.origin}/?success=true`,
+            cancel_url: `${req.headers.origin}/?canceled=true`,
         });
 
         res.json({ id: session.id });
     } catch (error) {
-        console.error("Stripe Error:", error.message);
+        console.error("Stripe Error:", error);
         res.status(500).json({ error: error.message });
     }
 });
 
-// Start Server
+// Railway provides the PORT automatically
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`
-    --------------------------------------------------
-    Sunny Daze Production Server Active
-    Port: ${PORT}
-    Root Directory: ${__dirname}
-    --------------------------------------------------
-    `);
-});
+app.listen(PORT, () => console.log(`Sunny Daze live on Railway at port ${PORT}`));
