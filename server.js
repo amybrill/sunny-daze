@@ -9,43 +9,43 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 app.post('/create-checkout-session', async (req, res) => {
-    // 1. Get ALL the data from your new HTML inputs
+    // 1. Get the data (Using 'userEmail' and 'serviceName' to match your HTML)
     const { 
         priceId, 
-        email, 
+        userEmail, 
+        serviceName,
         name, 
         dob, 
         city, 
-        time, 
-        partner, 
-        serviceName 
+        time,
+        partner 
     } = req.body;
 
-    const clientUrl = process.env.CLIENT_URL || 'https://your-site-name.up.railway.app';
+    // 2. Fixed the cut-off URL
+    const clientUrl = process.env.CLIENT_URL || 'https://sunny-daze-production.up.railway.app';
     
-    // 2. Dynamic Success Redirects
+    // 3. Dynamic Success Redirect
     let successUrl = `${clientUrl}/?success=true`; 
 
     try {
         const session = await stripe.checkout.sessions.create({
-            customer_email: email, // Auto-fills email on Stripe page
+            customer_email: userEmail, 
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
             allow_promotion_codes: true, 
             success_url: successUrl,
             cancel_url: clientUrl,
-            // 3. THIS IS THE KEY: Sending the data to your Stripe Dashboard
             metadata: { 
                 service: serviceName || "Numerology Reading",
-                customer_name: name,
-                birth_date: dob,
-                birth_city: city,
-                birth_time: time,
+                customer_name: name || "Not Provided",
+                birth_date: dob || "Not Provided",
+                birth_city: city || "Not Provided",
+                birth_time: time || "Not Provided",
                 partner_name: partner || "None"
             }
         });
-        
-        // Return the session ID to the frontend
+
+        // Return the session ID
         res.json({ id: session.id });
     } catch (e) {
         console.error("Stripe Error:", e.message);
