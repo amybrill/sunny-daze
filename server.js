@@ -1,52 +1,57 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+require('dotenv').config();
 const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
 const app = express();
-const path = require('path');
 
-// Serves all files (index.html, ball.png, etc.) directly from your root directory
-app.use(express.static(__dirname));
+app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
-// Serves the main page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Stripe Session Logic
 app.post('/create-checkout-session', async (req, res) => {
-    const { email, name, dob, city, time, partner, priceId } = req.body;
+    // 1. Get ALL the data from your new HTML inputs
+    const { 
+        priceId, 
+        email, 
+        name, 
+        dob, 
+        city, 
+        time, 
+        partner, 
+        serviceName 
+    } = req.body;
+
+    const clientUrl = process.env.CLIENT_URL || 'https://your-site-name.up.railway.app';
+    
+    // 2. Dynamic Success Redirects
+    let successUrl = `${clientUrl}/?success=true`; 
 
     try {
         const session = await stripe.checkout.sessions.create({
-            customer_email: email,
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price: priceId,
-                    quantity: 1,
-                },
-            ],
+            customer_email: email, // Auto-fills email on Stripe page
+            line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
-            metadata: {
-                fullName: name,
-                dateOfBirth: dob,
-                birthCity: city,
-                birthTime: time,
-                partnerName: partner || 'N/A'
-            },
-            // Hardcoded URLs to ensure Stripe always finds its way back to your live site
-            success_url: `https://sunny-daze-production.up.railway.app/?success=true`,
-            cancel_url: `https://sunny-daze-production.up.railway.app/?canceled=true`,
+            allow_promotion_codes: true, 
+            success_url: successUrl,
+            cancel_url: clientUrl,
+            // 3. THIS IS THE KEY: Sending the data to your Stripe Dashboard
+            metadata: { 
+                service: serviceName || "Numerology Reading",
+                customer_name: name,
+                birth_date: dob,
+                birth_city: city,
+                birth_time: time,
+                partner_name: partner || "None"
+            }
         });
-
+        
+        // Return the session ID to the frontend
         res.json({ id: session.id });
-    } catch (error) {
-        // This will print the exact reason for the failure in your Railway Logs
-        console.error("Stripe Error Details:", error.message);
-        res.status(500).json({ error: error.message });
+    } catch (e) {
+        console.error("Stripe Error:", e.message);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// Railway provides the PORT automatically
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Sunny Daze live on Railway at port ${PORT}`));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, '0.0.0.0', () => console.log(`Sunny Daze Server running on port ${PORT}`));
