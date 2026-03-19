@@ -1,4 +1,4 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Using Railway Environment Variables
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -34,14 +34,15 @@ app.post('/create-checkout-session', async (req, res) => {
                 birthTime: time,
                 partnerName: partner || 'N/A'
             },
-            // Using req.headers.origin ensures Railway redirects to your live domain automatically
-            success_url: `${req.headers.origin}/?success=true`,
-            cancel_url: `${req.headers.origin}/?canceled=true`,
+            // Hardcoded URLs to ensure Stripe always finds its way back to your live site
+            success_url: `https://sunny-daze-production.up.railway.app/?success=true`,
+            cancel_url: `https://sunny-daze-production.up.railway.app/?canceled=true`,
         });
 
         res.json({ id: session.id });
     } catch (error) {
-        console.error("Stripe Error:", error);
+        // This will print the exact reason for the failure in your Railway Logs
+        console.error("Stripe Error Details:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
