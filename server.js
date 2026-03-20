@@ -9,23 +9,14 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 app.post('/create-checkout-session', async (req, res) => {
-    // 1. Get the data (Using 'userEmail' and 'serviceName' to match your HTML)
     const { 
         priceId, 
         userEmail, 
-        serviceName,
-        name, 
-        dob, 
-        city, 
-        time,
-        partner 
+        serviceName 
     } = req.body;
 
-    // 2. Fixed the cut-off URL
-    const clientUrl = process.env.CLIENT_URL || 'https://sunny-daze-production.up.railway.app';
-    
-    // 3. Dynamic Success Redirect
-    let successUrl = `${clientUrl}/?success=true`; 
+    const clientUrl = 'https://sunny-daze-production.up.railway.app';
+    const successUrl = `${clientUrl}/?success=true`; 
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -35,17 +26,9 @@ app.post('/create-checkout-session', async (req, res) => {
             allow_promotion_codes: true, 
             success_url: successUrl,
             cancel_url: clientUrl,
-            metadata: { 
-                service: serviceName || "Numerology Reading",
-                customer_name: name || "Not Provided",
-                birth_date: dob || "Not Provided",
-                birth_city: city || "Not Provided",
-                birth_time: time || "Not Provided",
-                partner_name: partner || "None"
-            }
+            // METADATA REMOVED - Keeping it simple
         });
 
-        // Return the session ID
         res.json({ id: session.id });
     } catch (e) {
         console.error("Stripe Error:", e.message);
