@@ -58,33 +58,29 @@
                 </div>
             </section>
 <section class="space-y-4 my-12 max-w-md mx-auto">
-    <button onclick="handlePay('Cosmic Trio', PRICES.TRINITY)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
+    <button onclick="handlePay('Cosmic Trio', PRICES.TRIO)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
         <span>Cosmic Trio</span><span>$4.32</span>
     </button>
 
-    <button onclick="toggleBox('compatBox')" class="w-full bg-indigo-900/50 border border-indigo-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
+    <button onclick="toggleBox('kindredBox')" class="w-full bg-indigo-900/50 border border-indigo-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
         <span>Kindred Souls</span><span>$5.28</span>
     </button>
-    <div id="compatBox" class="hidden p-4 space-y-2 glass rounded-xl">
+    <div id="kindredBox" class="hidden p-4 space-y-2 glass rounded-xl">
         <input type="text" id="partnerName" class="data-input" placeholder="Partner's Full Name">
-        <button onclick="handlePay('Kindred Souls', PRICES.COMPAT)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Compatibility</button>
+        <button onclick="handlePay('Kindred Souls', PRICES.KINDRED)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Kindred</button>
     </div>
 
     <button onclick="handlePay('Time-Line Track', PRICES.TIMELINE)" class="w-full bg-purple-900/50 border border-purple-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
         <span>Time-Line Track</span><span>$3.69</span>
     </button>
 
-    <button onclick="handlePay('Life Path and Hearts Desire', PRICES.SOUL)" class="w-full bg-pink-600/60 border border-pink-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
+    <button onclick="handlePay('Life Path and Hearts Desire', PRICES.LIFEPATH)" class="w-full bg-pink-600/60 border border-pink-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
         <span>Life Path & Hearts Desire</span><span>$1.11</span>
     </button>
 </section>
 
 <div id="quantum-lock" class="py-12 text-center border-t border-white/10">
-    <button onclick="handlePay('The Quantum Wave Method', PRICES.QUANTUM)" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">
-        Unlock Quantum Wave Phases — $7.77
-    </button>
-
-</div>
+<button onclick="handlePay('Quantum Wave', 'price_1TD5tCFumfdhryiegD4ACOsV')" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button></div>
             
             </div>
 
@@ -106,10 +102,10 @@
                 </div>
 
                 <div class="pt-12 mt-12 border-t border-pink-500/20 space-y-6">
-                    <h4 class="text-4xl font-black neon-pink uppercase tracking-tighter">Quantum Pulse Shifting</h4>
+                    <h4 class="text-4xl font-black neon-pink uppercase tracking-tighter">Quantum Wave</h4>
                     
                     <div class="space-y-6 bg-pink-900/10 p-6 rounded-2xl border border-pink-500/10">
-                        <p class="text-sm text-pink-100"><strong>Quantum Pulse Shifting Method:</strong> A method that focuses on the bridge between being super charged upon waking and maintaining that deliberate, unhurried state throughout the day.</p>
+                        <p class="text-sm text-pink-100"><strong>Quantum Wave Method:</strong> A method that focuses on the bridge between being super charged upon waking and maintaining that deliberate, unhurried state throughout the day.</p>
                         <p class="text-sm text-pink-100"><strong>Frequency Mapping:</strong> It’s combining your intentions with the conscious mind to lock in the new reality. You use intentions to trigger the leap.</p>
                     </div>
 
@@ -126,8 +122,7 @@
                     </div>
 
                     <div id="quantum-lock" class="py-12 text-center border-t border-white/10">
-                        <button onclick="handlePay('Quantum Pulse Shifting', 'price_1T8EkfFumfdhryieksJcxBTW')" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 9.63</button>
-                    </div>
+                              <button onclick="handlePay('Quantum Wave', 'price_1TD5tCFumfdhryiegD4ACOsV')" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button>              </div>
 
                     <div id="premium-phases" class="hidden space-y-12 pt-10 border-t-2 border-yellow-400">
                         <div>
@@ -152,21 +147,21 @@
             </section>
         </div>
     </div>
+
+
 <script>
     const PRICES = {
-        SOUL: 'price_1TD5nPFumfdhryie7W5cIhvd',     // Life Path & Hearts Desire ($1.11)
-        TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS', // Time-Line Track ($3.69)
-        TRINITY: 'price_1TD5quFumfdhryieWBy5N60x',  // Cosmic Trio ($4.32)
-        COMPAT: 'price_1TD5s1FumfdhryieOvSL857c',   // Kindred Souls ($5.28)
-        QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'   // The Quantum Wave Method ($7.77)
+        LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
+        TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
+        TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
+        KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
+        QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'
     };
-    
 
     const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
     const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
 
     async function handlePay(type, priceId) {
-        // 1. Get values from the screen
         const name = document.getElementById('fullName').value;
         const email = document.getElementById('userEmail').value;
         const dob = document.getElementById('birthDate').value;
@@ -175,35 +170,31 @@
         const partnerField = document.getElementById('partnerName');
         const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
 
-        // 2. Save for the "Success" screen later
         localStorage.setItem('last_item', priceId);
         localStorage.setItem('soul_name', name);
         localStorage.setItem('soul_dob', dob); 
 
-        // 3. Send to Server (Matches your server.js variable names)
         const response = await fetch('/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 priceId: priceId, 
-                userEmail: email,    // Matches server.js req.body.userEmail
-                serviceName: type,   // Matches server.js req.body.serviceName
-                clientUrl: window.location.origin, // Tells Stripe where your site is
+                userEmail: email,
+                serviceName: type,
+                clientUrl: window.location.origin,
                 name, dob, city, time, partner 
             }),
         });
         
         const session = await response.json();
-        
-        // 4. Redirect to Stripe
         const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
-              if (session.url) {
-            // This is the "Magic Fix" - it sends them straight to the Stripe link
+        
+        if (session.url) {
             window.location.href = session.url; 
         } else if (session.id) {
             await stripe.redirectToCheckout({ sessionId: session.id });
         } else {
-            alert("Something went wrong. Please check your internet or try again.");
+            alert("Something went wrong. Please check your info and try again.");
         }
     }
 
@@ -216,7 +207,8 @@
             
             if (board) board.classList.remove('hidden');
 
-            if (last === PRICES.SOUL) { 
+            // Fixed: changed PRICES.SOUL to PRICES.LIFEPATH
+            if (last === PRICES.LIFEPATH) { 
                 const name = localStorage.getItem('soul_name') || "Seeker";
                 const dob = localStorage.getItem('soul_dob') || "";
                 const vowels = name.toUpperCase().match(/[AEIOU]/g) || [];
@@ -234,14 +226,14 @@
                     <div class="neon-yellow mb-2 text-xs uppercase">Alignment Complete</div>
                     <div class="flex justify-center gap-8 my-4">
                         <div class="text-center"><p class="text-[10px] text-pink-400">SOUL</p><div class="text-5xl font-black neon-pink">${soulUrge}</div></div>
-                        <div class="text-center"><p class="text-[10px] text-yellow-400">PATH</p><div class="text-5xl font-black neon-yellow">${lifePath}</div></div>
+                        <div class="text-center"><p class="text-[10px] text-pink-400">PATH</p><div class="text-5xl font-black neon-pink">${lifePath}</div></div>
                     </div>
-                    <p class="text-sm italic">The Bridge is synchronized.</p>
+                    <p class="text-sm italic">The Bridge is synchronized.</p>                
                 `;
             } else if (last === PRICES.QUANTUM) {
                 const premium = document.getElementById('premium-phases');
                 if (premium) premium.classList.remove('hidden');
-                text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Three is now visible below.";
+                text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Two & Three are now visible below.";
             }
             
             if (board) board.scrollIntoView({ behavior: 'smooth' });
@@ -262,6 +254,14 @@
         document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
     }
 </script>
+  
+          
+<footer style="text-align: center; margin-top: 50px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <p style="font-size: 0.8rem; color: #888;">
+        © 2026 Sunny Daze. All rights reserved. <br><br>
+        <strong>Disclaimer:</strong> For entertainment purposes only. Readings and frequency insights are not a substitute for professional legal, financial, or medical advice.
+    </p>
+</footer>
     
 </body>
 </html>
