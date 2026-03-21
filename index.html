@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunny Daze | Reveal Your Destiny</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
     <style>
-        body { background-image: url('ball.png'); background-repeat: no-repeat; background-position: center center; background-attachment: fixed; background-size: cover; background-color: #000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        body {
+          background-image: url('ball.png'); background-repeat: no-repeat; background-position: center center; background-attachment: fixed; background-size: cover; background-color: #000; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         .page-overlay { background: rgba(0, 0, 0, 0.9); min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; }
         .glass { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(236, 72, 153, 0.3); }
         .neon-header { text-shadow: 3px 3px 0px #ec4899, 6px 6px 0px #ffff00; color: #ffff00; font-family: 'Arial Black', sans-serif; }
@@ -33,6 +36,11 @@
                 <h1 class="text-7xl font-black uppercase tracking-tighter neon-header">Sunny Daze</h1>
             </header>
 
+<div id="result-area" class="hidden max-w-md mx-auto my-10 spirit-board text-center">
+    <div id="spirit-content" class="text-white font-bold text-center"></div>
+</div>
+
+
             <div class="crystal-ball" onclick="getDailyFortune()">
                 <div id="fortune-display" class="text-pink-100 italic text-xl font-bold uppercase tracking-tight">Tap for your<br>Free Daily Fortune</div>
             </div>
@@ -49,25 +57,35 @@
                     </div>
                 </div>
             </section>
+<section class="space-y-4 my-12 max-w-md mx-auto">
+    <button onclick="handlePay('Cosmic Trio', PRICES.TRINITY)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
+        <span>Cosmic Trio</span><span>$4.32</span>
+    </button>
 
-            <section class="space-y-4 my-12 max-w-md mx-auto">
-                <button onclick="handlePay('Cosmic Trinity', 'price_1Su1cLFumfdhryieQVyQn6hE')" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20"><span>Cosmic Trinity</span><span>$7.77</span></button>
-                <button onclick="toggleBox('compatBox')" class="w-full bg-indigo-900/50 border border-indigo-400 py-5 rounded-xl font-black uppercase flex justify-between px-8"><span>Cosmic Compatibility</span><span>$5.55</span></button>
-                <div id="compatBox" class="hidden p-4 space-y-2 glass rounded-xl">
-                    <input type="text" id="partnerName" class="data-input" placeholder="Partner's Full Name">
-                    <button onclick="handlePay('Cosmic Compatibility', 'price_1T6LUwFumfdhryieEahD079A')" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Submit Match</button>
-                </div>
-                <button onclick="handlePay('Timeline Transit Number Reading', 'price_1SpESiFumfdhryieW60etfbc')" class="w-full bg-purple-900/50 border border-purple-400 py-5 rounded-xl font-black uppercase flex justify-between px-8"><span>Timeline Transit</span><span>$4.44</span></button>
-                <button onclick="handlePay('Soul Urge and Life Path Reveal Reading', 'price_1SlNjUFumfdhryie12U9osUh')" class="w-full bg-pink-600/60 border border-pink-400 py-5 rounded-xl font-black uppercase flex justify-between px-8"><span>Soul Urge & Life Path</span><span>$2.22</span></button>
-                <button onclick="handlePay('Lucky Number Generator', 'price_1SkydkFumfdhryieQKJsRb6K')" class="w-full bg-green-900/50 border border-green-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 text-green-300"><span>Lucky Number Generator</span><span>.99</span></button>
-            </section>
+    <button onclick="toggleBox('compatBox')" class="w-full bg-indigo-900/50 border border-indigo-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
+        <span>Kindred Souls</span><span>$5.28</span>
+    </button>
+    <div id="compatBox" class="hidden p-4 space-y-2 glass rounded-xl">
+        <input type="text" id="partnerName" class="data-input" placeholder="Partner's Full Name">
+        <button onclick="handlePay('Kindred Souls', PRICES.COMPAT)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Compatibility</button>
+    </div>
 
-            <div id="result-area" class="hidden">
-                <div class="spirit-board text-center space-y-6">
-                    <h2 class="neon-yellow text-4xl font-black uppercase italic">The Spirit Board</h2>
-                    <div id="spirit-content" class="text-pink-100 text-lg leading-relaxed font-bold"></div>
-                    <button onclick="window.location.href='/'" class="text-xs font-bold text-yellow-500 uppercase tracking-widest pt-4">Return to Site</button>
-                </div>
+    <button onclick="handlePay('Time-Line Track', PRICES.TIMELINE)" class="w-full bg-purple-900/50 border border-purple-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
+        <span>Time-Line Track</span><span>$3.69</span>
+    </button>
+
+    <button onclick="handlePay('Life Path and Hearts Desire', PRICES.SOUL)" class="w-full bg-pink-600/60 border border-pink-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
+        <span>Life Path & Hearts Desire</span><span>$1.11</span>
+    </button>
+</section>
+
+<div id="quantum-lock" class="py-12 text-center border-t border-white/10">
+    <button onclick="handlePay('The Quantum Wave Method', PRICES.QUANTUM)" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">
+        Unlock Quantum Wave Phases — $7.77
+    </button>
+
+</div>
+            
             </div>
 
             <section class="glass p-8 rounded-[40px] border-pink-500/40 mb-20">
@@ -134,89 +152,116 @@
             </section>
         </div>
     </div>
+<script>
+    const PRICES = {
+        SOUL: 'price_1TD5nPFumfdhryie7W5cIhvd',     // Life Path & Hearts Desire ($1.11)
+        TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS', // Time-Line Track ($3.69)
+        TRINITY: 'price_1TD5quFumfdhryieWBy5N60x',  // Cosmic Trio ($4.32)
+        COMPAT: 'price_1TD5s1FumfdhryieOvSL857c',   // Kindred Souls ($5.28)
+        QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'   // The Quantum Wave Method ($7.77)
+    };
+    
 
-    <script>
-        const PRICES = {
-            TRINITY: 'price_1Su1cLFumfdhryieQVyQn6hE',
-            COMPAT: 'price_1T6LUwFumfdhryieEahD079A',
-            TIMELINE: 'price_1SpESiFumfdhryieW60etfbc',
-            SOUL: 'price_1SlNjUFumfdhryie12U9osUh',
-            LUCKY: 'price_1SkydkFumfdhryieQKJsRb6K',
-            QUANTUM: 'price_1T8EkfFumfdhryieksJcxBTW'
-        };
+    const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
+    const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
 
-        const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
-        const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
+    async function handlePay(type, priceId) {
+        // 1. Get values from the screen
+        const name = document.getElementById('fullName').value;
+        const email = document.getElementById('userEmail').value;
+        const dob = document.getElementById('birthDate').value;
+        const city = document.getElementById('birthCity').value;
+        const time = document.getElementById('birthTime').value;
+        const partnerField = document.getElementById('partnerName');
+        const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
 
-        async function handlePay(item, priceId) {
-            const data = {
-                email: document.getElementById('userEmail').value,
-                name: document.getElementById('fullName').value,
-                dob: document.getElementById('birthDate').value,
-                city: document.getElementById('birthCity').value,
-                time: document.getElementById('birthTime').value,
-                partner: document.getElementById('partnerName')?.value || 'N/A',
-                priceId: priceId
-            };
+        // 2. Save for the "Success" screen later
+        localStorage.setItem('last_item', priceId);
+        localStorage.setItem('soul_name', name);
+        localStorage.setItem('soul_dob', dob); 
 
-            if(!data.email || !data.name || !data.dob) return alert("Email, Full Name, and DOB are required!");
-
-            localStorage.setItem('last_item', priceId);
-            localStorage.setItem('soul_name', data.name);
-            localStorage.setItem('soul_dob', data.dob);
-
-            try {
-                const res = await fetch('/create-checkout-session', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                const session = await res.json();
-                if(session.id) window.location.href = `https://checkout.stripe.com/pay/${session.id}`;
-            } catch (e) { alert("Server connection error."); }
+        // 3. Send to Server (Matches your server.js variable names)
+        const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                priceId: priceId, 
+                userEmail: email,    // Matches server.js req.body.userEmail
+                serviceName: type,   // Matches server.js req.body.serviceName
+                clientUrl: window.location.origin, // Tells Stripe where your site is
+                name, dob, city, time, partner 
+            }),
+        });
+        
+        const session = await response.json();
+        
+        // 4. Redirect to Stripe
+        const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
+              if (session.url) {
+            // This is the "Magic Fix" - it sends them straight to the Stripe link
+            window.location.href = session.url; 
+        } else if (session.id) {
+            await stripe.redirectToCheckout({ sessionId: session.id });
+        } else {
+            alert("Something went wrong. Please check your internet or try again.");
         }
+    }
 
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('success') === 'true') {
-                const last = localStorage.getItem('last_item');
-                const board = document.getElementById('result-area');
-                const text = document.getElementById('spirit-content');
-                board.classList.remove('hidden');
+    window.onload = () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('success') === 'true') {
+            const last = localStorage.getItem('last_item');
+            const board = document.getElementById('result-area');
+            const text = document.getElementById('spirit-content');
+            
+            if (board) board.classList.remove('hidden');
 
-                if (last === PRICES.SOUL) {
-                    const name = localStorage.getItem('soul_name') || "";
-                    const vowels = name.toUpperCase().match(/[AEIOU]/g) || [];
-                    const soulSum = vowels.reduce((a, v) => a + (charMap[v] || 0), 0);
-                    const soulUrge = reduce(soulSum);
-                    const lifePath = reduce(localStorage.getItem('soul_dob').replace(/\D/g, '').split('').reduce((a, d) => a + Number(d), 0));
-                    text.innerHTML = `<span class="neon-pink">SOUL URGE: ${soulUrge} | LIFE PATH: ${lifePath}</span><br><br>The Board Reveals: Your inner cravings and outer life path are now moving into a synchronized bridge. You are vibrating in alignment.`;
-                } else if (last === PRICES.QUANTUM) {
-                    document.getElementById('premium-phases').classList.remove('hidden');
-                    document.getElementById('quantum-lock').classList.add('hidden');
-                    text.innerText = "Phases Two and Three Unlocked. Scroll down to begin your leap.";
-                } else if (last === PRICES.LUCKY) {
-                    text.innerHTML = `Your Lucky Alignment:<br><span class="text-5xl neon-yellow font-black mt-4 block">${Array.from({length: 6}, () => Math.floor(Math.random() * 59) + 1).join(' - ')}</span>`;
-                } else {
-                    text.innerHTML = `<span class="neon-pink">THE UNIVERSE HAS RECEIVED YOUR DETAILS.</span><br><br>Sunny will reveal your reading via email within 24-48 hours.`;
+            if (last === PRICES.SOUL) { 
+                const name = localStorage.getItem('soul_name') || "Seeker";
+                const dob = localStorage.getItem('soul_dob') || "";
+                const vowels = name.toUpperCase().match(/[AEIOU]/g) || [];
+                const soulSum = vowels.reduce((a, v) => a + (charMap[v] || 0), 0);
+                const soulUrge = reduce(soulSum);
+
+                let lifePath = "??";
+                if (dob) {
+                    const digits = dob.replace(/\D/g, '');
+                    const sum = digits.split('').reduce((a, d) => a + Number(d), 0);
+                    lifePath = reduce(sum);
                 }
-                board.scrollIntoView({ behavior: 'smooth' });
-            }
-        };
 
-        function toggleBox(id) { document.getElementById(id).classList.toggle('hidden'); }
-        function toggleArticle() {
-            const full = document.getElementById('full-article');
-            const preview = document.getElementById('article-preview');
-            const btn = document.getElementById('expandBtn');
-            full.classList.toggle('hidden');
-            preview.classList.toggle('hidden');
-            btn.innerText = full.classList.contains('hidden') ? "Expand Full Article" : "Show Less";
+                text.innerHTML = `
+                    <div class="neon-yellow mb-2 text-xs uppercase">Alignment Complete</div>
+                    <div class="flex justify-center gap-8 my-4">
+                        <div class="text-center"><p class="text-[10px] text-pink-400">SOUL</p><div class="text-5xl font-black neon-pink">${soulUrge}</div></div>
+                        <div class="text-center"><p class="text-[10px] text-yellow-400">PATH</p><div class="text-5xl font-black neon-yellow">${lifePath}</div></div>
+                    </div>
+                    <p class="text-sm italic">The Bridge is synchronized.</p>
+                `;
+            } else if (last === PRICES.QUANTUM) {
+                const premium = document.getElementById('premium-phases');
+                if (premium) premium.classList.remove('hidden');
+                text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Three is now visible below.";
+            }
+            
+            if (board) board.scrollIntoView({ behavior: 'smooth' });
         }
-        function getDailyFortune() {
-            const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
-            document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
-        }
-    </script>
+    };
+
+    function toggleBox(id) { document.getElementById(id).classList.toggle('hidden'); }
+    function toggleArticle() {
+        const full = document.getElementById('full-article');
+        const preview = document.getElementById('article-preview');
+        const btn = document.getElementById('expandBtn');
+        full.classList.toggle('hidden');
+        preview.classList.toggle('hidden');
+        btn.innerText = full.classList.contains('hidden') ? "Expand Full Article" : "Show Less";
+    }
+    function getDailyFortune() {
+        const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
+        document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
+    }
+</script>
+    
 </body>
 </html>
