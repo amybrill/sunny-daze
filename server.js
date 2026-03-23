@@ -23,7 +23,7 @@ app.post('/create-checkout-session', async (req, res) => {
             customer_email: userEmail, 
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
-            allow_promotion_codes: true, 
+            allow_promotion_codes= true, 
             customer_creation: 'always', // 
             success_url: successUrl,
             cancel_url: clientUrl,
