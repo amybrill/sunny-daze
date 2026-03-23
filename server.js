@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -25,6 +24,7 @@ app.post('/create-checkout-session', async (req, res) => {
             line_items: [{ price: priceId, quantity: 1 }],
             mode: 'payment',
             allow_promotion_codes: true, 
+            customer_creation: 'always', //
             success_url: successUrl,
             cancel_url: clientUrl,
             // METADATA REMOVED - Keeping it simple
