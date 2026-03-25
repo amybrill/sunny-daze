@@ -23,18 +23,17 @@
     </style>
 </head>
 <body>
-    <div class="page-overlay p-4">
+   <div class="page-overlay p-4">
         <div class="w-full max-w-2xl">
-            <section class="glass p-8 rounded-3xl border-yellow-500/30 mt-10 mb-6">
-                <h2 class="neon-yellow text-3xl font-black uppercase mb-4">Bio</h2>
-                <div class="text-pink-100 text-sm leading-relaxed">
-                    <p>My journey began in 1990, when i moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Numbers helped me to survive and thrive. I built this site so I can help others thrive with the power of numbers.</p>
-                </div>
-            </section>
-
             <header class="text-center my-12">
                 <h1 class="text-7xl font-black uppercase tracking-tighter neon-header">Sunny Daze</h1>
             </header>
+<section class="text-center mb-12">
+                <div class="glass p-6 rounded-2xl">
+                    <p class="text-pink-100 leading-relaxed">
+         My journey began in 1990, when i moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Numbers helped me to survive and thrive. I built this site so I can help others thrive with the power of numbers.</p>
+                </div>
+            </section>
 
 <div id="result-area" class="hidden max-w-md mx-auto my-10 spirit-board text-center">
     <div id="spirit-content" class="text-white font-bold text-center"></div>
@@ -80,10 +79,9 @@
 </section>
 
 <div id="quantum-lock" class="py-12 text-center border-t border-white/10">
-<button onclick="handlePay('Quantum Wave', 'price_1TD5tCFumfdhryiegD4ACOsV')" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button></div>
+<button onclick="handlePay('Quantum Wave', PRICES.QUANTUM)" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button></div>
             
-            </div>
-
+            
             <section class="glass p-8 rounded-[40px] border-pink-500/40 mb-20">
                 <h3 class="text-5xl font-black uppercase text-center mb-10"><span class="neon-yellow">The Reading</span> <span class="neon-pink">Corner</span></h3>
                 
@@ -121,8 +119,6 @@
                         </div>
                     </div>
 
-                    <div id="quantum-lock" class="py-12 text-center border-t border-white/10">
-                              <button onclick="handlePay('Quantum Wave', 'price_1TD5tCFumfdhryiegD4ACOsV')" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button>              </div>
 
                     <div id="premium-phases" class="hidden space-y-12 pt-10 border-t-2 border-yellow-400">
                         <div>
@@ -151,7 +147,7 @@
 
 <script>
     const PRICES = {
-        LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
+       LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
         TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
         TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
         KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
@@ -170,6 +166,7 @@
         const partnerField = document.getElementById('partnerName');
         const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
 
+        // Store these so we can calculate the numbers on the success page
         localStorage.setItem('last_item', priceId);
         localStorage.setItem('soul_name', name);
         localStorage.setItem('soul_dob', dob); 
@@ -187,14 +184,15 @@
         });
         
         const session = await response.json();
-        const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
         
+        // Use the URL if the server provides it (best practice for Render/Stripe)
         if (session.url) {
             window.location.href = session.url; 
         } else if (session.id) {
+            const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
             await stripe.redirectToCheckout({ sessionId: session.id });
         } else {
-            alert("Something went wrong. Please check your info and try again.");
+            alert("Check your info and try again.");
         }
     }
 
@@ -212,7 +210,7 @@
                 const name = localStorage.getItem('soul_name') || "Seeker";
                 const dob = localStorage.getItem('soul_dob') || "";
                 const vowels = name.toUpperCase().match(/[AEIOU]/g) || [];
-                const soulSum = vowels.reduce((a, v) => a + (charMap[v] || 0), 0);
+                const soulSum = vowels.join('').split('').reduce((a, v) => a + (charMap[v] || 0), 0);       
                 const soulUrge = reduce(soulSum);
 
                 let lifePath = "??";
@@ -230,7 +228,14 @@
                     </div>
                     <p class="text-sm italic">The Bridge is synchronized.</p>                
                 `;
-            } else if (last === PRICES.QUANTUM) {
+            } 
+            else if (last === PRICES.TRIO || last === PRICES.TIMELINE || last === PRICES.KINDRED) {
+                text.innerHTML = `
+                    <div class="neon-yellow mb-2 text-xs uppercase">Energy Received</div>
+                    <p class="text-sm text-pink-200 p-4">Your detailed reading is being channeled. Please check your email within 24-48 hours.</p>
+                `;
+            }
+            else if (last === PRICES.QUANTUM) {
                 const premium = document.getElementById('premium-phases');
                 if (premium) premium.classList.remove('hidden');
                 text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Two & Three are now visible below.";
