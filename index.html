@@ -197,53 +197,59 @@
     }
 
     window.onload = () => {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('success') === 'true') {
-            const last = localStorage.getItem('last_item');
-            const board = document.getElementById('result-area');
-            const text = document.getElementById('spirit-content');
-            
-            if (board) board.classList.remove('hidden');
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. Only run if the URL actually says success=true
+    if (params.get('success') === 'true') {
+        const board = document.getElementById('result-area');
+        const text = document.getElementById('spirit-content');
+        
+        // Ensure the board is visible
+        if (board) board.classList.remove('hidden');
 
-            // Fixed: changed PRICES.SOUL to PRICES.LIFEPATH
-            if (last === PRICES.LIFEPATH) { 
-                const name = localStorage.getItem('soul_name') || "Seeker";
-                const dob = localStorage.getItem('soul_dob') || "";
-                const vowels = name.toUpperCase().match(/[AEIOU]/g) || [];
-                const soulSum = vowels.join('').split('').reduce((a, v) => a + (charMap[v] || 0), 0);       
-                const soulUrge = reduce(soulSum);
+        // 2. GET THE DATA: Check Storage first, then check the Input Boxes as a backup
+        const name = localStorage.getItem('soul_name') || document.getElementById('fullName').value || "Seeker";
+        const dob = localStorage.getItem('soul_dob') || document.getElementById('birthDate').value;
+        const last = localStorage.getItem('last_item');
 
-                let lifePath = "??";
-                if (dob) {
-                    const digits = dob.replace(/\D/g, '');
-                    const sum = digits.split('').reduce((a, d) => a + Number(d), 0);
-                    lifePath = reduce(sum);
-                }
+        // 3. LOGIC: If it's the Life Path product (or we have the info), show the math
+        if (last === PRICES.LIFEPATH || (name !== "Seeker" && dob)) { 
+            const vowels = (name.toUpperCase().match(/[AEIOU]/g) || []);
+            const soulSum = vowels.join('').split('').reduce((a, v) => a + (charMap[v] || 0), 0);       
+            const soulUrge = reduce(soulSum);
 
-                text.innerHTML = `
-                    <div class="neon-yellow mb-2 text-xs uppercase">Alignment Complete</div>
-                    <div class="flex justify-center gap-8 my-4">
-                        <div class="text-center"><p class="text-[10px] text-pink-400">SOUL</p><div class="text-5xl font-black neon-pink">${soulUrge}</div></div>
-                        <div class="text-center"><p class="text-[10px] text-pink-400">PATH</p><div class="text-5xl font-black neon-pink">${lifePath}</div></div>
-                    </div>
-                    <p class="text-sm italic">The Bridge is synchronized.</p>                
-                `;
-            } 
-            else if (last === PRICES.TRIO || last === PRICES.TIMELINE || last === PRICES.KINDRED) {
-                text.innerHTML = `
-                    <div class="neon-yellow mb-2 text-xs uppercase">Energy Received</div>
-                    <p class="text-sm text-pink-200 p-4">Your detailed reading is being channeled. Please check your email within 24-48 hours.</p>
-                `;
+            let lifePath = "??";
+            if (dob) {
+                const digits = dob.replace(/\D/g, '');
+                const sum = digits.split('').reduce((a, d) => a + Number(d), 0);
+                lifePath = reduce(sum);
             }
-            else if (last === PRICES.QUANTUM) {
-                const premium = document.getElementById('premium-phases');
-                if (premium) premium.classList.remove('hidden');
-                text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Two & Three are now visible below.";
-            }
-            
-            if (board) board.scrollIntoView({ behavior: 'smooth' });
+
+            text.innerHTML = `
+                <div class="neon-yellow mb-2 text-xs uppercase">Alignment Complete</div>
+                <div class="flex justify-center gap-8 my-4">
+                    <div class="text-center"><p class="text-[10px] text-pink-400">SOUL</p><div class="text-5xl font-black neon-pink">${soulUrge}</div></div>
+                    <div class="text-center"><p class="text-[10px] text-pink-400">PATH</p><div class="text-5xl font-black neon-pink">${lifePath}</div></div>
+                </div>
+                <p class="text-sm italic">The Bridge is synchronized.</p>                
+            `;
+        } 
+        // 4. LOGIC: Handle the other products
+        else if (last === PRICES.TRIO || last === PRICES.TIMELINE || last === PRICES.KINDRED) {
+            text.innerHTML = `
+                <div class="neon-yellow mb-2 text-xs uppercase">Energy Received</div>
+                <p class="text-sm text-pink-200 p-4">Your detailed reading is being channeled. Please check your email within 24-48 hours.</p>
+            `;
         }
-    };
+        else if (last === PRICES.QUANTUM) {
+            const premium = document.getElementById('premium-phases');
+            if (premium) premium.classList.remove('hidden');
+            text.innerHTML = "<span class='neon-yellow'>CHANNELS OPEN.</span> Phase Two & Three are now visible below.";
+        }
+
+        if (board) board.scrollIntoView({ behavior: 'smooth' });
+    }
+};
 
     function toggleBox(id) { document.getElementById(id).classList.toggle('hidden'); }
     function toggleArticle() {
