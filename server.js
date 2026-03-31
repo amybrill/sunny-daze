@@ -1,4 +1,4 @@
-
+k
 require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -18,12 +18,17 @@ app.post('/create-checkout-session', async (req, res) => {
         name,
         dob,
         city,
-        time,
-        partner 
+        time,partner 
     } = req.body;
 
-    const clientUrl = 'https://sunny-daze-production.up.railway.app';
-    const successUrl = `${clientUrl}/?success=true`; 
+    // --- PASTE STARTS HERE ---
+    // Use the base URL from your Railway variables
+    const baseUrl = process.env.CLIENT_URL || 'http://localhost:8080';
+    
+    // Set the specific destinations
+    const successUrl = `${baseUrl}/success?success=true`; 
+    const cancelUrl = `${baseUrl}/`; 
+    // --- PASTE ENDS HERE ---
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -32,9 +37,8 @@ app.post('/create-checkout-session', async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true, 
             customer_creation: 'always',
-            success_url: successUrl,
-            cancel_url: clientUrl,
-            // 2. This puts the info into your Stripe Dashboard so you can see it!
+            success_url: successUrl, // This now uses our new variable
+            cancel_url: cancelUrl,   // This now uses our new variable
             metadata: {
                 seeker_name: name || 'Not provided',
                 birth_date: dob || 'Not provided',
@@ -55,3 +59,4 @@ app.post('/create-checkout-session', async (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => console.log(`Sunny Daze Server running on port ${PORT}`));
+
