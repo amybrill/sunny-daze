@@ -1,4 +1,6 @@
 
+
+
 require('dotenv').config();
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -26,7 +28,7 @@ app.post('/create-checkout-session', async (req, res) => {
     const baseUrl = process.env.CLIENT_URL || 'http://localhost:8080';
     
     // Set the specific destinations
-    const successUrl = `${baseUrl}/success?success=true`; 
+    const successUrl = `${baseUrl}/?success=true`;
     const cancelUrl = `${baseUrl}/`; 
     // --- PASTE ENDS HERE ---
 
@@ -59,4 +61,3 @@ app.post('/create-checkout-session', async (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => console.log(`Sunny Daze Server running on port ${PORT}`));
-
