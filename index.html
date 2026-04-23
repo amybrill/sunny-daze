@@ -166,45 +166,54 @@
     const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
 
     async function handlePay(type, priceId) {
-        const name = document.getElementById('fullName').value;
-        const email = document.getElementById('userEmail').value;
-        const dob = document.getElementById('birthDate').value;
-        const city = document.getElementById('birthCity').value;
-        const time = document.getElementById('birthTime').value;
-        const partnerField = document.getElementById('partnerName');
-        const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('userEmail').value;
+    const dob = document.getElementById('birthDate').value;
+    const city = document.getElementById('birthCity').value;
+    const time = document.getElementById('birthTime').value;
+    const partnerField = document.getElementById('partnerName');
+    const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
 
-        if (!email || !name) {
-            alert("Please enter at least your Name and Email.");
-            return;
-        }
+    if (!email || !name) {
+        alert("Please enter at least your Name and Email.");
+        return;
+    }
 
-        // Store these so we can calculate the numbers on the success page
-        localStorage.setItem('last_item', priceId);
-        localStorage.setItem('soul_name', name);
-        localStorage.setItem('soul_dob', dob); 
+    // Store for success page
+    localStorage.setItem('last_item', priceId);
+    localStorage.setItem('soul_name', name);
+    localStorage.setItem('soul_dob', dob); 
 
+    try {
         const response = await fetch('/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                priceId: priceId, 
-                userEmail: email,
+                priceId: priceId,      // This is what Stripe was missing!
+                userEmail: email,      // Matches 'userEmail' in server.js
                 serviceName: type,
-                clientUrl: window.location.origin + "/?success=true",
-                name, dob, city, time, partner 
+                name: name,
+                dob: dob,
+                city: city,
+                time: time,
+                partner: partner 
             }),
         });
 
         const session = await response.json();
         
-        if (session.id) {
-            const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
-            await stripe.redirectToCheckout({ sessionId: session.id });
+        if (session.url) {
+            // Use the URL Stripe sent back directly
+            window.location.href = session.url;
         } else {
-            alert("Check your info and try again.");
+            console.error("Session Error:", session);
+            alert("The connection timed out. Please try again.");
         }
+    } catch (err) {
+        console.error("Payment Error:", err);
+        alert("Technical glitch—please refresh and try once more.");
     }
+}
 
     window.onload = () => {
     const params = new URLSearchParams(window.location.search);
