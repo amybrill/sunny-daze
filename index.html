@@ -74,7 +74,8 @@
     </button>
     <div id="kindredBox" class="hidden p-4 space-y-2 glass rounded-xl">
         <input type="text" id="partnerName" class="data-input" placeholder="Partner's Full Name">
-        <button onclick="handlePay('Kindred Souls', PRICES.KINDRED)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Kindred</button>
+<input type="text" id="partnerDob" class="data-input" placeholder="Partner's DOB (MM/DD/YYYY)"> 
+    <button onclick="handlePay('Kindred Souls', PRICES.KINDRED)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Kindred</button>
     </div>
 
     <button onclick="handlePay('Time-Line Track', PRICES.TIMELINE)" class="w-full bg-purple-900/50 border border-purple-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
@@ -262,9 +263,21 @@
             board.scrollIntoView({ behavior: 'smooth' });
         } 
         
-        // 3. MANUAL READINGS ($3.69 - $5.28) - OPENS BOARD + UNIVERSE MESSAGE
-        else if (last === PRICES.TRIO || last === PRICES.TIMELINE || last === PRICES.KINDRED) {
-            if (board) board.classList.remove('hidden'); // Master key ONLY for these products
+        // 3. KINDRED SOULS ($5.28) - OPENS BOARD + ASKS FOR PARTNER DOB
+        else if (last === PRICES.KINDRED) {
+            if (board) board.classList.remove('hidden');
+            text.innerHTML = `
+                <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest">Connection Unlocked</div>
+                <p class="text-sm text-pink-200 mb-4">Please enter your partner's Date of Birth to complete the decoding:</p>
+                <input type="date" id="partnerDOBInput" class="data-input mb-4" style="max-width:200px; margin: 0 auto;">
+                <button onclick="submitPartnerData()" class="w-full bg-indigo-600 py-3 mt-4 rounded-lg font-black uppercase shadow-lg">Reveal Our Destiny</button>
+            `;
+            board.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 4. MANUAL READINGS ($3.69 - $4.32) - OPENS BOARD + UNIVERSE MESSAGE
+        else if (last === PRICES.TRIO || last === PRICES.TIMELINE) {
+            if (board) board.classList.remove('hidden');
             text.innerHTML = `
                 <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest animate-pulse">
                     The Universe Has Heard You
@@ -291,6 +304,23 @@
     function getDailyFortune() {
         const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
         document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
+    }
+function submitPartnerData() {
+        const pDob = document.getElementById('partnerDOBInput').value;
+        if(!pDob) { 
+            alert("Please select a date."); 
+            return; 
+        }
+        
+        // This clears the input and shows the final confirmation message
+        document.getElementById('spirit-content').innerHTML = `
+            <div class="neon-pink mb-2 text-xs uppercase font-black">Connection Received</div>
+            <p class="text-sm text-pink-100">
+                The frequencies between you and your partner are being synchronized. 
+                <br><br> 
+                <strong>Please check your email within 24-48 hours for the full Kindred Souls report.</strong>
+            </p>
+        `;
     }
 </script>
   
