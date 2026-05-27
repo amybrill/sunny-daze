@@ -90,7 +90,7 @@
     </div>
 
     <!-- Purchase Button -->
-    <button onclick="handleTunerPurchase()" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+    <button style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
         Lock Frequency &amp; Purchase
     </button>
 </section>
@@ -105,7 +105,8 @@
         <div id="visual-orb" style="width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, #ffff00 0%, transparent 70%); opacity: 0.4; transition: all 0.5s ease;"></div>
     </div>
 
-    <div id="readout-text" class="neon-pink text-center" style="font-size: 14px; margin-bottom: 16px; min-height: 20px;">READY FOR TRANSMISSION</div>
+    <div id="readout-text" class="neon-pink text-center" style="font-size: 14px; margin-bottom: 16px; min-height: 20px;">READY FOR TRANSMISSION 
+                                          Book mark this page for later use</div>
 
     <button id="action-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
         Activate Alignment Frequency
@@ -210,7 +211,8 @@ Quantum Wave Method</button></div>
                                 <p>Soon you will start noticing things that you ask for out loud will seemingly appear for you. Your dream job gets offered to you. A promotion comes through out of the blue. That dream house or car is now suddenly affordable. You will also start to notice people that were weighing you down will just simply fade away and be replaced with people who match your vibration. This is how you will know the shift is complete. You have crossed over.</p>
                             </div>
                         </div>
-                    </div>
+                   
+
                 </div>
             </section>
         </div>
@@ -452,7 +454,7 @@ Quantum Wave Method</button></div>
                 const lFreq = TUNER_MATRIX[lpNum];
                 const rFreq = parseInt(document.getElementById('tuner-intention' ).value);
 
-                tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
+                tunerCtx = new (window.AudioContext || window.webkitAudioContext )();
                 tMasterGain = tunerCtx.createGain();
                 tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
