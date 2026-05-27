@@ -454,8 +454,14 @@ Quantum Wave Method</button></div>
                 const rFreq = parseInt(document.getElementById('tuner-intention' ).value);
 
                 tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
-                tMasterGain = tunerCtx.createGain();
-                tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
+
+// WAKE UP THE ENGINE IF THE BROWSER BLOCKS IT
+if (tunerCtx.state === 'suspended') {
+    tunerCtx.resume();
+}
+
+tMasterGain = tunerCtx.createGain();
+tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
 
                 tLeftOsc = tunerCtx.createOscillator();
