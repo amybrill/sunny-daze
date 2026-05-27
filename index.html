@@ -405,6 +405,41 @@ Quantum Wave Method</button></div>
             <p class="text-sm text-pink-100">
                 The frequencies between you and your partner are being synchronized. 
                 <br><br> 
+                <span class="neon-pink font-bold">Please check your email within 24-48 hours.</span>
+                    </p>
+                `;
+                board.scrollIntoView({ behavior: 'smooth' }); 
+            }
+        }
+    }; // Properly closed window.onload here
+
+    function toggleBox(id) { document.getElementById(id).classList.toggle('hidden'); }
+    
+    function toggleArticle() {
+        const full = document.getElementById('full-article');
+        const preview = document.getElementById('article-preview');
+        const btn = document.getElementById('expandBtn');
+        full.classList.toggle('hidden');
+        preview.classList.toggle('hidden');
+        btn.innerText = full.classList.contains('hidden') ? "Expand Full Article" : "Show Less";
+    }
+
+    function getDailyFortune() {
+        const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
+        document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
+    }
+
+    function submitPartnerData() {
+        const pDob = document.getElementById('partnerDOBInput').value;
+        if(!pDob) { 
+            alert("Please select a date."); 
+            return; 
+        }
+        document.getElementById('spirit-content').innerHTML = `
+            <div class="neon-pink mb-2 text-xs uppercase font-black">Connection Received</div>
+            <p class="text-sm text-pink-100">
+                The frequencies between you and your partner are being synchronized. 
+                <br><br> 
                 <strong>Please check your email within 24-48 hours for the full Kindred Souls report.</strong>
             </p>
         `;
@@ -441,20 +476,35 @@ Quantum Wave Method</button></div>
         const orb = document.getElementById('visual-orb');
         const readout = document.getElementById('readout-text');
 
+        // Safety verification if elements exist in view
+        if (!actionBtn) return;
+
         actionBtn.addEventListener('click', () => {
             if (!tunerPlaying) {
-                const dobValue = document.getElementById('birthDate').value;
+                // 1. FALLBACK FIX: Check the tuner box date first. If empty, grab the main birth box!
+                let dobValue = document.getElementById('tuner-dob') ? document.getElementById('tuner-dob').value : '';
+                if (!dobValue || dobValue === '') {
+                    dobValue = document.getElementById('birthDate').value;
+                }
+
                 const lpNum = parseLP(dobValue);
 
                 if (!lpNum) {
-                    alert('Please enter your full Date of Birth (MM/DD/YYYY) in the Required Reading Info box first.');
+                    alert('Please enter your full Date of Birth (MM/DD/YYYY) in the Required Reading Info box.');
                     return;
                 }
 
                 const lFreq = TUNER_MATRIX[lpNum];
-                const rFreq = parseInt(document.getElementById('tuner-intention' ).value);
+                
+                // 2. FALLBACK FIX: Check the tuner box dropdown selection
+                const rFreq = parseInt(document.getElementById('tuner-intention').value);
 
-                tunerCtx = new (window.AudioContext || window.webkitAudioContext )();
+                // 3. SAFARI / CHROME MOBILE BROWSER AUDIO UNBLOCKER
+                tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (tunerCtx.state === 'suspended') {
+                    tunerCtx.resume();
+                }
+
                 tMasterGain = tunerCtx.createGain();
                 tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
@@ -509,8 +559,8 @@ Quantum Wave Method</button></div>
                 orb.style.boxShadow = "none";
                 readout.innerText = "";
             }
-        });
-    });
+        }); // Correctly closes actionBtn click event listener
+    }); // Correctly closes DOMContentLoaded event listener
 </script>
 
 <footer style="text-align: center; margin-top: 50px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
