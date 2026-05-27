@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunny Daze | Reveal Your Destiny</title>
 
     <meta name="description" content="Discover your Quantum Wave Method, Life Path, and Cosmic Trio. Get personalized numerical alignment for your soul's journey.">
@@ -12,7 +11,8 @@
     <meta property="og:image" content="https://sunny-daze-production.com/background.png">
     <meta property="og:url" content="https://sunny-daze-production.com">
     <meta name="twitter:card" content="summary_large_image">
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.stripe.com/v3/"></script>
 
     <style>
@@ -66,7 +66,61 @@
                     </div>
                 </div>
             </section>
+<!-- START STANDALONE POCKET_TUNER SECTION -->
+<!-- PART 1: THE PRE-PURCHASE SELECTION (VISIBLE TO ALL) -->
+<section id="tuner-purchase-section" style="max-width: 448px; margin: 0 auto 40px auto; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid #ec4899; padding: 24px; border-radius: 8px; text-align: center;">
+    <h2 class="neon-yellow" style="font-size: 24px; font-weight: 900; margin-bottom: 4px; uppercase;">Pocket_Tuner</h2>
+    <p style="font-size: 11px; color: rgba(244, 172, 211, 0.7); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;">Configure Your Alignment Before Checkout</p>
+    
+    <!-- Birth Date Input -->
+    <div style="margin-bottom: 16px; text-align: left;">
+        <label style="display: block; font-size: 12px; color: #ec4899; margin-bottom: 4px; font-weight: bold;">ENTER DATE OF BIRTH:</label>
+        <input type="date" id="tuner-dob" style="width: 100%; background: #000; border: 1px solid #ec4899; color: #fff; padding: 8px; border-radius: 4px; outline: none;">
+    </div>
+
+    <!-- Frequency Dropdown -->
+    <div style="margin-bottom: 24px; text-align: left;">
+        <label style="display: block; font-size: 12px; color: #ec4899; margin-bottom: 4px; font-weight: bold;">SELECT MANIFESTATION FREQUENCY:</label>
+        <select id="tuner-intention" style="width: 100%; background: #000; border: 1px solid #ec4899; color: #fff; padding: 8px; border-radius: 4px; outline: none;">
+            <option value="432">✨ 432 Hz - Cosmic Abundance &amp; Success</option>
+            <option value="528">👁️ 528 Hz - Transformation &amp; Divine Power</option>
+            <option value="639">💖 639 Hz - Deep Karmic Attraction</option>
+            <option value="852">🔮 852 Hz - Quantum Intuition Awakening</option>
+        </select>
+    </div>
+
+    <!-- Purchase Button -->
+    <button onclick="handleTunerPurchase()" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+        Lock Frequency &amp; Purchase
+    </button>
+</section>
+
+<!-- PART 2: THE ACTUAL POCKET_TUNER  (HIDDEN UNTIL SUCCESSFUL PURCHASE) -->
+<section id="pocket-tuner" class="hidden" style="max-width: 448px; margin: 0 auto 40px auto; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid #ec4899; padding: 24px; border-radius: 8px; text-align: center;">
+    <h2 class="neon-pink" style="font-size: 24px; font-weight: 900; margin-bottom: 4px;">TUNER ACTIVE</h2>
+    <div id="user-alignment-readout" class="neon-yellow" style="font-size: 14px; margin-bottom: 16px; font-weight: bold; text-transform: uppercase;"></div>
+    
+    <!-- The Glowing Orb Visualizer -->
+    <div style="height: 128px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <div id="visual-orb" style="width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, #ffff00 0%, transparent 70%); opacity: 0.4; transition: all 0.5s ease;"></div>
+    </div>
+
+    <div id="readout-text" class="neon-pink text-center" style="font-size: 14px; margin-bottom: 16px; min-height: 20px;">READY FOR TRANSMISSION</div>
+
+    <button id="action-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+        Activate Alignment Frequency
+    </button>
+</section>
+
+<!-- END STANDALONE POCKET_TUNER SECTION -->
+
 <section class="space-y-4 my-12 max-w-md mx-auto">
+<button onclick="handlePay('Pocket_Tuner', PRICES.POCKET_TUNER)" class="w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black py-5 rounded-xl font-black uppercase flex justify-between px-8 shadow-lg shadow-pink-500/20">
+    <span>Pocket_Tuner</span><span>$2.22 
+    Unlock your uncorrupted birth baseline frequency blended with your intention matrix</span>
+</button>
+
+
     <button onclick="handlePay('Cosmic Trio', PRICES.TRIO)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
         <span>Cosmic Trio</span><span>$4.32 
            Indepth report of your Life Path, Soul Urge, 
@@ -142,13 +196,13 @@ Quantum Wave Method</button></div>
                         <div>
                             <h5 class="neon-yellow font-black uppercase text-2xl mb-4">Phase Two</h5>
                             <div class="text-pink-100 text-[15px] leading-relaxed space-y-4">
-                                <p>Now that your vibration is high enough to leap it is time for the reprogramming. You will need a good set of cushioned head phones and a place to lie down where you will not be disturbed. On a daily or nightly basis listen to a deep sleep hypnosis audio. Specifically tailored towards reprogramming the subconscious mind. It doesn’t matter which ones you choose and their are plenty of free ones available on youtube.</p>
+                                <p>Now that your vibration is high enough to leap it is time for the reprogramming. You will need a good set of cushioned head phones and a place to lie down where you will not be disturbed. On a daily or nightly basis listen to a deep sleep hypnosis audio. Specifically tailored towards reprogramming the subconscious mind. It doesn’t matter which ones you choose and there are plenty of free ones available on youtube.</p>
                                 <p>Once you get comfortable and before you start the audio set your intentions. What is it you are needing? What would you like to be doing in your new reality? How would you like to be living? Really narrow it down. Pick one main difference and focus all your intentions on that change. Either say it out loud or in your head. This sets it up for your subconscious to learn. Now turn on the audio and follow the guided hypnosis. It is recommended to do this process every night until you start to notice changes.</p>
                                 <p class="italic bg-pink-900/20 p-4 rounded-xl">Phase two is a major process. Don’t be discouraged if you don’t experience any changes right away. The conscious mind can be stubborn. It is having to relearn a whole new way of doing things. Since we were born we have been conditioned on how to look, act, think and even dream by our parents, elders, peers, and society. If you have been told all your life this is the way it is and nothing can be done about it. Your subconscious will push that narrative and your waking conscious mind will act upon it. That is why phase two of my method is a very important step. Once you start to feel a difference in the way you carry yourself. You should start to see that others are noticing something different in you as well. They may even go as far as to say so. Its time to advance to phase three.</p>
                             </div>
                         </div>
                         <div>
-                            <h5 class="neon-yellow font-black uppercase text-2xl mb-4">Phase Three: The Harmonic Integration</h5>
+                            <h5 class="neon-yellow font-black uppercase text-2xl mb-4">Phase Three: The Mention Technique</h5>
                             <div class="text-pink-100 text-[15px] leading-relaxed space-y-4">
                                 <p>Now it is time to start using your subconscious to your advantage. Phase three was designed just for that reason. Now that you have reprogrammed your subconscious to start making your conscious mind behave in the way you are training it . You are ready for the “Mention Technique.” This technique will guide in manifesting the shift.</p>
                                 <p>What you will do on a weekly basis is write down everything that you want this reality to be. But you have to write it like it already happened. You will be journaling things that you want to happen in a way that reads as if they already did. Really feel like it has happened. Carry yourself like you are living the life you always dreamed. And most importantly be very grateful.</p>
@@ -162,10 +216,10 @@ Quantum Wave Method</button></div>
         </div>
     </div>
 
-
 <script>
     const PRICES = {
-         LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
+        POCKET_TUNER: 'price_1TaUEqFumfdhryie5cBQe2Wq', 
+        LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
         TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
         TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
         KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
@@ -176,132 +230,154 @@ Quantum Wave Method</button></div>
     const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
 
     async function handlePay(type, priceId) {
-    const name = document.getElementById('fullName').value;
-    const email = document.getElementById('userEmail').value;
-    const dob = document.getElementById('birthDate').value;
-    const city = document.getElementById('birthCity').value;
-    const time = document.getElementById('birthTime').value;
-    const partnerField = document.getElementById('partnerName');
-    const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
-
-    if (!email || !name) {
-        alert("Please enter at least your Name and Email.");
-        return;
-    }
-
-    // Store for success page
-    localStorage.setItem('last_item', priceId);
-    localStorage.setItem('soul_name', name);
-    localStorage.setItem('soul_dob', dob); 
-
-    try {
-        const response = await fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                priceId: priceId,      // This is what Stripe was missing!
-                userEmail: email,      // Matches 'userEmail' in server.js
-                serviceName: type,
-                name: name,
-                dob: dob,
-                city: city,
-                time: time,
-                partner: partner 
-            }),
-        });
-
-        const session = await response.json();
+        let name = document.getElementById('fullName').value;
+        let email = document.getElementById('userEmail').value;
+        let dob = document.getElementById('birthDate').value;
         
-        if (session.url) {
-            // Use the URL Stripe sent back directly
-            window.location.href = session.url;
-        } else {
-            console.error("Session Error:", session);
-            alert("The connection timed out. Please try again.");
+        const city = document.getElementById('birthCity').value;
+        const time = document.getElementById('birthTime').value;
+        const partnerField = document.getElementById('partnerName');
+        const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
+
+        if (type === 'Pocket_Tuner') {
+            if (!dob) dob = localStorage.getItem('saved_dob') || '';
+            if (!name) name = "Tuner Seeker";
+            if (!email) email = prompt("Please enter your email address for your receipt:") || "";
         }
-    } catch (err) {
-        console.error("Payment Error:", err);
-        alert("Technical glitch—please refresh and try once more.");
+
+        if (!email || !name) {
+            alert("Please enter a valid Name and Email to proceed to checkout.");
+            return;
+        }
+
+        localStorage.setItem('last_item', priceId);
+        localStorage.setItem('soul_name', name);
+        localStorage.setItem('soul_dob', dob); 
+
+        try {
+            const response = await fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    priceId: priceId,      
+                    userEmail: email,      
+                    serviceName: type,
+                    name: name,
+                    dob: dob,
+                    city: city,
+                    time: time,
+                    partner: partner 
+                }),
+            });
+
+            const session = await response.json();
+            
+            if (session.url) {
+                window.location.href = session.url;
+            } else {
+                console.error("Session Error:", session);
+                alert("The connection timed out. Please try again.");
+            }
+        } catch (err) {
+            console.error("Payment Error:", err);
+            alert("Technical glitch—please refresh and try once more.");
+        }
     }
-}
 
     window.onload = () => {
-    const params = new URLSearchParams(window.location.search);
-    
-    if (params.get('success') === 'true') {
-        const board = document.getElementById('result-area');
-        const text = document.getElementById('spirit-content');
-        const last = localStorage.getItem('last_item');
-        const name = localStorage.getItem('soul_name') || "Seeker";
-        const dob = localStorage.getItem('soul_dob');
-
-        // 1. QUANTUM WAVE ($7.77) - UNLOCKS PHASES ONLY
-        if (last === PRICES.QUANTUM) {
-            const premium = document.getElementById('premium-phases');
-            if (premium) {
-                premium.classList.remove('hidden'); // Unlocks the content
-                premium.scrollIntoView({ behavior: 'smooth' }); // Takes them straight to the new content
-            }
-            // Optional: You can keep the board hidden here, 
-            // or show a tiny "Access Granted" message. 
-            // If you want it totally hidden, do nothing else here.
-        } 
+        const params = new URLSearchParams(window.location.search);
         
-        // 2. LIFE PATH ($1.11) - OPENS BOARD + SHOWS NUMBERS
-        else if (last === PRICES.LIFEPATH) { 
-            if (board) board.classList.remove('hidden'); // Master key ONLY for this product
-            const vowels = (name.toUpperCase().match(/[AEIOU]/g) || []);
-            const soulSum = vowels.join('').split('').reduce((a, v) => a + (charMap[v] || 0), 0);       
-            const soulUrge = reduce(soulSum);
+        if (params.get('success') === 'true') {
+            const board = document.getElementById('result-area');
+            const text = document.getElementById('spirit-content');
+            const last = localStorage.getItem('last_item');
+            const name = localStorage.getItem('soul_name') || "Seeker";
+            const dob = localStorage.getItem('soul_dob');
 
-            let lifePath = "??";
-            if (dob) {
-                const digits = dob.replace(/\D/g, '');
-                const sum = digits.split('').reduce((a, d) => a + Number(d), 0);
-                lifePath = reduce(sum);
+            // POCKET_TUNER UNLOCK
+            if (last === 'price_1TaUEqFumfdhryie5cBQe2Wq') {
+                const tuner = document.getElementById('pocket-tuner');
+                if (tuner) {
+                    tuner.classList.remove('hidden'); 
+                    tuner.scrollIntoView({ behavior: 'smooth' }); 
+                }
             }
 
-            text.innerHTML = `
-                <div class="neon-yellow mb-2 text-xs uppercase font-black">Alignment Complete</div>
-                <div class="flex justify-center gap-8 my-4">
-                    <div class="text-center"><p class="text-[10px] text-pink-400">SOUL</p><div class="text-5xl font-black neon-pink">${soulUrge}</div></div>
-                    <div class="text-center"><p class="text-[10px] text-pink-400">PATH</p><div class="text-5xl font-black neon-pink">${lifePath}</div></div>
-                </div>
-                <p class="text-sm italic">The Bridge is synchronized for ${name}.</p>                
-            `;
-            board.scrollIntoView({ behavior: 'smooth' });
-        } 
-        
-        // 3. KINDRED SOULS ($5.28) - OPENS BOARD + ASKS FOR PARTNER DOB
-        else if (last === PRICES.KINDRED) {
-            if (board) board.classList.remove('hidden');
-            text.innerHTML = `
-                <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest">Connection Unlocked</div>
-                <p class="text-sm text-pink-200 mb-4">Please enter your partner's Date of Birth to complete the decoding:</p>
-                <input type="date" id="partnerDOBInput" class="data-input mb-4" style="max-width:200px; margin: 0 auto;">
-                <button onclick="submitPartnerData()" class="w-full bg-indigo-600 py-3 mt-4 rounded-lg font-black uppercase shadow-lg">Reveal Our Destiny</button>
-            `;
-            board.scrollIntoView({ behavior: 'smooth' });
+            // 1. QUANTUM WAVE ($7.77)
+            if (last === PRICES.QUANTUM) {
+                const premium = document.getElementById('premium-phases');
+                if (premium) {
+                    premium.classList.remove('hidden');
+                    premium.scrollIntoView({ behavior: 'smooth' });
+                }
+            } 
+            
+            // 2. LIFE PATH ($1.11)
+            else if (last === PRICES.LIFEPATH) { 
+                if (board) board.classList.remove('hidden');
+
+                const vowels = (name.toUpperCase().match(/[AEIOU]/g) || []);
+                const soulSum = vowels.join('').split('').reduce((a, v) => a + (charMap[v] || 0), 0);       
+                const soulUrge = reduce(soulSum);
+
+                let lifePath = "??";
+                if (dob) {
+                    const digits = dob.replace(/\D/g, '');
+                    const sum = digits.split('').reduce((a, d) => a + Number(d), 0);
+                    lifePath = reduce(sum);
+                }
+
+                text.innerHTML = `
+                    <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest animate-pulse">
+                        Alignment Complete
+                    </div>
+                    <div class="flex justify-center gap-8 my-4">
+                        <div class="text-center">
+                            <p class="text-[10px] text-pink-400 font-bold tracking-wider">SOUL URGE</p>
+                            <div class="text-5xl font-black neon-pink">${soulUrge}</div>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[10px] text-pink-400 font-bold tracking-wider">LIFE PATH</p>
+                            <div class="text-5xl font-black neon-pink">${lifePath}</div>
+                        </div>
+                    </div>
+                    <p class="text-sm italic text-pink-200">The Bridge is synchronized for ${name}.</p>                
+                `;
+                board.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // 3. KINDRED SOULS ($5.28)
+            else if (last === PRICES.KINDRED) {
+                if (board) board.classList.remove('hidden');
+                text.innerHTML = `
+                    <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest">Connection Unlocked</div>
+                    <p class="text-sm text-pink-200 mb-4">Please enter your partner's Date of Birth to complete the decoding:</p>
+                    <input type="date" id="partnerDOBInput" class="data-input mb-4" style="max-width:200px; margin: 0 auto;">
+                    <button onclick="submitPartnerData()" class="w-full bg-indigo-600 py-3 mt-4 rounded-lg font-black uppercase shadow-lg">Reveal Our Destiny</button>
+                `;
+                board.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // 4. MANUAL READINGS ($3.69 - $4.32)
+            else if (last === PRICES.TRIO || last === PRICES.TIMELINE) {
+                if (board) board.classList.remove('hidden');
+                text.innerHTML = `
+                    <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest animate-pulse">
+                        The Universe Has Heard You
+                    </div>
+                    <p class="text-sm text-pink-200 p-4 leading-relaxed">
+                        Your energy has been received. Your personalized reading is being channeled now. 
+                        <br><br>
+                        <span class="neon-pink font-bold">Please check your email within 24-48 hours.</span>
+                    </p>
+                `;
+                board.scrollIntoView({ behavior: 'smooth' }); 
+            }
         }
-        
-        // 4. MANUAL READINGS ($3.69 - $4.32) - OPENS BOARD + UNIVERSE MESSAGE
-        else if (last === PRICES.TRIO || last === PRICES.TIMELINE) {
-            if (board) board.classList.remove('hidden');
-            text.innerHTML = `
-                <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest animate-pulse">
-                    The Universe Has Heard You
-                </div>
-                <p class="text-sm text-pink-200 p-4 leading-relaxed">
-                    Your energy has been received. Your personalized reading is being channeled now. 
-                    <br><br>
-                    <span class="neon-pink font-bold">Please check your email within 24-48 hours.</span>
-                </p>
-            `;
-            board.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-};
+    }; // Properly closed window.onload here
+
     function toggleBox(id) { document.getElementById(id).classList.toggle('hidden'); }
+    
     function toggleArticle() {
         const full = document.getElementById('full-article');
         const preview = document.getElementById('article-preview');
@@ -310,18 +386,18 @@ Quantum Wave Method</button></div>
         preview.classList.toggle('hidden');
         btn.innerText = full.classList.contains('hidden') ? "Expand Full Article" : "Show Less";
     }
+
     function getDailyFortune() {
         const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
         document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
     }
-function submitPartnerData() {
+
+    function submitPartnerData() {
         const pDob = document.getElementById('partnerDOBInput').value;
         if(!pDob) { 
             alert("Please select a date."); 
             return; 
         }
-        
-        // This clears the input and shows the final confirmation message
         document.getElementById('spirit-content').innerHTML = `
             <div class="neon-pink mb-2 text-xs uppercase font-black">Connection Received</div>
             <p class="text-sm text-pink-100">
@@ -331,12 +407,113 @@ function submitPartnerData() {
             </p>
         `;
     }
+
+    // ==========================================
+    //  POCKET TUNER ENGINE AUDIO DRIVERS
+    // ==========================================
+    const TUNER_MATRIX = {
+        1: 685, 2: 760, 3: 925, 4: 600, 
+        5: 785, 6: 910, 7: 825, 8: 775, 9: 1140
+    };
+
+    function parseLP(dateString) {
+        if(!dateString) return null;
+        const digits = dateString.replace(/\D/g, '');
+        if(digits.length < 8) return null; 
+        
+        let sum = digits.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+        while (sum > 9) {
+            sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+        }
+        return sum;
+    }
+
+    let tunerCtx = null;
+    let tLeftOsc = null;
+    let tRightOsc = null;
+    let tMasterGain = null;
+    let tunerPlaying = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const actionBtn = document.getElementById('action-btn');
+        const orb = document.getElementById('visual-orb');
+        const readout = document.getElementById('readout-text');
+
+        actionBtn.addEventListener('click', () => {
+            if (!tunerPlaying) {
+                const dobValue = document.getElementById('birthDate').value;
+                const lpNum = parseLP(dobValue);
+
+                if (!lpNum) {
+                    alert('Please enter your full Date of Birth (MM/DD/YYYY) in the Required Reading Info box first.');
+                    return;
+                }
+
+                const lFreq = TUNER_MATRIX[lpNum];
+                const rFreq = parseInt(document.getElementById('tuner-intention' ).value);
+
+                tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
+                tMasterGain = tunerCtx.createGain();
+                tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
+                tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
+
+                tLeftOsc = tunerCtx.createOscillator();
+                tLeftOsc.type = 'sine';
+                tLeftOsc.frequency.setValueAtTime(lFreq, tunerCtx.currentTime);
+                const pannerL = tunerCtx.createStereoPanner();
+                pannerL.pan.setValueAtTime(-1, tunerCtx.currentTime); 
+
+                tRightOsc = tunerCtx.createOscillator();
+                tRightOsc.type = 'sine';
+                tRightOsc.frequency.setValueAtTime(rFreq, tunerCtx.currentTime);
+                const pannerR = tunerCtx.createStereoPanner();
+                pannerR.pan.setValueAtTime(1, tunerCtx.currentTime); 
+
+                tLeftOsc.connect(pannerL).connect(tMasterGain);
+                tRightOsc.connect(pannerR).connect(tMasterGain);
+                tMasterGain.connect(tunerCtx.destination);
+
+                tLeftOsc.start();
+                tRightOsc.start();
+                
+                tunerPlaying = true;
+                actionBtn.innerText = "Deactivate Tuner";
+                actionBtn.style.background = "linear-gradient(to right, #ef4444, #b91c1c)";
+                
+                orb.style.opacity = "1";
+                orb.style.transform = "scale(1.2)";
+                orb.style.boxShadow = "0 0 30px #ffff00";
+                
+                readout.innerHTML = `<span class="neon-pink">Resonating:</span> LP ${lpNum} (${lFreq}Hz) ⚡ Target (${rFreq}Hz)<br><span style="font-size: 10px; opacity: 0.6;">Headphones Recommended</span>`;
+            } else {
+                if (tMasterGain && tunerCtx) {
+                    tMasterGain.gain.setValueAtTime(tMasterGain.gain.value, tunerCtx.currentTime);
+                    tMasterGain.gain.linearRampToValueAtTime(0, tunerCtx.currentTime + 0.3);
+                    setTimeout(() => {
+                        try {
+                            if(tLeftOsc) tLeftOsc.stop();
+                            if(tRightOsc) tRightOsc.stop();
+                            if(tunerCtx) tunerCtx.close();
+                        } catch(err) {}
+                    }, 300);
+                }
+                
+                tunerPlaying = false;
+                actionBtn.innerText = "Activate Alignment Frequency";
+                actionBtn.style.background = "linear-gradient(to right, #ec4899, #7c3aed)";
+                
+                orb.style.opacity = "0.4";
+                orb.style.transform = "scale(1)";
+                orb.style.boxShadow = "none";
+                readout.innerText = "";
+            }
+        });
+    });
 </script>
-  
-          
+
 <footer style="text-align: center; margin-top: 50px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
     <p style="font-size: 0.8rem; color: #888;">
-        © 2026 sunny- daze-production.™ All rights reserved. <br><br>
+        © 2026 sunny-daze-production.™ All rights reserved. <br><br>
         <strong>Disclaimer:</strong> For entertainment purposes only. Readings and frequency insights are not a substitute for professional legal, financial, or medical advice.
     </p>
 </footer>
