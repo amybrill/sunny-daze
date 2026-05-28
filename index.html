@@ -90,25 +90,21 @@
     </div>
 
     <!-- Purchase Button -->
-    <button onclick="handleTunerPurchase()" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
-        Lock Frequency &amp; Purchase
-    </button>
-</section>
-
-<!-- PART 2: THE ACTUAL POCKET_TUNER  (HIDDEN UNTIL SUCCESSFUL PURCHASE) -->
+    <button id="action-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+    Lock Frequency &amp; Purchase
+</button>
 <section id="pocket-tuner" class="hidden" style="max-width: 448px; margin: 0 auto 40px auto; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid #ec4899; padding: 24px; border-radius: 8px; text-align: center;">
     <h2 class="neon-pink" style="font-size: 24px; font-weight: 900; margin-bottom: 4px;">TUNER ACTIVE</h2>
     <div id="user-alignment-readout" class="neon-yellow" style="font-size: 14px; margin-bottom: 16px; font-weight: bold; text-transform: uppercase;"></div>
     
-    <!-- The Glowing Orb Visualizer -->
     <div style="height: 128px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
         <div id="visual-orb" style="width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, #ffff00 0%, transparent 70%); opacity: 0.4; transition: all 0.5s ease;"></div>
     </div>
 
     <div id="readout-text" class="neon-pink text-center" style="font-size: 14px; margin-bottom: 16px; min-height: 20px;">READY FOR TRANSMISSION 
-                                          Book mark this page for future reference</div>
+                                        Bookmark this page for future reference</div>
 
-    <button id="action-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+    <button id="play-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
         Activate Alignment Frequency
     </button>
 </section>
