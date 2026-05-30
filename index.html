@@ -93,28 +93,14 @@
     <button id="action-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
     Lock Frequency &amp; Purchase
 </button>
-<section id="pocket-tuner" class="hidden" style="max-width: 448px; margin: 0 auto 40px auto; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid #ec4899; padding: 24px; border-radius: 8px; text-align: center;">
-    <h2 class="neon-pink" style="font-size: 24px; font-weight: 900; margin-bottom: 4px;">TUNER ACTIVE</h2>
-    <div id="user-alignment-readout" class="neon-yellow" style="font-size: 14px; margin-bottom: 16px; font-weight: bold; text-transform: uppercase;"></div>
-    
-    <div style="height: 128px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-        <div id="visual-orb" style="width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, #ffff00 0%, transparent 70%); opacity: 0.4; transition: all 0.5s ease;"></div>
-    </div>
 
-    <div id="readout-text" class="neon-pink text-center" style="font-size: 14px; margin-bottom: 16px; min-height: 20px;">READY FOR TRANSMISSION 
-                                        Bookmark this page for future reference</div>
-
-    <button id="play-btn" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
-        Activate Alignment Frequency
-    </button>
-</section>
 
 <!-- END STANDALONE POCKET_TUNER SECTION -->
 
 <section class="space-y-4 my-12 max-w-md mx-auto">
 <button onclick="handlePay('Pocket_Tuner', PRICES.POCKET_TUNER)" class="w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black py-5 rounded-xl font-black uppercase flex justify-between px-8 shadow-lg shadow-pink-500/20">
     <span>Pocket_Tuner</span><span>$2.22 
-    Unlock your uncorrupted birth baseline frequency blended with your intention matrix</span>
+    Unlock your birth frequency blended with your intention frequency</span>
 </button>
 
 
@@ -436,6 +422,35 @@ Quantum Wave Method</button></div>
         const orb = document.getElementById('visual-orb');
         const readout = document.getElementById('readout-text');
 
+        // ==========================================
+        // STRIPE RETURN & PERSISTENCE DRIVERS
+        // ==========================================
+        const dobField = document.getElementById('birthDate');
+        if (dobField) {
+            // 1. Save the date automatically whenever the user types it
+            dobField.addEventListener('input', (e) => {
+                localStorage.setItem('savedDOB', e.target.value);
+            });
+
+            // 2. Auto-load their date back into the box when they return from Stripe
+            if (localStorage.getItem('savedDOB')) {
+                dobField.value = localStorage.getItem('savedDOB');
+            }
+        }
+
+        // 3. Sync the button state if Stripe page load says it's active
+        if (readout && readout.innerText.includes("TUNER ACTIVE")) {
+            tunerPlaying = true;
+            actionBtn.innerText = "Deactivate Tuner";
+            actionBtn.style.background = "linear-gradient(to right, #ef4444, #b91c1c)";
+            if (orb) {
+                orb.style.opacity = "1";
+                orb.style.transform = "scale(1.2)";
+                orb.style.boxShadow = "0 0 30px #ffff00";
+            }
+        }
+        // ==========================================
+
         actionBtn.addEventListener('click', () => {
             if (!tunerPlaying) {
                 const dobValue = document.getElementById('birthDate').value;
@@ -447,17 +462,18 @@ Quantum Wave Method</button></div>
                 }
 
                 const lFreq = TUNER_MATRIX[lpNum];
-                const rFreq = parseInt(document.getElementById('tuner-intention' ).value);
+                const intentionInput = document.getElementById('tuner-intention');
+                const rFreq = intentionInput ? parseInt(intentionInput.value) : 432;
 
                 tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-// WAKE UP THE ENGINE IF THE BROWSER BLOCKS IT
-if (tunerCtx.state === 'suspended') {
-    tunerCtx.resume();
-}
+                // WAKE UP THE ENGINE IF THE BROWSER BLOCKS IT
+                if (tunerCtx.state === 'suspended') {
+                    tunerCtx.resume();
+                }
 
-tMasterGain = tunerCtx.createGain();
-tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
+                tMasterGain = tunerCtx.createGain();
+                tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
 
                 tLeftOsc = tunerCtx.createOscillator();
@@ -483,12 +499,17 @@ tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 actionBtn.innerText = "Deactivate Tuner";
                 actionBtn.style.background = "linear-gradient(to right, #ef4444, #b91c1c)";
                 
-                orb.style.opacity = "1";
-                orb.style.transform = "scale(1.2)";
-                orb.style.boxShadow = "0 0 30px #ffff00";
+                if (orb) {
+                    orb.style.opacity = "1";
+                    orb.style.transform = "scale(1.2)";
+                    orb.style.boxShadow = "0 0 30px #ffff00";
+                }
                 
-                readout.innerHTML = `<span class="neon-pink">Resonating:</span> LP ${lpNum} (${lFreq}Hz) ⚡ Target (${rFreq}Hz)<br><span style="font-size: 10px; opacity: 0.6;">Headphones Recommended</span>`;
+                if (readout) {
+                    readout.innerHTML = `<span class="neon-pink">Resonating:</span> LP ${lpNum} (${lFreq}Hz) ⚡ Target (${rFreq}Hz)<br><span style="font-size: 10px; opacity: 0.6;">Headphones Recommended</span>`;
+                }
             } else {
+                // DEACTIVATION MODE
                 if (tMasterGain && tunerCtx) {
                     tMasterGain.gain.setValueAtTime(tMasterGain.gain.value, tunerCtx.currentTime);
                     tMasterGain.gain.linearRampToValueAtTime(0, tunerCtx.currentTime + 0.3);
@@ -505,14 +526,19 @@ tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
                 actionBtn.innerText = "Activate Alignment Frequency";
                 actionBtn.style.background = "linear-gradient(to right, #ec4899, #7c3aed)";
                 
-                orb.style.opacity = "0.4";
-                orb.style.transform = "scale(1)";
-                orb.style.boxShadow = "none";
-                readout.innerText = "";
+                if (orb) {
+                    orb.style.opacity = "0.4";
+                    orb.style.transform = "scale(1)";
+                    orb.style.boxShadow = "none";
+                }
+                if (readout) {
+                    readout.innerText = "";
+                }
             }
         });
     });
 </script>
+
 
 <footer style="text-align: center; margin-top: 50px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
     <p style="font-size: 0.8rem; color: #888;">
