@@ -39,7 +39,7 @@
 <section class="text-center mb-12">
                 <div class="glass p-6 rounded-2xl">
                     <p class="text-pink-100 leading-relaxed">
-         My journey began in 1990, when i moved 1100 miles with a newborn, a baby, a toddler, and a six year old. Numbers helped me to survive and thrive. I built this site so I can help others thrive with the power of numbers.</p>
+         My journey began in 1990, when I took an 1100 mile road trip with a newborn, a baby, a toddler, a six year old, my baby sister, and my mother. I looked to the universe for guidance through numbers. I built this site so i can share what i’ve learned.</p>
                 </div>
             </section>
 
@@ -54,7 +54,9 @@
 
             <section class="max-w-md mx-auto mb-10">
                 <div class="glass p-6 rounded-2xl border-pink-500/40">
-                    <h5 class="neon-pink font-black uppercase text-center mb-4 tracking-widest">Required Reading Info</h5>
+                    <h5 class="neon-pink font-black uppercase text-center mb-4 tracking-widest">Required Reading Info 
+                        Fill in your information for any of the 
+                           Readings below</h5>
                     <div class="space-y-3">
                         <input type="email" id="userEmail" class="data-input" placeholder="Email Address">
                         <input type="text" id="fullName" class="data-input" placeholder="Full Birth Name">
@@ -66,28 +68,37 @@
             </section>
 <section class="space-y-4 my-12 max-w-md mx-auto">
     <button onclick="handlePay('Cosmic Trio', PRICES.TRIO)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
-        <span>Cosmic Trio</span><span>$4.32</span>
+        <span>Cosmic Trio</span><span>$4.32 
+           See where you are in your time-line through the letters
+            In your birth nameIndepth report of your Life Path, Soul Urge, 
+          Personal year numbers</span>
     </button>
 
     <button onclick="toggleBox('kindredBox')" class="w-full bg-indigo-900/50 border border-indigo-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
-        <span>Kindred Souls</span><span>$5.28</span>
+        <span>Kindred Souls</span><span>$5.28 
+              Find out if you are compatible with your partner, boss, or friend</span>
     </button>
     <div id="kindredBox" class="hidden p-4 space-y-2 glass rounded-xl">
         <input type="text" id="partnerName" class="data-input" placeholder="Partner's Full Name">
-        <button onclick="handlePay('Kindred Souls', PRICES.KINDRED)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Kindred</button>
+<input type="text" id="partnerDob" class="data-input" placeholder="Partner's DOB (MM/DD/YYYY)"> 
+    <button onclick="handlePay('Kindred Souls', PRICES.KINDRED)" class="w-full bg-indigo-600 py-3 mt-2 rounded-lg font-black uppercase">Check Kindred</button>
     </div>
 
     <button onclick="handlePay('Time-Line Track', PRICES.TIMELINE)" class="w-full bg-purple-900/50 border border-purple-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
-        <span>Time-Line Track</span><span>$3.69</span>
+        <span>Time-Line Track</span><span>$3.69 
+           See where you are in your time-line through the letters in 
+         Your full birth name</span> 
     </button>
 
     <button onclick="handlePay('Life Path and Hearts Desire', PRICES.LIFEPATH)" class="w-full bg-pink-600/60 border border-pink-400 py-5 rounded-xl font-black uppercase flex justify-between px-8">
-        <span>Life Path & Hearts Desire</span><span>$1.11</span>
+        <span>Life Path & Hearts Desire</span><span>$1.11 
+         Get your Life Path and Soul Urge numbers here</span>
     </button>
 </section>
 
 <div id="quantum-lock" class="py-12 text-center border-t border-white/10">
-<button onclick="handlePay('Quantum Wave', PRICES.QUANTUM)" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77</button></div>
+<button onclick="handlePay('Quantum Wave', PRICES.QUANTUM)" class="bg-gradient-to-r from-yellow-400 to-pink-500 text-black font-black px-12 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition">Unlock Phases Two & Three — 7.77   for the 
+Quantum Wave Method</button></div>
             
             
             <section class="glass p-8 rounded-[40px] border-pink-500/40 mb-20">
@@ -117,7 +128,7 @@
 
                     <div id="phase-one">
                         <h5 class="neon-pink font-bold uppercase text-sm mb-4">Phase One</h5>
-                        <p class="text-pink-100 text-sm leading-relaxed mb-6">Phase one is all about building up your vibration by using frequencies 432, 528, 963 and others. Listen to these every night (head phones for best results), while sleeping. I recommend 21 to 30 days. Raising your vibration makes a person happy, calm and able to handle life’s circumstances in a positive way. <strong>thisThis can be done by shifters and non-shifters.</strong></p>
+                        <p class="text-pink-100 text-sm leading-relaxed mb-6">Phase one is all about building up your vibration by using frequencies 432, 528, 963 and others. Listen to these every night (head phones for best results), while sleeping. I recommend 21 to 30 days. Raising your vibration makes a person happy, calm and able to handle life’s circumstances in a positive way. <strong>This can be done by shifters and non-shifters.</strong></p>
                         
                         <div class="space-y-4 bg-white/5 p-6 rounded-2xl border border-pink-500/20">
                             <h6 class="neon-yellow font-black uppercase text-xs tracking-widest mb-2">Break down of frequencies:</h6>
@@ -155,54 +166,65 @@
 
 <script>
     const PRICES = {
-            ™ LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
-        ™TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
-        ™TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
-        ™KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
-        ™QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'
+         LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
+        TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
+        TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
+        KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
+        QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'
     };
 
     const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
     const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
 
     async function handlePay(type, priceId) {
-        const name = document.getElementById('fullName').value;
-        const email = document.getElementById('userEmail').value;
-        const dob = document.getElementById('birthDate').value;
-        const city = document.getElementById('birthCity').value;
-        const time = document.getElementById('birthTime').value;
-        const partnerField = document.getElementById('partnerName');
-        const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('userEmail').value;
+    const dob = document.getElementById('birthDate').value;
+    const city = document.getElementById('birthCity').value;
+    const time = document.getElementById('birthTime').value;
+    const partnerField = document.getElementById('partnerName');
+    const partner = (partnerField && partnerField.value) ? partnerField.value : 'None'; 
 
-        // Store these so we can calculate the numbers on the success page
-        localStorage.setItem('last_item', priceId);
-        localStorage.setItem('soul_name', name);
-        localStorage.setItem('soul_dob', dob); 
+    if (!email || !name) {
+        alert("Please enter at least your Name and Email.");
+        return;
+    }
 
+    // Store for success page
+    localStorage.setItem('last_item', priceId);
+    localStorage.setItem('soul_name', name);
+    localStorage.setItem('soul_dob', dob); 
+
+    try {
         const response = await fetch('/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                priceId: priceId, 
-                userEmail: email,
+                priceId: priceId,      // This is what Stripe was missing!
+                userEmail: email,      // Matches 'userEmail' in server.js
                 serviceName: type,
-                clientUrl: window.location.origin,
-                name, dob, city, time, partner 
+                name: name,
+                dob: dob,
+                city: city,
+                time: time,
+                partner: partner 
             }),
         });
-        
+
         const session = await response.json();
         
-        // Use the URL if the server provides it (best practice for Render/Stripe)
         if (session.url) {
-            window.location.href = session.url; 
-        } else if (session.id) {
-            const stripe = Stripe('pk_live_51SdDywFumfdhryie88PjKi8yfw2S8nVSFJW3QQ73U1ebA3YPyvU36wUR3GfMc2YWOEQkuzk6J0XCspxswPBlR78f00bw20Kfp1');
-            await stripe.redirectToCheckout({ sessionId: session.id });
+            // Use the URL Stripe sent back directly
+            window.location.href = session.url;
         } else {
-            alert("Check your info and try again.");
+            console.error("Session Error:", session);
+            alert("The connection timed out. Please try again.");
         }
+    } catch (err) {
+        console.error("Payment Error:", err);
+        alert("Technical glitch—please refresh and try once more.");
     }
+}
 
     window.onload = () => {
     const params = new URLSearchParams(window.location.search);
@@ -251,9 +273,21 @@
             board.scrollIntoView({ behavior: 'smooth' });
         } 
         
-        // 3. MANUAL READINGS ($3.69 - $5.28) - OPENS BOARD + UNIVERSE MESSAGE
-        else if (last === PRICES.TRIO || last === PRICES.TIMELINE || last === PRICES.KINDRED) {
-            if (board) board.classList.remove('hidden'); // Master key ONLY for these products
+        // 3. KINDRED SOULS ($5.28) - OPENS BOARD + ASKS FOR PARTNER DOB
+        else if (last === PRICES.KINDRED) {
+            if (board) board.classList.remove('hidden');
+            text.innerHTML = `
+                <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest">Connection Unlocked</div>
+                <p class="text-sm text-pink-200 mb-4">Please enter your partner's Date of Birth to complete the decoding:</p>
+                <input type="date" id="partnerDOBInput" class="data-input mb-4" style="max-width:200px; margin: 0 auto;">
+                <button onclick="submitPartnerData()" class="w-full bg-indigo-600 py-3 mt-4 rounded-lg font-black uppercase shadow-lg">Reveal Our Destiny</button>
+            `;
+            board.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 4. MANUAL READINGS ($3.69 - $4.32) - OPENS BOARD + UNIVERSE MESSAGE
+        else if (last === PRICES.TRIO || last === PRICES.TIMELINE) {
+            if (board) board.classList.remove('hidden');
             text.innerHTML = `
                 <div class="neon-yellow mb-2 text-xs uppercase font-black tracking-widest animate-pulse">
                     The Universe Has Heard You
@@ -280,6 +314,23 @@
     function getDailyFortune() {
         const f = ["Your vibration is rising.", "Abundance is seeking you.", "Trust the unhurried path.", "The shift has begun."];
         document.getElementById('fortune-display').innerText = f[Math.floor(Math.random()*f.length)];
+    }
+function submitPartnerData() {
+        const pDob = document.getElementById('partnerDOBInput').value;
+        if(!pDob) { 
+            alert("Please select a date."); 
+            return; 
+        }
+        
+        // This clears the input and shows the final confirmation message
+        document.getElementById('spirit-content').innerHTML = `
+            <div class="neon-pink mb-2 text-xs uppercase font-black">Connection Received</div>
+            <p class="text-sm text-pink-100">
+                The frequencies between you and your partner are being synchronized. 
+                <br><br> 
+                <strong>Please check your email within 24-48 hours for the full Kindred Souls report.</strong>
+            </p>
+        `;
     }
 </script>
   
