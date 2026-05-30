@@ -390,6 +390,52 @@ Quantum Wave Method</button></div>
             </p>
         `;
     }
+<script>
+    // ==========================================
+    //  STRIPE PRICES & CORE CONFIGURATION
+    // ==========================================
+    const PRICES = {
+        POCKET_TUNER: 'price_1TaUEqFumfdhryie5cBQe2Wq', 
+        LIFEPATH: 'price_1TD5nPFumfdhryie7W5cIhvd',
+        TIMELINE: 'price_1TD5olFumfdhryieLnNWc9lS',
+        TRIO: 'price_1TD5quFumfdhryieWBy5N60x',
+        KINDRED: 'price_1TD5s1FumfdhryieOvSL857c',
+        QUANTUM: 'price_1TD5tCFumfdhryiegD4ACOsV'
+    };
+
+    const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
+    const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
+
+    // ==========================================
+    //  STRIPE PAYMENT FLOWS & CHECKOUT
+    // ==========================================
+    async function handlePay(type, priceId) {
+        let name = document.getElementById('fullName').value;
+        let email = document.getElementById('userEmail').value;
+        let dob = document.getElementById('birthDate').value;
+        const city = document.getElementById('birthCity').value;
+
+        // Your existing Stripe checkout processing logic continues here...
+    }
+
+    // ==========================================
+    //  PARTNER DATA & COMPATIBILITY FUNCTIONS
+    // ==========================================
+    function submitPartnerData() {
+        const pDob = document.getElementById('partnerDOBInput').value;
+        if(!pDob) { 
+            alert("Please select a date."); 
+            return; 
+        }
+        document.getElementById('spirit-content').innerHTML = `
+            <div class="neon-pink mb-2 text-xs uppercase font-black">Connection Received</div>
+            <p class="text-sm text-pink-100">
+                The frequencies between you and your partner are being synchronized. 
+                <br><br> 
+                <strong>Please check your email within 24-48 hours for the full Kindred Souls report.</strong>
+            </p>
+        `;
+    }
 
     // ==========================================
     //  POCKET TUNER ENGINE AUDIO DRIVERS
@@ -417,14 +463,15 @@ Quantum Wave Method</button></div>
     let tMasterGain = null;
     let tunerPlaying = false;
 
+    // ==========================================
+    //  DOM CONTENT LOADED INITIALIZATION ENGINE
+    // ==========================================
     document.addEventListener("DOMContentLoaded", () => {
         const actionBtn = document.getElementById('action-btn');
         const orb = document.getElementById('visual-orb');
         const readout = document.getElementById('readout-text');
 
-        // ==========================================
         // STRIPE RETURN & PERSISTENCE DRIVERS
-        // ==========================================
         const dobField = document.getElementById('birthDate');
         if (dobField) {
             // 1. Save the date automatically whenever the user types it
@@ -438,7 +485,15 @@ Quantum Wave Method</button></div>
             }
         }
 
-        // 3. Sync the button state if Stripe page load says it's active
+        // 3. FIRST Check if the URL contains Stripe's success confirmation signal
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true' || window.location.search.includes('session_id')) {
+            if (readout) {
+                readout.innerText = "TUNER ACTIVE";
+            }
+        }
+
+        // 4. NOW sync the layout state because readout has been updated by the URL parameters
         if (readout && readout.innerText.includes("TUNER ACTIVE")) {
             tunerPlaying = true;
             actionBtn.innerText = "Deactivate Tuner";
@@ -449,8 +504,8 @@ Quantum Wave Method</button></div>
                 orb.style.boxShadow = "0 0 30px #ffff00";
             }
         }
-        // ==========================================
 
+        // BUTTON CLICK INTERACTION & AUDIO ENGINE
         actionBtn.addEventListener('click', () => {
             if (!tunerPlaying) {
                 const dobValue = document.getElementById('birthDate').value;
@@ -465,33 +520,38 @@ Quantum Wave Method</button></div>
                 const intentionInput = document.getElementById('tuner-intention');
                 const rFreq = intentionInput ? parseInt(intentionInput.value) : 432;
 
+                // Initialize Audio Context
                 tunerCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-                // WAKE UP THE ENGINE IF THE BROWSER BLOCKS IT
+                
                 if (tunerCtx.state === 'suspended') {
                     tunerCtx.resume();
                 }
 
+                // Master Gain Setup
                 tMasterGain = tunerCtx.createGain();
                 tMasterGain.gain.setValueAtTime(0, tunerCtx.currentTime);
-                tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5); 
+                tMasterGain.gain.linearRampToValueAtTime(0.25, tunerCtx.currentTime + 0.5);
 
+                // Left Channel Oscillator (Life Path Frequency)
                 tLeftOsc = tunerCtx.createOscillator();
                 tLeftOsc.type = 'sine';
                 tLeftOsc.frequency.setValueAtTime(lFreq, tunerCtx.currentTime);
                 const pannerL = tunerCtx.createStereoPanner();
-                pannerL.pan.setValueAtTime(-1, tunerCtx.currentTime); 
+                pannerL.pan.setValueAtTime(-1, tunerCtx.currentTime);
 
+                // Right Channel Oscillator (Intention Frequency)
                 tRightOsc = tunerCtx.createOscillator();
                 tRightOsc.type = 'sine';
                 tRightOsc.frequency.setValueAtTime(rFreq, tunerCtx.currentTime);
                 const pannerR = tunerCtx.createStereoPanner();
-                pannerR.pan.setValueAtTime(1, tunerCtx.currentTime); 
+                pannerR.pan.setValueAtTime(1, tunerCtx.currentTime);
 
+                // Connections
                 tLeftOsc.connect(pannerL).connect(tMasterGain);
                 tRightOsc.connect(pannerR).connect(tMasterGain);
                 tMasterGain.connect(tunerCtx.destination);
 
+                // Start Frequencies
                 tLeftOsc.start();
                 tRightOsc.start();
                 
@@ -509,7 +569,7 @@ Quantum Wave Method</button></div>
                     readout.innerHTML = `<span class="neon-pink">Resonating:</span> LP ${lpNum} (${lFreq}Hz) ⚡ Target (${rFreq}Hz)<br><span style="font-size: 10px; opacity: 0.6;">Headphones Recommended</span>`;
                 }
             } else {
-                // DEACTIVATION MODE
+                // Deactivation / Fade Out Sequence
                 if (tMasterGain && tunerCtx) {
                     tMasterGain.gain.setValueAtTime(tMasterGain.gain.value, tunerCtx.currentTime);
                     tMasterGain.gain.linearRampToValueAtTime(0, tunerCtx.currentTime + 0.3);
@@ -538,6 +598,7 @@ Quantum Wave Method</button></div>
         });
     });
 </script>
+    
 
 
 <footer style="text-align: center; margin-top: 50px; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
@@ -547,5 +608,6 @@ Quantum Wave Method</button></div>
     </p>
 </footer>
     
+
 </body>
 </html>
