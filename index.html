@@ -227,6 +227,10 @@ function handleFreeTunerActivation() {
 
     revealTunerInterface(frequencySelect, dobInput);
 }
+// Global variables to track the active sound system (Keep outside of functions)
+let tunerAudioCtx = null;
+let tunerOscillator = null;
+let tunerGainNode = null;
 
 function revealTunerInterface(frequency, dob) {
     const setupSection = document.getElementById('tuner-purchase-section');
@@ -246,10 +250,71 @@ function revealTunerInterface(frequency, dob) {
                 <div class="neon-yellow mb-2 text-xs uppercase font-black">Tuner Core Initialized</div>
                 <p class="text-sm text-pink-200">Aligned with Frequency: <span class="neon-pink font-bold">${frequency} Hz</span></p>
                 <p class="text-xs text-gray-400 mt-2">Target Alignment Matrix: ${dob}</p>
+  <button id="tuner-sound-btn" onclick="toggleTunerSound(${frequency})" style="background: rgba(236, 72, 153, 0.2); border: 2px solid #ec4899; color: #fff; padding: 10px 20px; border-radius: 9999px; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.3s;" class="hover:scale-105">
+                    🔊 Start Audio Stream
+                </button>
+                 <p class="text-[10px] text-gray-500 mt-4">Target Alignment Matrix: ${dob}</p>
             `;
         }
     }
 }
+
+// THE AUDIO SYNTHESIZER ENGINE
+function toggleTunerSound(freqValue) {
+    const btn = document.getElementById('tuner-sound-btn');
+    
+    if (tunerOscillator) {
+        stopTunerSound();
+        if (btn) {
+            btn.innerHTML = "🔊 Start Audio Stream";
+            btn.style.background = "rgba(236, 72, 153, 0.2)";
+            btn.style.borderColor = "#ec4899";
+        }
+        return;
+    }
+
+    try {
+        if (!tunerAudioCtx) {
+            tunerAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        tunerOscillator = tunerAudioCtx.createOscillator();
+        tunerOscillator.type = 'sine';
+        tunerOscillator.frequency.setValueAtTime(freqValue, tunerAudioCtx.currentTime);
+
+        tunerGainNode = tunerAudioCtx.createGain();
+        tunerGainNode.gain.setValueAtTime(0.15, tunerAudioCtx.currentTime); 
+
+        tunerOscillator.connect(tunerGainNode);
+        tunerGainNode.connect(tunerAudioCtx.destination);
+
+        tunerOscillator.start();
+        
+        if (btn) {
+            btn.innerHTML = "⏹️ Stop Audio Stream";
+            btn.style.background = "rgba(255, 255, 0, 0.2)";
+            btn.style.borderColor = "#ffff00";
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Please tap the button again to allow sound.");
+    }
+}
+
+function stopTunerSound() {
+    if (tunerOscillator) {
+        try {
+            tunerOscillator.stop();
+            tunerOscillator.disconnect();
+        } catch (err) {}
+        tunerOscillator = null;
+    }
+    tunerGainNode = null;
+}
+
+
+          
+       
 
     async function handlePay(type, priceId) {
     const name = document.getElementById('fullName').value;
@@ -308,6 +373,7 @@ function revealTunerInterface(frequency, dob) {
         const savedFreq = localStorage.getItem('pocket_tuner_frequency');
         const savedDob = localStorage.getItem('pocket_tuner_dob');
         revealTunerInterface(savedFreq, savedDob);
+        
     }
 
     // 2. THEN handle Stripe redirects if they just completed a purchase
