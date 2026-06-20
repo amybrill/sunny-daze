@@ -97,6 +97,10 @@
         Lock Frequency &amp; Activate
     </button>
 </section>
+<div id="pocket-tuner-active-section" class="hidden max-w-md mx-auto my-10 spirit-board text-center">
+    <div id="active-tuner-content" class="text-white font-bold text-center"></div>
+</div>
+
 
             
 <section class="space-y-4 my-12 max-w-md mx-auto">
@@ -207,6 +211,45 @@ Quantum Wave Method</button></div>
 
     const charMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9, S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };
     const reduce = (n) => { while (n > 9 && n !== 11 && n !== 22) n = String(n).split('').reduce((a, b) => a + Number(b), 0); return n; };
+function handleFreeTunerActivation() {
+    const dobInput = document.getElementById('tuner-dob').value;
+    const frequencySelect = document.getElementById('tuner-intention').value;
+
+    if (!dobInput) {
+        alert("Please enter your Date of Birth to align your frequency.");
+        return;
+    }
+
+    // This locks it into memory so it stays active on refresh
+    localStorage.setItem('pocket_tuner_unlocked', 'true');
+    localStorage.setItem('pocket_tuner_dob', dobInput);
+    localStorage.setItem('pocket_tuner_frequency', frequencySelect);
+
+    revealTunerInterface(frequencySelect, dobInput);
+}
+
+function revealTunerInterface(frequency, dob) {
+    const setupSection = document.getElementById('tuner-purchase-section');
+    const activeSection = document.getElementById('pocket-tuner-active-section'); 
+    const activeContent = document.getElementById('active-tuner-content');
+
+    // Hide the input box
+    if (setupSection) setupSection.style.display = 'none';
+    
+    // Unhide the spirit board look and write the tracking data
+    if (activeSection) {
+        activeSection.classList.remove('hidden');
+        activeSection.style.display = 'block';
+        
+        if (activeContent) {
+            activeContent.innerHTML = `
+                <div class="neon-yellow mb-2 text-xs uppercase font-black">Tuner Core Initialized</div>
+                <p class="text-sm text-pink-200">Aligned with Frequency: <span class="neon-pink font-bold">${frequency} Hz</span></p>
+                <p class="text-xs text-gray-400 mt-2">Target Alignment Matrix: ${dob}</p>
+            `;
+        }
+    }
+}
 
     async function handlePay(type, priceId) {
     const name = document.getElementById('fullName').value;
