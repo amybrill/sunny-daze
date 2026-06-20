@@ -74,7 +74,31 @@
                         <input type="text" id="birthTime" class="data-input" placeholder="Birth Time (e.g. 10:30 PM)">
                     </div>
                 </div>
-            </section>
+<section id="tuner-purchase-section" style="max-width: 448px; margin: 0 auto 40px auto; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid #ec4899; padding: 24px; border-radius: 8px; text-align: center;">
+    <h2 class="neon-yellow" style="font-size: 24px; font-weight: 900; margin-bottom: 4px; text-transform: uppercase;">Pocket_Tuner</h2>
+    <p style="font-size: 11px; color: rgba(244, 172, 211, 0.7); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;">Configure Your Alignment For Instant Access</p>
+    
+    <div style="margin-bottom: 16px; text-align: left;">
+        <label style="display: block; font-size: 12px; color: #ec4899; margin-bottom: 4px; font-weight: bold;">ENTER DATE OF BIRTH:</label>
+        <input type="date" id="tuner-dob" style="width: 100%; background: #000; border: 1px solid #ec4899; color: #fff; padding: 8px; border-radius: 4px; outline: none;">
+    </div>
+
+    <div style="margin-bottom: 24px; text-align: left;">
+        <label style="display: block; font-size: 12px; color: #ec4899; margin-bottom: 4px; font-weight: bold;">SELECT MANIFESTATION FREQUENCY:</label>
+        <select id="tuner-intention" style="width: 100%; background: #000; border: 1px solid #ec4899; color: #fff; padding: 8px; border-radius: 4px; outline: none;">
+            <option value="432">✨ 432 Hz - Cosmic Abundance &amp; Success</option>
+            <option value="528">👁️ 528 Hz - Transformation &amp; Divine Power</option>
+            <option value="639">💖 639 Hz - Deep Karmic Attraction</option>
+            <option value="852">🔮 852 Hz - Quantum Intuition Awakening</option>
+        </select>
+    </div>
+
+    <button onclick="handleFreeTunerActivation()" style="width: 100%; background: linear-gradient(90deg, #ec4899, #7c3aed); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+        Lock Frequency &amp; Activate
+    </button>
+</section>
+
+            
 <section class="space-y-4 my-12 max-w-md mx-auto">
     <button onclick="handlePay('Cosmic Trio', PRICES.TRIO)" class="w-full border-2 border-yellow-400 py-5 rounded-xl font-black uppercase flex justify-between px-8 bg-yellow-900/20">
         <span>Cosmic Trio</span><span>$4.32 
@@ -235,7 +259,17 @@ Quantum Wave Method</button></div>
 }
 
     window.onload = () => {
+// 1. FIRST check if they have the Pocket Tuner active (Runs on every visit/refresh)
+    const isTunerUnlocked = localStorage.getItem('pocket_tuner_unlocked') === 'true';
+    if (isTunerUnlocked) {
+        const savedFreq = localStorage.getItem('pocket_tuner_frequency');
+        const savedDob = localStorage.getItem('pocket_tuner_dob');
+        revealTunerInterface(savedFreq, savedDob);
+    }
+
+    // 2. THEN handle Stripe redirects if they just completed a purchase
     const params = new URLSearchParams(window.location.search);
+
     
     if (params.get('success') === 'true') {
         const board = document.getElementById('result-area');
